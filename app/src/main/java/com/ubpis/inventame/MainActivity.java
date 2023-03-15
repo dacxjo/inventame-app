@@ -1,7 +1,5 @@
 package com.ubpis.inventame;
 
-import static androidx.navigation.ui.NavigationUI.setupWithNavController;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
