@@ -6,19 +6,19 @@ package com.ubpis.inventame.model;
 
 public enum StatusType {
 
-    CONTRASENYA_NO_SEGURA("Contrasenya no prou segura"),
-    CONTRASENYA_SEGURA("Contrasenya segura"),
-    CORREU_INCORRECTE("Correu en format incorrecte"),
-    CORREU_CORRECTE("Correu en format correcte"),
+    PASSWORD_INSECURE("Contraseña no es segura"),
+    PASSWORD_SECURE("Contraseña segura"),
+    EMAIL_INCORRECT("Correo en formato incorrecto"),
+    EMAIL_CORRECT("Correo en formato correcto"),
 
-    CORREU_INEXISTENT("Correu inexistent"),
+    EMAIL_NONEXISTENT("Correo inexistente"),
 
-    CONTRASENYA_INCORRECTA("Contrasenya incorrecta"),
-    LOGIN_CORRECTE("Login correcte"),
-    PERSONA_DUPLICADA("Persona Duplicada"),
-    REGISTRE_VALID("Registre valid"),
-    FORMAT_INCORRECTE("Format incorrecte"),
-    FORMAT_INCORRECTE_CORREU_PWD("Format incorrecte en l'email o contrasenya poc segura ha de contenir 8 caracters, amb: Mayus, Minus i Numeros");
+    PASSWORD_INCORRECT("Contraseña incorrecta"),
+    LOGIN_CORRECT("Login correcto"),
+    USER_DUPLICATED("Persona Duplicada"),
+    REGISTER_VALID("Registro valido"),
+    FORMAT_INCORRECTE("Formato incorrecto"),
+    FORMAT_INCORRECT_EMAIL_PWD("Formato incorrecto en email o contraseña poco segura. Ha de contener 8 caracteres, con: Mayus, Minus y Numeros");
 
     private final String text;
 

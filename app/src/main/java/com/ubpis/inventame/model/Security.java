@@ -1,7 +1,5 @@
 package com.ubpis.inventame.model;
 
-import com.ubpis.inventame.model.StatusType;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -9,7 +7,7 @@ import java.util.regex.Pattern;
  * Esta clase esta basada en la P4 de Diseño de Software. Aisla y valida correo y contraseña.
  */
 
-public class Seguridad {
+public class Security {
 
     public static boolean isMail(String correu) {
         Pattern pattern = Pattern.compile("^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
@@ -26,15 +24,15 @@ public class Seguridad {
 
     public static StatusType validatePassword(String b) {
         if (!isPasswordSegur(b)) {
-            return StatusType.CONTRASENYA_NO_SEGURA;
+            return StatusType.PASSWORD_INSECURE;
         } else
-            return StatusType.CONTRASENYA_SEGURA;
+            return StatusType.PASSWORD_SECURE;
     }
 
     public static StatusType validateUsername(String b) {
         if (!isMail(b))
-            return StatusType.CORREU_INCORRECTE;
+            return StatusType.EMAIL_INCORRECT;
         else
-            return StatusType.CORREU_CORRECTE;
+            return StatusType.EMAIL_CORRECT;
     }
 }

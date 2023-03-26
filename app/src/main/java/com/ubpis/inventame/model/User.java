@@ -1,18 +1,18 @@
 package com.ubpis.inventame.model;
 
-public class Usuario {
+public class User {
 
     private String email;
-    private String nombre;
-    private String apellido;
+    private String name;
+    private String surname;
     private String pwd;
     private Integer id_inventame;
     //private PerfilUsuario perfil;
 
-    public Usuario(String email, String nombre, String apellido, String pwd, Integer id_inventame) {
+    public User(String email, String name, String surname, String pwd, Integer id_inventame) {
         this.email = email;
-        this.nombre = nombre;
-        this.apellido = apellido;
+        this.name = name;
+        this.surname = surname;
         this.pwd = pwd;
         this.id_inventame = id_inventame;
     }
@@ -25,20 +25,20 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getApellido() {
-        return apellido;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setApellido(String apellido) {
-        this.apellido = apellido;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
     public String getPwd() {

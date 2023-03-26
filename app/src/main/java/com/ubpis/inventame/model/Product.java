@@ -1,6 +1,6 @@
 package com.ubpis.inventame.model;
 
-public class Producto {
+public class Product {
 
     private String ID;
     private String name;
@@ -8,7 +8,7 @@ public class Producto {
     private double price;
     private int stock;
 
-    public Producto(String ID, String name, String description, double price, int stock) {
+    public Product(String ID, String name, String description, double price, int stock) {
         this.ID = ID;
         this.name = name;
         this.description = description;

@@ -4,27 +4,27 @@ import java.util.ArrayList;
 
 public class Inventame {
 
-    private ListaEmpleados lista;
-    private Inventario inventario;
-    private ArrayList<Recordatorio> recordatorios;
+    private ListEmployee lista;
+    private Inventory inventory;
+    private ArrayList<Reminder> reminders;
 
     public Inventame(){
-        this.inventario = new Inventario();
-        this.lista = new ListaEmpleados();
-        this.recordatorios = new ArrayList<>();
+        this.inventory = new Inventory();
+        this.lista = new ListEmployee();
+        this.reminders = new ArrayList<>();
     }
 
-    public Inventame(ListaEmpleados lista, Inventario inventario, ArrayList<Recordatorio> recordatorios){
-        this.inventario = inventario;
+    public Inventame(ListEmployee lista, Inventory inventory, ArrayList<Reminder> reminders){
+        this.inventory = inventory;
         this.lista = lista;
-        this.recordatorios = recordatorios;
+        this.reminders = reminders;
     }
 
-    public ListaEmpleados getEmpleados() {
+    public ListEmployee getEmployees() {
         return lista;
     }
 
-    public void setLista(ListaEmpleados lista) {
+    public void setLista(ListEmployee lista) {
         this.lista = lista;
     }
 }

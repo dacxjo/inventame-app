@@ -18,20 +18,20 @@ public class ModelFacade {
     }
 
     public StatusType validateUserRegister(String username, String password) {
-        if (Seguridad.isMail((username)) && Seguridad.isPasswordSegur(password)) {
-            Usuario usuario = findUserByEmail(username);
-            if (usuario != null) {
-                return StatusType.PERSONA_DUPLICADA; // Persona duplicada
-            } else return StatusType.REGISTRE_VALID; // Registre valid
-        } else return StatusType.FORMAT_INCORRECTE_CORREU_PWD; // Format incorrecte
+        if (Security.isMail((username)) && Security.isPasswordSegur(password)) {
+            User user = findUserByEmail(username);
+            if (user != null) {
+                return StatusType.USER_DUPLICATED; // Persona duplicada
+            } else return StatusType.REGISTER_VALID; // Registre valid
+        } else return StatusType.FORMAT_INCORRECT_EMAIL_PWD; // Format incorrecte
     }
 
     public int loginUser(String username, String password) {
-        Usuario usuario = findUserByEmail(username);
-        if (usuario == null) {
+        User user = findUserByEmail(username);
+        if (user == null) {
             return 1; // "Correu inexistent";
         }
-        if (usuario.getPwd().equals(password)) {
+        if (user.getPwd().equals(password)) {
             return 0; // "Login correcte";
         } else {
             return 2; //"Contrassenya incorrecta";
@@ -41,27 +41,27 @@ public class ModelFacade {
     // Este metodo se debe modificar con la base de datos
     // TODO
     public String recoverPwd(String username) {
-        Usuario usuario = findUserByEmail(username);
-        if (usuario == null) {
-            return StatusType.CORREU_INEXISTENT.toString();
+        User user = findUserByEmail(username);
+        if (user == null) {
+            return StatusType.EMAIL_NONEXISTENT.toString();
         }
-        return usuario.getPwd();
+        return user.getPwd();
     }
 
     public StatusType loginUserStatus(String correu, String password) {
-        Usuario usuario = findUserByEmail(correu);
-        if (usuario == null) {
-            return StatusType.CORREU_INEXISTENT;
+        User user = findUserByEmail(correu);
+        if (user == null) {
+            return StatusType.EMAIL_NONEXISTENT;
         }
-        if (usuario.getPwd().equals(password)) {
-            return StatusType.LOGIN_CORRECTE;
+        if (user.getPwd().equals(password)) {
+            return StatusType.LOGIN_CORRECT;
         } else {
-            return StatusType.CONTRASENYA_INCORRECTA;
+            return StatusType.PASSWORD_INCORRECT;
         }
     }
 
-    public Usuario findUserByEmail(String email) {
-        ListaEmpleados empleados = inventame.getEmpleados();
-        return(empleados.find(email));
+    public User findUserByEmail(String email) {
+        ListEmployee employees = inventame.getEmployees();
+        return(employees.find(email));
     }
 }
