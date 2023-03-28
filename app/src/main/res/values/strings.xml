@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="test_placeholder">Test</string>
-    <string name="password_placeholder">Password</string>
     <string name="filled_button">Filled</string>
     <string name="outlined_button">Outline</string>
     <string name="home">Inicio</string>
@@ -11,4 +10,10 @@
     <string name="app_name">Inventame</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- String: login -->
+    <string name="title_login">Iniciar sesión</string>
+    <string name="password_placeholder">Contraseña</string>
+    <string name="email_placeholder">Correo electrónico</string>
+    <string name="forgot_password">¿Olvido su contraseña?</string>
 </resources>
