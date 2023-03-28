@@ -11,9 +11,19 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 
-    <!-- String: login -->
+    <!-- Strings: login -->
     <string name="title_login">Iniciar sesión</string>
     <string name="password_placeholder">Contraseña</string>
     <string name="email_placeholder">Correo electrónico</string>
-    <string name="forgot_password">¿Olvido su contraseña?</string>
+    <string name="forgot_password">¿Has olvidado tu contraseña?</string>
+
+    <!-- Strings: forgot_password -->
+    <string name="recover_password">Recuperar contraseña</string>
+    <string name="text_recover">Escribe tu <b>correo electrónico</b> y pulsa en <b>Enviar</b>.\nTe enviaremos un correo electrónico para poder restaurarla.</string>
+    <string name="send_email">Enviar</string>
+
+    <!-- Strings: startUp -->
+    <string name="title_inventame">INVÉNTAME</string>
+    <string name="register">Registrarse</string>
+    <string name="slogan">Inventar es cosa de todos</string>
 </resources>
