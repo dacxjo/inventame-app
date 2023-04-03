@@ -5,6 +5,12 @@ public class Product {
     private String ID;
     private String name;
     private String description;
+
+    private String mPrice;
+
+    private String mStock;
+
+    private String mPictureURL;
     private double price;
     private int stock;
 
@@ -15,6 +21,16 @@ public class Product {
         this.price = price;
         this.stock = stock;
     }
+
+    public Product(String ID, String name, String mPrice, String mStock, String mPictureURL) {
+        this.ID = ID;
+        this.name = name;
+        this.mPrice = mPrice;
+        this.mStock = mStock;
+        this.mPictureURL = mPictureURL;
+    }
+
+
 
     // Getters y setters de atributos
     public String getID() {
@@ -57,8 +73,34 @@ public class Product {
         this.stock = stock;
     }
 
+    public String getmPrice() {
+        return mPrice;
+    }
+
+    public void setmPrice(String mPrice) {
+        this.mPrice = mPrice;
+    }
+
+    public String getmStock() {
+        return mStock;
+    }
+
+    public void setmStock(String mStock) {
+        this.mStock = mStock;
+    }
+
+    public String getURL() {
+        return mPictureURL;
+    }
+
+    public void setmPictureURL(String mPictureURL) {
+        this.mPictureURL = mPictureURL;
+    }
+
     // Añade 'x' al stock. Util para edicion inmediata.
     public void addStock(int x){
         this.stock+=x;
     }
+
+
 }

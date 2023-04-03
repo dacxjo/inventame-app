@@ -11,4 +11,16 @@
     <string name="app_name">Inventame</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="scanner_button">Escáner</string>
+    <string name="product_id_textfield">ID</string>
+    <string name="product_name_textfield">Nombre</string>
+    <string name="product_desc_textfield">Descripción</string>
+    <string name="product_price_textfield">Precio</string>
+    <string name="product_stock_textfield">Stock</string>
+    <string name="product_batch_textfield">Lote</string>
+    <string name="product_expiration_textfield">Expiracion</string>
+    <string name="add_product_button">Añadir Producto</string>
+
+    <string name="add_employee_button">Añadir Empleado</string>
 </resources>
