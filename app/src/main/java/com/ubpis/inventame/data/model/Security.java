@@ -1,4 +1,4 @@
-package com.ubpis.inventame.model;
+package com.ubpis.inventame.data.model;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

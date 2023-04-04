@@ -1,4 +1,4 @@
-package com.ubpis.inventame.model;
+package com.ubpis.inventame.data.model;
 
 /**
  * Esta clase esta basada en la P4 de Diseño de Software. Almacena distintos status.
