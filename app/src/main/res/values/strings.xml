@@ -1,3 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">inventame</string>
+    <string name="test_placeholder">Test</string>
+    <string name="filled_button">Filled</string>
+    <string name="outlined_button">Outline</string>
+    <string name="home">Inicio</string>
+    <string name="stock">Inventario</string>
+    <string name="employees">Empleados</string>
+    <string name="settings">Ajustes</string>
+    <string name="app_name">Inventame</string>
+
+    <!-- Strings: login -->
+    <string name="title_login">Iniciar sesión</string>
+    <string name="password_placeholder">Contraseña</string>
+    <string name="email_placeholder">Correo electrónico</string>
+    <string name="forgot_password">¿Has olvidado tu contraseña?</string>
+
+    <!-- Strings: forgot_password -->
+    <string name="recover_password">Recuperar contraseña</string>
+    <string name="text_recover">Escribe tu <b>correo electrónico</b> y pulsa en <b>Recuperar</b>.\nTe enviaremos un correo electrónico para poder restaurarla.</string>
+    <string name="recover">Recuperar</string>
+
+    <!-- Strings: startUp -->
+    <string name="title_inventame">INVÉNTAME</string>
+    <string name="register">Registrarse</string>
+    <string name="slogan">Inventar es cosa de todos</string>
 </resources>
