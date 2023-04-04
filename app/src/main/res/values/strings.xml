@@ -8,8 +8,6 @@
     <string name="employees">Empleados</string>
     <string name="settings">Ajustes</string>
     <string name="app_name">Inventame</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- Strings: login -->
     <string name="title_login">Iniciar sesión</string>
@@ -19,8 +17,8 @@
 
     <!-- Strings: forgot_password -->
     <string name="recover_password">Recuperar contraseña</string>
-    <string name="text_recover">Escribe tu <b>correo electrónico</b> y pulsa en <b>Enviar</b>.\nTe enviaremos un correo electrónico para poder restaurarla.</string>
-    <string name="send_email">Enviar</string>
+    <string name="text_recover">Escribe tu <b>correo electrónico</b> y pulsa en <b>Recuperar</b>.\nTe enviaremos un correo electrónico para poder restaurarla.</string>
+    <string name="recover">Recuperar</string>
 
     <!-- Strings: startUp -->
     <string name="title_inventame">INVÉNTAME</string>
