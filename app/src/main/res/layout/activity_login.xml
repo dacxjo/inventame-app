@@ -23,26 +23,20 @@
             android:layout_marginBottom="16dp"
             android:layout_marginLeft="-12dp"
 
-            android:onClick="returnBack"/>
+            android:onClick="returnStartUp"/>
 
-        <!-- Titulo del layout: Recuperar contraseña -->
+        <!-- Titulo del layout: Iniciar sesion -->
         <TextView
             android:id="@+id/title_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
 
-            android:text="@string/recover_password"
+            android:text="@string/title_login"
             android:textStyle="bold"
             android:textSize="32sp"
             android:textColor="@color/seed"
-             />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/text_recover"
-            android:layout_marginBottom="16dp"/>
+            />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -58,16 +52,38 @@
                 android:layout_height="wrap_content"/>
         </com.google.android.material.textfield.TextInputLayout>
 
-        <TextView
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2" />
+            app:boxStrokeColor="@color/seed"
+            android:textColor="@color/seed"
+            android:hint="@string/password_placeholder"
+            app:endIconMode="password_toggle"
+
+            app:errorEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/textForgotPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:text="@string/forgot_password"
+
+            android:onClick="recoverPassword"/>
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/botton_recover"
+            android:id="@+id/botton_login"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/send_email"
+            android:text="@string/title_login"
             android:backgroundTint="@color/seed" />
 
         <TextView

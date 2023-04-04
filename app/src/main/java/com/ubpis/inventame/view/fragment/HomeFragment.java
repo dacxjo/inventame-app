@@ -1,4 +1,4 @@
-package com.ubpis.inventame;
+package com.ubpis.inventame.view.fragment;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -14,8 +14,7 @@ import android.view.ViewGroup;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.search.SearchView;
-
-import java.util.Objects;
+import com.ubpis.inventame.R;
 
 /**
  * A simple {@link Fragment} subclass.
