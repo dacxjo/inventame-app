@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+    tools:context=".CestaFragment">
+
+    <com.google.android.material.search.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="Buscar producto"
+        app:layout_anchor="@id/search_bar"
+        tools:context=".MainActivity">
+        <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
+    </com.google.android.material.search.SearchView>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="Buscar producto"
+                android:paddingEnd="4dp"
+                app:menu="@menu/cesta_app_bar" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:id="@+id/cont"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/app_bar"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp"
+                android:text="1 item en tu cesta"
+                android:textAlignment="textStart"
+                android:textColor="@color/md_theme_light_onSurfaceVariant"
+                android:textSize="14sp" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:dividerInsetStart="16dp"
+                app:dividerInsetEnd="16dp"/>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginTop="28dp"
+                android:orientation="horizontal" >
+
+                <TextView
+                    android:id="@+id/headlineTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/totalPrice"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="25dp"
+                    android:text="TOTAL"
+                    android:textColor="@color/md_theme_light_onSurfaceVariant"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/totalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:layout_alignParentRight="true"
+                    android:text="0,00€"
+                    android:textColor="@color/md_theme_light_onSurface"
+                    android:textSize="26sp" />
+
+                <TextView
+                    android:id="@+id/headlineSubtotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/headlineTotal"
+                    android:layout_alignParentLeft="true"
+                    android:text="Subtotal"
+                    android:textColor="@color/md_theme_light_onSurface"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/subtotalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/totalPrice"
+                    android:layout_alignParentRight="true"
+                    android:text="0,00€"
+                    android:textColor="@color/md_theme_light_onSurfaceVariant"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/headlineIVA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/headlineSubtotal"
+                    android:layout_alignParentLeft="true"
+                    android:text="IVA (21%)"
+                    android:textColor="@color/md_theme_light_onSurface"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/IVAPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/subtotalPrice"
+                    android:layout_alignParentRight="true"
+                    android:text="0,00€"
+                    android:textColor="@color/md_theme_light_onSurfaceVariant"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+

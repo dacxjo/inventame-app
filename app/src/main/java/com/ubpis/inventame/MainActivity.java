@@ -23,11 +23,15 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_soft_pos_numeric_pad);
+        setContentView(R.layout.fragment_cesta);
+        /*
+
+
         quantity = (TextView) findViewById(R.id.quantityToCharge);
         SpannableString spannableString =  new SpannableString(quantity.getText().toString());
         spannableString.setSpan(new RelativeSizeSpan(1.1875f), 0, 1, 0);
         quantity.setText(spannableString);
+         */
     }
 
      public void numberPressed(View view){
