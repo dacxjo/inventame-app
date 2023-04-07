@@ -42,7 +42,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-          >
+            >
 
             <LinearLayout
                 android:id="@+id/linearLayout4"
@@ -58,7 +58,7 @@
                     android:id="@+id/scrollView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="5dp">
+                 >
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/productCardRv"
@@ -69,15 +69,6 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="30dp"
-            app:backgroundTint="@color/md_theme_dark_onPrimaryContainer"
-            app:borderWidth="0dp"
-            app:srcCompat="@drawable/baseline_add_24" />
 
     </RelativeLayout>
 
