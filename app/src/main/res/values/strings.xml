@@ -8,6 +8,7 @@
     <string name="employees">Empleados</string>
     <string name="settings">Ajustes</string>
     <string name="app_name">Inventame</string>
+    <string name="next">Siguiente</string>
 
     <!-- Strings: login -->
     <string name="title_login">Iniciar sesión</string>
@@ -25,4 +26,11 @@
     <string name="title_inventame">INVÉNTAME</string>
     <string name="register">Registrarse</string>
     <string name="slogan">Inventar es cosa de todos</string>
+
+
+    <!-- Strings: Register -->
+    <string name="pick_category">Elije una categoria para empezar</string>
+
+    <!-- Strings: Register Step One -->
+    <string name="register_step_one_title">Registro</string>
 </resources>
