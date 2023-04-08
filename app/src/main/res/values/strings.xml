@@ -8,6 +8,7 @@
     <string name="employees">Empleados</string>
     <string name="settings">Ajustes</string>
     <string name="app_name">Inventame</string>
+    <string name="save">Guardar</string>
 
     <!-- Strings: login -->
     <string name="title_login">Iniciar sesión</string>
@@ -25,6 +26,18 @@
     <string name="register">Registrarse</string>
     <string name="slogan">Inventar es cosa de todos</string>
 
+    <!-- Strings: product_card -->
+    <string name="product_name_text">Producto</string>
+    <string name="product_stock_text">Stock: X</string>
+
+    <!-- Strings: user_card -->
+    <string name="employee_name_text">Empleado</string>
+
+    <!-- Strings: inventory -->
+    <string name="inventory_search_hint">Buscar producto</string>
+
+    <!-- Strings: inventory_add -->
+    <string name="inventory_add_title">Añadir Producto</string>
     <string name="scanner_button">Escáner</string>
     <string name="product_id_textfield">ID</string>
     <string name="product_name_textfield">Nombre</string>
@@ -35,6 +48,10 @@
     <string name="product_expiration_textfield">Expiracion</string>
     <string name="add_product_button">Añadir Producto</string>
 
+    <!-- Strings: employees -->
+    <string name="employee_search_hint">Buscar empleado</string>
+
+    <!-- Strings: employee_add -->
     <string name="add_employee_button">Añadir Empleado</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>

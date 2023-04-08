@@ -99,32 +99,22 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView mCardPictureUrl;
         private final TextView mCardFullName;
-        private final TextView mCardEmail;
-        private final ImageView mHideButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mCardPictureUrl = itemView.findViewById(R.id.avatar);
-            mCardFullName = itemView.findViewById(R.id.fullname);
-            mCardEmail = itemView.findViewById(R.id.email);
-            mHideButton = itemView.findViewById(R.id.hideButton);
+            mCardPictureUrl = itemView.findViewById(R.id.employee_image);
+            mCardFullName = itemView.findViewById(R.id.employee_name);
         }
 
         public void bind(final User user, OnClickHideListener listener) {
             mCardFullName.setText(user.getName() + " " + user.getSurname());
-            mCardEmail.setText(user.getEmail());
             // Carrega foto de l'usuari de la llista directament des d'una Url
             // d'Internet.
             //Picasso.get().load(user.getmPictureURL()).into(mCardPictureUrl);
             // Seteja el listener onClick del botó d'amagar (hide), que alhora
             // cridi el mètode OnClickHide que implementen els nostres propis
             // listeners de tipus OnClickHideListener.
-            mHideButton.setOnClickListener(new View.OnClickListener() {
-               @Override
-               public void onClick(View view) {
-                   listener.OnClickHide(getAdapterPosition());
-               }
-           });
+
         }
     }
 

@@ -100,10 +100,10 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mCardPictureUrl = itemView.findViewById(R.id.avatar);
-            mCardProductName = itemView.findViewById(R.id.productname);
-            mCardStock = itemView.findViewById(R.id.stock);
-            mHideButton = itemView.findViewById(R.id.hideButton);
+            mCardPictureUrl = itemView.findViewById(R.id.product_image);
+            mCardProductName = itemView.findViewById(R.id.product_name);
+            mCardStock = itemView.findViewById(R.id.product_stock);
+            mHideButton = itemView.findViewById(R.id.warning_icon);
         }
 
         public void bind(final Product product, OnClickHideListener listener) {

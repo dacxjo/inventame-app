@@ -1,4 +1,3 @@
-
 <com.google.android.material.card.MaterialCardView xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,77 +9,55 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/md_theme_light_onPrimary">
+        android:padding="16dp">
 
-        <!-- Media -->
+        <!-- Product Image -->
         <ImageView
-            android:id="@+id/avatar"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:contentDescription="content"
-            android:background="@drawable/no_picture"
-            android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:id="@+id/product_image"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/baseline_add_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_launcher_foreground" />
+            app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <!-- Title, secondary and supporting text -->
-
-        <TextView
-            android:id="@+id/productname"
-            android:layout_width="0dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="10dp"
-            android:gravity="center"
-            android:text="Product Name"
-            android:textAppearance="?attr/textAppearanceHeadline6"
-            app:layout_constraintEnd_toStartOf="@+id/hideButton"
-            app:layout_constraintStart_toEndOf="@+id/avatar"
-            app:layout_constraintTop_toBottomOf="@+id/hideButton" />
-
-        <TextView
-            android:id="@+id/stock"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginTop="5dp"
-            android:gravity="center"
-            android:text="2601"
-            android:textAppearance="?attr/textAppearanceBody2"
-            android:textColor="?android:attr/textColorSecondary"
-            app:layout_constraintBottom_toBottomOf="@+id/avatar"
-            app:layout_constraintEnd_toEndOf="@+id/productname"
-            app:layout_constraintStart_toStartOf="@+id/productname"
-            app:layout_constraintTop_toBottomOf="@+id/productname" />
-
-        <ImageView
-            android:id="@+id/hideButton"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginStart="16dp"
+            app:layout_constraintStart_toEndOf="@id/product_image"
+            app:layout_constraintTop_toTopOf="@id/product_image"
+            app:layout_constraintBottom_toBottomOf="@id/product_image">
+
+            <!-- Product name text -->
+            <TextView
+                android:id="@+id/product_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/product_name_text"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <!-- Product stock text -->
+            <TextView
+                android:id="@+id/product_stock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/product_stock_text"
+                android:textSize="14sp"/>
+
+        </LinearLayout>
+
+        <!-- Warning icon -->
+        <ImageView
+            android:id="@+id/warning_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/baseline_warning_24"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@android:drawable/ic_delete" />
-
-        <!--        &lt;!&ndash; Buttons &ndash;&gt;-->
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="376dp"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_margin="8dp"-->
-        <!--            android:gravity="center"-->
-        <!--            android:orientation="horizontal">-->
-
-        <!--            <com.google.android.material.button.MaterialButton-->
-        <!--                style="?attr/borderlessButtonStyle"-->
-        <!--                android:layout_width="wrap_content"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_gravity="center|center_horizontal"-->
-        <!--                android:gravity="center"-->
-        <!--                android:text="SETEA UN CLICK LISTENER EN TU ADAPTER" />-->
-
-        <!--        </LinearLayout>-->
+            app:layout_constraintTop_toTopOf="@id/product_image"
+            app:layout_constraintBottom_toBottomOf="@id/product_image"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

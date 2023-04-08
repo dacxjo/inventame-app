@@ -13,7 +13,7 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="@string/test_placeholder"
+        android:hint="@string/inventory_search_hint"
         app:layout_anchor="@id/search_bar"
         app:autoShowKeyboard="false"
         tools:context=".view.fragment.LoginFragment">
@@ -35,7 +35,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/test_placeholder" />
+                android:hint="@string/inventory_search_hint" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
