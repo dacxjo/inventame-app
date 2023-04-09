@@ -22,7 +22,7 @@
             app:contentInsetStartWithNavigation="0dp"
             app:navigationIcon="@drawable/baseline_close_24"
             app:menu="@menu/dialog_menu"
-            app:title="Test"/>
+            app:title="Añadir Producto"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

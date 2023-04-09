@@ -21,16 +21,17 @@ import com.ubpis.inventame.R;
 import com.ubpis.inventame.data.model.Category;
 import com.ubpis.inventame.view.adapter.CategoryAdapter;
 import com.ubpis.inventame.viewmodel.RegisterStepOneViewModel;
-import com.ubpis.inventame.viewmodel.SavedStateViewModel;
 
 public class RegisterStepOneFragment extends Fragment {
 
     private RegisterStepOneViewModel mViewModel;
-    private SavedStateViewModel vm;
     private RecyclerView categoryList;
     private Button backButton;
     private CategoryAdapter categoryAdapter;
     private Button nextButton;
+    private String selectedCategory;
+
+
 
     public static RegisterStepOneFragment newInstance() {
         return new RegisterStepOneFragment();
@@ -46,7 +47,6 @@ public class RegisterStepOneFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mViewModel = new ViewModelProvider(this).get(RegisterStepOneViewModel.class);
-        vm = new ViewModelProvider(this).get(SavedStateViewModel.class);
         backButton = view.findViewById(R.id.back_button);
         nextButton = view.findViewById(R.id.button_next);
 
@@ -63,14 +63,14 @@ public class RegisterStepOneFragment extends Fragment {
 
         backButton.setOnClickListener(this::goBack);
 
-        //nextButton.setOnClickListener(this::showDialog);
+        nextButton.setOnClickListener(this::goToStepTwo);
     }
 
     private void onClickRegisterCard(int position){
         Category selected = mViewModel.checkCategoryByPosition(position);
-        vm.setCategory(selected.getTitle());
+        selectedCategory = selected.getId();
         categoryAdapter.notifyDataSetChanged();
-        if(vm.getCategory() != null){
+        if(selectedCategory != null){
             nextButton.setEnabled(true);
         }
     }
@@ -80,9 +80,9 @@ public class RegisterStepOneFragment extends Fragment {
         Navigation.findNavController(view).navigate(action);
     }
 
-    private void showDialog(View view){
-        System.out.println("Show dialog");
-        new AddProductDialogFragment().show(
-                getChildFragmentManager(), AddProductDialogFragment.TAG);
+    private void goToStepTwo(View view){
+        NavDirections action = RegisterStepOneFragmentDirections.actionRegisterStepOneToRegisterStepTwo(this.selectedCategory);
+        Navigation.findNavController(view).navigate(action);
     }
+
 }

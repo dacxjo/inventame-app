@@ -30,7 +30,7 @@
                 android:id="@+id/title_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/register_step_one_title"
+                android:text="@string/register_title"
                 android:textColor="@color/seed"
                 android:textSize="32sp"
                 android:textStyle="bold" />
@@ -39,7 +39,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="20dp"
-                android:text="@string/pick_category"
+                android:text="@string/register_pick_category"
                 android:textColor="@color/md_theme_light_onSurface"
                 android:textSize="16sp" />
 

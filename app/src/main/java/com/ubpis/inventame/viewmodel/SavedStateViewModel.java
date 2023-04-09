@@ -15,8 +15,8 @@ public class SavedStateViewModel extends ViewModel {
         state.set("category",category);
     }
 
-    public MutableLiveData<Object> getCategory(){
-        return state.getLiveData("category");
+    public String getCategory(){
+        return state.get("category");
     }
 
 }

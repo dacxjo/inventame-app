@@ -65,6 +65,26 @@
             app:destination="@id/startupFragment"
             app:enterAnim="@anim/slide_in_left"
             app:exitAnim="@anim/slide_out_right"/>
+        <action
+            android:id="@+id/action_registerStepOne_to_registerStepTwo"
+            app:destination="@id/registerStepTwo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerStepTwo"
+        android:name="com.ubpis.inventame.view.fragment.RegisterStepTwoFragment"
+        tools:layout="@layout/fragment_register_step_two">
+
+        <action
+            android:id="@+id/action_registerStepTwo_to_registerStepOne"
+            app:destination="@id/registerStepOne"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"/>
+        <argument
+            android:name="selectedCategory"
+            app:argType="string" />
     </fragment>
 
     <activity

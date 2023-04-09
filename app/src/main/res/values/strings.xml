@@ -29,8 +29,7 @@
 
 
     <!-- Strings: Register -->
-    <string name="pick_category">Elije una categoria para empezar</string>
-
-    <!-- Strings: Register Step One -->
-    <string name="register_step_one_title">Registro</string>
+    <string name="register_pick_category">Elije una categoria para empezar</string>
+    <string name="register_tell_us_more">Dinos mas sobre ti</string>
+    <string name="register_title">Registro</string>
 </resources>

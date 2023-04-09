@@ -7,10 +7,13 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.ubpis.inventame.R;
 import com.ubpis.inventame.viewmodel.RegisterStepTwoViewModel;
@@ -18,6 +21,9 @@ import com.ubpis.inventame.viewmodel.RegisterStepTwoViewModel;
 public class RegisterStepTwoFragment extends Fragment {
 
     private RegisterStepTwoViewModel mViewModel;
+
+    private Button backButton;
+    private Button registerBtn;
 
     public static RegisterStepTwoFragment newInstance() {
         return new RegisterStepTwoFragment();
@@ -36,4 +42,24 @@ public class RegisterStepTwoFragment extends Fragment {
         // TODO: Use the ViewModel
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        backButton = view.findViewById(R.id.back_button);
+        registerBtn = view.findViewById(R.id.registerBtn);
+        backButton.setOnClickListener(this::goBack);
+        String selectedCategory = RegisterStepTwoFragmentArgs.fromBundle(getArguments()).getSelectedCategory();
+        registerBtn.setOnClickListener(this::showDialog);
+    }
+
+    private void goBack(View view){
+        NavDirections action = RegisterStepTwoFragmentDirections.actionRegisterStepTwoToRegisterStepOne();
+        Navigation.findNavController(view).navigate(action);
+    }
+
+
+    private void showDialog(View view){
+        new AddProductDialogFragment().show(
+                getChildFragmentManager(), AddProductDialogFragment.TAG);
+    }
 }
