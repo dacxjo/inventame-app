@@ -60,8 +60,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         private final TextView categoryDesc;
         private final MaterialCardView categoryCard;
 
-        private boolean isCardChecked = false;
-
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             categoryImg = itemView.findViewById(R.id.categoryImg);
@@ -74,10 +72,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             categoryTitle.setText(category.getTitle());
             categoryDesc.setText(category.getDescription());
             Picasso.get().load(category.getImg()).into(categoryImg);
+            categoryCard.setChecked(category.getIsSelected());
             categoryCard.setOnClickListener(view -> {
-                isCardChecked = !isCardChecked;
-                categoryCard.setChecked(isCardChecked);
-                listener.OnClickCard(getAdapterPosition());
+              listener.OnClickCard(getAdapterPosition());
             });
         }
     }

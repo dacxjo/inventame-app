@@ -6,12 +6,11 @@
     android:layout_height="80dp"
     android:layout_marginVertical="10dp"
     android:layout_marginHorizontal="20dp"
-    android:backgroundTint="@color/material_dynamic_neutral100"
     android:checkable="true"
     android:clickable="true"
     android:focusable="true"
     android:id="@+id/categoryCard"
-    app:checkedIconTint="@color/seed"
+    app:checkedIconTint="@color/md_theme_dark_primary"
     >
 
     <LinearLayout

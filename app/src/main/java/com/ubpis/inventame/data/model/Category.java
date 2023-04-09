@@ -6,10 +6,13 @@ public class Category {
     private String description;
     private String img;
 
-    public Category(String title, String desc, String img){
+    private boolean isSelected;
+
+    public Category(String title, String desc, String img,boolean isSelected){
         this.title = title;
         this.description = desc;
         this.img = img;
+        this.isSelected =isSelected;
     }
 
     public String getTitle() {
@@ -34,5 +37,21 @@ public class Category {
 
     public void setImg(String img) {
         this.img = img;
+    }
+
+    public void setSelected(){
+        this.isSelected = true;
+    }
+
+    public void setUnselected(){
+        this.isSelected = false;
+    }
+
+    public void toggleSelection(){
+        this.isSelected = !this.isSelected;
+    }
+
+    public boolean getIsSelected(){
+        return this.isSelected;
     }
 }
