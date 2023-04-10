@@ -42,10 +42,18 @@ public class StartupFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Button loginBtn = (Button) view.findViewById(R.id.btn_goToLogin);
+        Button registerBtn = view.findViewById(R.id.btn_goToRegister);
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 NavDirections action = StartupFragmentDirections.actionStartupFragmentToLoginFragment();
+                Navigation.findNavController(view).navigate(action);
+            }
+        });
+        registerBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                NavDirections action = StartupFragmentDirections.actionStartupFragmentToRegisterStepOne();
                 Navigation.findNavController(view).navigate(action);
             }
         });

@@ -83,7 +83,7 @@ public class HomeFragment extends Fragment {
                         bottomNav.setVisibility(View.GONE);
                     }
                 });
-            }else if(newState == SearchView.TransitionState.HIDDEN){
+            } else if (newState == SearchView.TransitionState.HIDDEN) {
                 bottomNav.setVisibility(View.VISIBLE);
                 bottomNav.animate().translationY(0).setDuration(300).setListener(null);
             }

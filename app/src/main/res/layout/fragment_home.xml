@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:hint="@string/test_placeholder"
-        app:layout_anchor="@id/search_bar"
         app:autoShowKeyboard="false"
+        app:layout_anchor="@id/search_bar"
         tools:context=".view.activity.DemoActivity">
         <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
     </com.google.android.material.search.SearchView>
