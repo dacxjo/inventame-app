@@ -1,21 +1,19 @@
 package com.ubpis.inventame.view.fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.NavDirections;
-import androidx.navigation.Navigation;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ubpis.inventame.R;
 import com.ubpis.inventame.data.model.Category;
@@ -26,11 +24,9 @@ public class RegisterStepOneFragment extends Fragment {
 
     private RegisterStepOneViewModel mViewModel;
     private RecyclerView categoryList;
-    private Button backButton;
+    private Button backButton, nextButton;
     private CategoryAdapter categoryAdapter;
-    private Button nextButton;
     private String selectedCategory;
-
 
 
     public static RegisterStepOneFragment newInstance() {
@@ -66,21 +62,21 @@ public class RegisterStepOneFragment extends Fragment {
         nextButton.setOnClickListener(this::goToStepTwo);
     }
 
-    private void onClickRegisterCard(int position){
+    private void onClickRegisterCard(int position) {
         Category selected = mViewModel.checkCategoryByPosition(position);
         selectedCategory = selected.getId();
         categoryAdapter.notifyDataSetChanged();
-        if(selectedCategory != null){
+        if (selectedCategory != null) {
             nextButton.setEnabled(true);
         }
     }
 
-    private void goBack(View view){
+    private void goBack(View view) {
         NavDirections action = RegisterStepOneFragmentDirections.actionRegisterStepOneToStartupFragment();
         Navigation.findNavController(view).navigate(action);
     }
 
-    private void goToStepTwo(View view){
+    private void goToStepTwo(View view) {
         NavDirections action = RegisterStepOneFragmentDirections.actionRegisterStepOneToRegisterStepTwo(this.selectedCategory);
         Navigation.findNavController(view).navigate(action);
     }

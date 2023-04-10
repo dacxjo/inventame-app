@@ -21,6 +21,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public interface OnClickCardListener {
         void OnClickCard(int position);
     }
+
     ArrayList<Category> categoryArrayList;
     private OnClickCardListener clickCardListener;
 
@@ -74,7 +75,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
             Picasso.get().load(category.getImg()).into(categoryImg);
             categoryCard.setChecked(category.getIsSelected());
             categoryCard.setOnClickListener(view -> {
-              listener.OnClickCard(getAdapterPosition());
+                listener.OnClickCard(getAdapterPosition());
             });
         }
     }

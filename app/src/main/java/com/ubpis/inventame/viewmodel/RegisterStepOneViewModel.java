@@ -16,29 +16,28 @@ public class RegisterStepOneViewModel extends ViewModel {
 
         categories = new MutableLiveData<>(new ArrayList<>());
 
+        // TODO: Remove this, is just for testing purposes
+        // TODO: Use Firebase to retrieve categories
         ArrayList<Category> testArrayList = new ArrayList<>();
-        Category c1 = new Category( "123343","Cat1","Desc 1","https://images.unsplash.com/photo-1560343090-f0409e92791a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Nnx8cHJvZHVjdHxlbnwwfHwwfHw%3D&w=1000&q=80",false);
-        Category c2 = new Category("122", "Cat2","Desc 2","https://media.istockphoto.com/id/1370669395/photo/different-hair-care-products-on-wooden-table.jpg?b=1&s=170667a&w=0&k=20&c=-VKPETob_3F361SvnatkwIYWjipBZKloBtgm1jsKmf4=",false);
-        Category c3 = new Category("124","Cat3","Desc 3","https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZHVjdCUyMGltYWdlc3xlbnwwfHwwfHw%3D&w=1000&q=80",false);
-        Category c4 = new Category("1254","Cat4","Desc 4","https://media.istockphoto.com/id/1165099864/photo/plastic-free-set-with-eco-cotton-bag-glass-jar-green-leaves-and-recycled-tableware-top-view.jpg?b=1&s=170667a&w=0&k=20&c=lBKKbQqCp1xAj7rodBEVp_Iv36jjATSgbpTjdx9WB_A=",false);
-        testArrayList.add(c1);
-        testArrayList.add(c2);
-        testArrayList.add(c3);
-        testArrayList.add(c4);
+        for (int i = 0; i < 4; i++) {
+            Category c = new Category(Integer.toString(i + 1), String.format("Cat%s", i + 1), String.format("Desc %s", i + 1), "https://source.unsplash.com/random/?Product&" + i, false);
+            testArrayList.add(c);
+        }
         this.setCategories(testArrayList);
     }
 
-    public Category checkCategoryByPosition(int position){
-       Category selected = null;
+    public Category checkCategoryByPosition(int position) {
+        // TODO: Check if there's a better way to do this
+        Category selected = null;
         for (int i = 0; i < categories.getValue().size(); i++) {
-            if(i == position){
+            if (i == position) {
                 selected = categories.getValue().get(i);
                 selected.setSelected();
-            }else{
+            } else {
                 categories.getValue().get(i).setUnselected();
             }
         }
-       return selected;
+        return selected;
     }
 
     public LiveData<ArrayList<Category>> getCategories() {

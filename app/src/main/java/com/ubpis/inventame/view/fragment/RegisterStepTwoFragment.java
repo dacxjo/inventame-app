@@ -22,8 +22,7 @@ public class RegisterStepTwoFragment extends Fragment {
 
     private RegisterStepTwoViewModel mViewModel;
 
-    private Button backButton;
-    private Button registerBtn;
+    private Button backButton, registerBtn;
 
     public static RegisterStepTwoFragment newInstance() {
         return new RegisterStepTwoFragment();
@@ -45,20 +44,20 @@ public class RegisterStepTwoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        String selectedCategory = RegisterStepTwoFragmentArgs.fromBundle(getArguments()).getSelectedCategory();
         backButton = view.findViewById(R.id.back_button);
         registerBtn = view.findViewById(R.id.registerBtn);
         backButton.setOnClickListener(this::goBack);
-        String selectedCategory = RegisterStepTwoFragmentArgs.fromBundle(getArguments()).getSelectedCategory();
         registerBtn.setOnClickListener(this::showDialog);
     }
 
-    private void goBack(View view){
+    private void goBack(View view) {
         NavDirections action = RegisterStepTwoFragmentDirections.actionRegisterStepTwoToRegisterStepOne();
         Navigation.findNavController(view).navigate(action);
     }
 
 
-    private void showDialog(View view){
+    private void showDialog(View view) {
         new AddProductDialogFragment().show(
                 getChildFragmentManager(), AddProductDialogFragment.TAG);
     }

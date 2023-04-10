@@ -9,12 +9,12 @@ public class Category {
 
     private boolean isSelected;
 
-    public Category(String id, String title, String desc, String img,boolean isSelected){
+    public Category(String id, String title, String desc, String img, boolean isSelected) {
         this.id = id;
         this.title = title;
         this.description = desc;
         this.img = img;
-        this.isSelected =isSelected;
+        this.isSelected = isSelected;
     }
 
     public String getId() {
@@ -29,39 +29,23 @@ public class Category {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
     public String getDescription() {
         return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public String getImg() {
         return img;
     }
 
-    public void setImg(String img) {
-        this.img = img;
-    }
-
-    public void setSelected(){
+    public void setSelected() {
         this.isSelected = true;
     }
 
-    public void setUnselected(){
+    public void setUnselected() {
         this.isSelected = false;
     }
 
-    public void toggleSelection(){
-        this.isSelected = !this.isSelected;
-    }
-
-    public boolean getIsSelected(){
+    public boolean getIsSelected() {
         return this.isSelected;
     }
 }
