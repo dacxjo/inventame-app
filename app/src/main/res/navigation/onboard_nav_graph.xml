@@ -21,7 +21,7 @@
             android:id="@+id/action_startupFragment_to_registerStepOne"
             app:destination="@id/registerStepOne"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
@@ -64,12 +64,12 @@
             android:id="@+id/action_registerStepOne_to_startupFragment"
             app:destination="@id/startupFragment"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"/>
+            app:exitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_registerStepOne_to_registerStepTwo"
             app:destination="@id/registerStepTwo"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
@@ -81,10 +81,18 @@
             android:id="@+id/action_registerStepTwo_to_registerStepOne"
             app:destination="@id/registerStepOne"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"/>
+            app:exitAnim="@anim/slide_out_right" />
         <argument
             android:name="selectedCategory"
             app:argType="string" />
+        <action
+            android:id="@+id/action_registerStepTwo_to_demoActivity"
+            app:destination="@id/demoActivity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/demoActivity"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <activity

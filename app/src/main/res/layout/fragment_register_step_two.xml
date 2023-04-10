@@ -53,6 +53,7 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingHorizontal="20dp">
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -61,11 +62,20 @@
                     android:paddingTop="10dp">
 
                     <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/logoPicker"
                         style="?attr/materialCardViewFilledStyle"
                         android:layout_width="100dp"
                         android:layout_height="100dp"
                         android:clickable="true"
-                        android:focusable="true" />
+                        android:focusable="true">
+
+                        <ImageView
+                            android:id="@+id/logo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"></ImageView>
+                    </com.google.android.material.card.MaterialCardView>
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -85,6 +95,7 @@
                     android:textColor="@color/seed"
                     app:boxStrokeColor="@color/seed"
                     app:errorEnabled="true">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/company_name"
                         android:layout_width="match_parent"

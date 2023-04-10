@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="test_placeholder">Test</string>
     <string name="filled_button">Filled</string>
     <string name="outlined_button">Outline</string>
@@ -9,6 +10,9 @@
     <string name="settings">Ajustes</string>
     <string name="app_name">Inventame</string>
     <string name="next">Siguiente</string>
+
+    <!-- Strings: common -->
+    <string name="common_cancel">Cancelar</string>
 
     <!-- Strings: login -->
     <string name="title_login">Iniciar sesión</string>
@@ -39,4 +43,7 @@
     <string name="register_password">Contraseña</string>
     <string name="register_password_confirm">Repetir Contraseña</string>
     <string name="register_logo">Logo</string>
+    <string name="register_take_photo">Tomar foto</string>
+    <string name="register_pick_photo">Elegir foto</string>
+    <string name="register_add_logo">Añadir Logo</string>
 </resources>
