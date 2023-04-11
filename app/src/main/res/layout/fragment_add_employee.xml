@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="16dp"
-    android:layout_marginBottom="16dp"
-    android:layout_marginStart="32dp"
-    android:layout_marginEnd="32dp"
-    tools:context=".view.fragment.EmployeeAddFragment">
+    tools:context=".view.fragment.AddEmployeeDialogFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/md_theme_light_background"
+        app:elevation="0dp"
+        app:liftOnScroll="true">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingStart="6dp"
+            android:paddingEnd="16dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:menu="@menu/dialog_menu"
+            app:navigationIcon="@drawable/baseline_close_24"
+            app:title="@string/employee_add_title" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,17 +35,38 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-
             <!-- Employee image -->
-            <ImageView
-                android:id="@+id/employee_image"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/outline_people_24"
-                android:adjustViewBounds="true"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="16dp"
-                android:layout_gravity="center"/>
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:paddingTop="16dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/logoPicker"
+                    style="?attr/materialCardViewFilledStyle"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:clickable="true"
+                    android:focusable="true">
+
+                    <ImageView
+                        android:id="@+id/logo"
+                        android:src="@drawable/baseline_person_add_alt_1_24"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"></ImageView>
+                </com.google.android.material.card.MaterialCardView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/product_image_textfield"
+                    android:textAlignment="center"
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <!-- Employee Name textfield -->
             <com.google.android.material.textfield.TextInputLayout
@@ -77,27 +114,13 @@
                     android:id="@+id/employee_id_textfield"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:maxLines="5"/>
+                    android:inputType="text"
+                    android:maxLines="1"/>
 
             </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Add Employee Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/bottom_button"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="64dp"
-                android:layout_marginEnd="64dp"
-                android:text="@string/add_employee_button"
-                android:textColor="@color/md_theme_light_background"
-                android:backgroundTint="@color/seed"
-                style="@style/Widget.Material3.Button.TextButton"/>
-
         </LinearLayout>
-
 
     </ScrollView>
 
-</FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

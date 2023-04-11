@@ -4,7 +4,9 @@
     android:id="@+id/card"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:layout_width="match_parent">
+    android:layout_width="match_parent"
+    app:strokeWidth="0dp"
+    android:background="@color/md_theme_light_background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,8 +16,9 @@
         <!-- Employee Picture -->
         <ImageView
             android:id="@+id/employee_image"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
+            style="@style/RoundedImageView"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
             android:src="@drawable/outline_people_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

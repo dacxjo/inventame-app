@@ -9,26 +9,17 @@
     app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
     tools:context=".view.fragment.EmployeeFragment">
 
-    <LinearLayout
+    <com.google.android.material.search.SearchView
+        android:id="@+id/search_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:hint="@string/employee_search_hint"
+        app:layout_anchor="@id/search_bar"
+        app:autoShowKeyboard="false"
+        tools:context=".view.fragment.EmployeeFragment">
+        <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:iconifiedByDefault="false"
-            android:queryHint="Search"/>
-
-        <ImageButton
-            android:id="@+id/sort_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/baseline_add_24"/>
-
-    </LinearLayout>
+    </com.google.android.material.search.SearchView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -49,27 +40,11 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
-            android:id="@+id/cont"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/employeeCardRv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/app_bar"
-            android:orientation="vertical"
-            android:padding="16dp">
-
-            <ScrollView
-                android:id="@+id/scrollView2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="5dp">
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/userCardRv"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </ScrollView>
-
-        </LinearLayout>
+            android:layout_height="wrap_content"
+            android:background="@color/md_theme_light_background"/>
 
     </RelativeLayout>
 
