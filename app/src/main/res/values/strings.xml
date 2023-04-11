@@ -46,4 +46,8 @@
     <string name="register_take_photo">Tomar foto</string>
     <string name="register_pick_photo">Elegir foto</string>
     <string name="register_add_logo">Añadir Logo</string>
+
+    <!-- Strings: Notifications -->
+    <string name="notifications_title">Notificaciones</string>
+
 </resources>
