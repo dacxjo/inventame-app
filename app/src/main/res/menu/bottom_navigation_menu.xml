@@ -6,6 +6,11 @@
         android:icon="@drawable/baseline_home_24"
         android:title="@string/home"/>
     <item
+        android:id="@+id/basketFragment"
+        android:enabled="true"
+        android:icon="@drawable/baseline_shopping_basket_24"
+        android:title="@string/basket"/>
+    <item
         android:id="@+id/inventoryFragment"
         android:enabled="true"
         android:icon="@drawable/outline_inventory_24"
@@ -16,8 +21,8 @@
         android:icon="@drawable/outline_people_24"
         android:title="@string/employees"/>
     <item
-        android:id="@+id/inventoryAddFragment"
+        android:id="@+id/notificationsFragment"
         android:enabled="true"
-        android:icon="@drawable/outline_settings_24"
-        android:title="@string/settings"/>
+        android:icon="@drawable/baseline_notifications_none_24"
+        android:title="@string/notifications"/>
 </menu>

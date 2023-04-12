@@ -30,4 +30,10 @@
         android:label="InventoryAdd"
         tools:layout="@layout/fragment_add_inventory" />
 
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.ubpis.inventame.view.fragment.NotificationsFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notifications" />
+
 </navigation>

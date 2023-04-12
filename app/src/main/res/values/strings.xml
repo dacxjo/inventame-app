@@ -4,8 +4,10 @@
     <string name="filled_button">Filled</string>
     <string name="outlined_button">Outline</string>
     <string name="home">Inicio</string>
+    <string name="basket">Cesta</string>
     <string name="stock">Inventario</string>
     <string name="employees">Empleados</string>
+    <string name="notifications">Notificaciones</string>
     <string name="settings">Ajustes</string>
     <string name="app_name">Inventame</string>
     <string name="save">Guardar</string>
@@ -37,6 +39,10 @@
     <string name="register_take_photo">Tomar foto</string>
     <string name="register_pick_photo">Elegir foto</string>
     <string name="register_add_logo">Añadir Logo</string>
+
+    <!-- Strings: Notifications -->
+    <string name="notifications_title">Notificaciones</string>
+
 
     <!-- Strings: forgot_password -->
     <string name="recover_password">Recuperar contraseña</string>
