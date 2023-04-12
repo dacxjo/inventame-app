@@ -17,4 +17,10 @@
         android:label="Employees"
         tools:layout="@layout/fragment_employees" />
 
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.ubpis.inventame.view.fragment.NotificationsFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notifications" />
+
 </navigation>

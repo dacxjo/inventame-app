@@ -5,8 +5,10 @@
     <string name="filled_button">Filled</string>
     <string name="outlined_button">Outline</string>
     <string name="home">Inicio</string>
+    <string name="basket">Cesta</string>
     <string name="stock">Inventario</string>
     <string name="employees">Empleados</string>
+    <string name="notifications">Notificaciones</string>
     <string name="settings">Ajustes</string>
     <string name="app_name">Inventame</string>
     <string name="next">Siguiente</string>

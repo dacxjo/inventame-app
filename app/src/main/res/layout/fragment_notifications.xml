@@ -23,8 +23,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/notificationList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingVertical="20dp"/>
+            android:layout_height="match_parent"/>
     </LinearLayout>
 
 </FrameLayout>
