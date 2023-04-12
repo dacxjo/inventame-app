@@ -6,7 +6,7 @@
         android:icon="@drawable/baseline_home_24"
         android:title="@string/home"/>
     <item
-        android:id="@+id/item_2"
+        android:id="@+id/inventoryFragment"
         android:enabled="true"
         android:icon="@drawable/outline_inventory_24"
         android:title="@string/stock"/>
@@ -16,7 +16,7 @@
         android:icon="@drawable/outline_people_24"
         android:title="@string/employees"/>
     <item
-        android:id="@+id/item_4"
+        android:id="@+id/inventoryAddFragment"
         android:enabled="true"
         android:icon="@drawable/outline_settings_24"
         android:title="@string/settings"/>
