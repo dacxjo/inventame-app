@@ -17,7 +17,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ubpis.inventame.data.model.Product;
-import com.ubpis.inventame.data.model.ProductRepository;
+import com.ubpis.inventame.data.repository.ProductRepository;
 
 import java.util.ArrayList;
 

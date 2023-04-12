@@ -1,4 +1,4 @@
-package com.ubpis.inventame.data.model;
+package com.ubpis.inventame.data.repository;
 
 import android.util.Log;
 
@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
+import com.ubpis.inventame.data.model.Product;
 
 import java.util.ArrayList;
 import java.util.HashMap;
