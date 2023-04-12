@@ -37,18 +37,18 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:paddingHorizontal="20dp"
-            android:paddingBottom="50dp">
+            android:paddingBottom="50dp"
+            android:gravity="center">
 
             <!-- Scanner Button -->
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/scanner_button"
-                style="@style/Widget.Material3.Button.TextButton"
-                android:layout_width="match_parent"
+                style="@style/Widget.Material3.Button.Icon"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="64dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="64dp"
-                android:backgroundTint="@color/seed"
+                app:icon="@drawable/ic_barcode_scanner_24"
+                app:iconGravity="textStart"
                 android:gravity="center"
                 android:text="@string/scanner_button"
                 android:textColor="@color/md_theme_light_background" />
@@ -78,7 +78,8 @@
 
                     <ImageView
                         android:id="@+id/product"
-                        android:src="@drawable/baseline_add_24"
+                        android:src="@drawable/baseline_image_24"
+                        app:tint="@color/md_theme_light_primary"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"></ImageView>
@@ -90,7 +91,8 @@
                     android:layout_gravity="center"
                     android:text="@string/product_image_textfield"
                     android:textAlignment="center"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"
+                    android:layout_marginTop="5dp"/>
             </LinearLayout>
 
             <!-- Product ID textfield -->

@@ -5,7 +5,6 @@
     android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
     tools:context=".view.fragment.LoginFragment">
 
@@ -15,7 +14,6 @@
         android:layout_height="match_parent"
         android:hint="@string/inventory_search_hint"
         app:layout_anchor="@id/search_bar"
-        app:autoShowKeyboard="false"
         tools:context=".view.fragment.InventoryFragment">
         <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
     </com.google.android.material.search.SearchView>
@@ -35,7 +33,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="@string/inventory_search_hint" />
+                android:hint="@string/inventory_search_hint"
+                android:paddingEnd="4dp" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -43,7 +42,9 @@
             android:id="@+id/productCardRv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/md_theme_light_background"/>
+            android:layout_below="@id/app_bar"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"/>
 
     </RelativeLayout>
 

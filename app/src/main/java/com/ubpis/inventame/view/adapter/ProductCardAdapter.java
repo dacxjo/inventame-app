@@ -26,7 +26,6 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
     private OnClickHideListener mOnClickHideListener;
     public ProductCardAdapter(ArrayList<Product> productList) {
         this.mProducts = productList;
-
     }
 
     public void setOnClickHideListener(OnClickHideListener listener) {

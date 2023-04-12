@@ -9,6 +9,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -46,10 +47,16 @@ public class InventoryFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(
                 this.getContext(), LinearLayoutManager.VERTICAL, false
         );
+
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(productList.getContext(),
+                manager.getOrientation());
+        productList.addItemDecoration(dividerItemDecoration);
+
         productList.setLayoutManager(manager);
         productCardAdapter = new ProductCardAdapter(
                 ViewModel.getProducts().getValue()
         );
+
         productList.setAdapter(productCardAdapter);
 
         SearchView searchView = requireView().findViewById(R.id.search_view);

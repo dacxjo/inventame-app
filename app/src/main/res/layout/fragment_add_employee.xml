@@ -54,6 +54,7 @@
                     <ImageView
                         android:id="@+id/logo"
                         android:src="@drawable/baseline_person_add_alt_1_24"
+                        app:tint="@color/md_theme_light_primary"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"></ImageView>
