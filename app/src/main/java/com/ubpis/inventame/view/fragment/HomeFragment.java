@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -72,21 +73,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        SearchView searchView = requireView().findViewById(R.id.search_view);
-        BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
-        searchView.addTransitionListener((searchView1, previousState, newState) -> {
-            if (newState == SearchView.TransitionState.SHOWING) {
-                bottomNav.animate().translationY(bottomNav.getHeight()).setDuration(300).setListener(new AnimatorListenerAdapter() {
-                    @Override
-                    public void onAnimationEnd(Animator animation) {
-                        super.onAnimationEnd(animation);
-                        bottomNav.setVisibility(View.GONE);
-                    }
-                });
-            } else if (newState == SearchView.TransitionState.HIDDEN) {
-                bottomNav.setVisibility(View.VISIBLE);
-                bottomNav.animate().translationY(0).setDuration(300).setListener(null);
-            }
-        });
+
     }
 }

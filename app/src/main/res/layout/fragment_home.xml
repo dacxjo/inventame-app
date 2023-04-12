@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
@@ -9,96 +9,149 @@
     app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
     tools:context=".view.fragment.HomeFragment">
 
-    <com.google.android.material.search.SearchView
-        android:id="@+id/search_view"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="@string/test_placeholder"
-        app:autoShowKeyboard="false"
-        app:layout_anchor="@id/search_bar"
-        tools:context=".view.activity.DemoActivity">
-        <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
-    </com.google.android.material.search.SearchView>
+        android:layout_height="wrap_content"
+        android:background="@color/md_theme_light_background"
+        app:elevation="0dp"
+        app:liftOnScroll="true">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar"
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="?attr/actionBarSize"
+            android:paddingStart="6dp"
+            android:paddingEnd="16dp"
+            app:contentInsetStartWithNavigation="0dp"
+            app:menu="@menu/dialog_menu" />
 
-            <com.google.android.material.search.SearchBar
-                android:id="@+id/search_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="@string/test_placeholder" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-        </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/appbar">
 
         <LinearLayout
-            android:id="@+id/cont"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/app_bar"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:paddingHorizontal="20dp">
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/test_placeholder"
-                android:padding="10dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/password_placeholder"
-                android:padding="10dp"
-                app:endIconMode="password_toggle">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textPassword" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.Material3.TextInputLayout.FilledBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/test_placeholder"
-                android:padding="10dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Button
-                android:id="@+id/filledButton"
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/filled_button" />
+                android:text="Bienvenido"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:textColor="@color/seed"/>
 
-            <Button
-                android:id="@+id/outlinedButton"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_width="wrap_content"
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/outlined_button" />
+                android:layout_marginTop="20dp"
+                android:clickable="true"
+                app:contentPadding="10dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="@color/md_theme_dark_secondary"
+                app:checkedIconTint="@color/md_theme_dark_primary">
 
+               <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:orientation="vertical">
+                   <TextView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:text="1.250,00 €"
+                       android:textColor="@android:color/white"
+                       android:textSize="50sp"/>
+
+                   <TextView
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:text="Valor total"
+                       android:textColor="@android:color/black" />
+               </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="20dp">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:clickable="true"
+                    android:layout_marginEnd="20dp"
+                    app:contentPadding="10dp"
+                    app:strokeWidth="0dp"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/md_theme_dark_secondary"
+                    app:checkedIconTint="@color/md_theme_dark_primary">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="1200"
+                            android:layout_weight="1"
+                            android:textColor="@android:color/white"
+                            android:textSize="50sp"/>
+
+                        <TextView
+                            android:layout_weight="1"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Productos"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_width="match_parent"
+                    android:layout_height="130dp"
+                    android:clickable="true"
+                    app:contentPadding="10dp"
+                    android:layout_weight="1"
+                    app:strokeWidth="0dp"
+                    app:cardBackgroundColor="@color/md_theme_dark_secondary"
+                    app:checkedIconTint="@color/md_theme_dark_primary">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="10"
+                            android:layout_weight="1"
+                            android:textColor="@android:color/white"
+                            android:textSize="50sp"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Empleados"
+                            android:layout_weight="1"
+                            android:textColor="@android:color/black" />
+                    </LinearLayout>
+                </com.google.android.material.card.MaterialCardView>
+            </LinearLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
         </LinearLayout>
 
-    </RelativeLayout>
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</RelativeLayout>
