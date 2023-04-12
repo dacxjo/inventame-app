@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/onboard_nav_graph"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/onboard_nav_graph"
     app:startDestination="@id/startupFragment">
 
     <fragment
         android:id="@+id/startupFragment"
         android:name="com.ubpis.inventame.view.fragment.StartupFragment"
         android:label="Startup"
-        tools:layout="@layout/fragment_startup" >
+        tools:layout="@layout/fragment_startup">
         <action
             android:id="@+id/action_startupFragment_to_loginFragment"
             app:destination="@id/loginFragment"
@@ -17,23 +17,28 @@
             app:exitAnim="@anim/slide_out_left"
 
             />
+        <action
+            android:id="@+id/action_startupFragment_to_registerStepOne"
+            app:destination="@id/registerStepOne"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.ubpis.inventame.view.fragment.LoginFragment"
         android:label="Login"
-        tools:layout="@layout/fragment_login" >
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_startupFragment"
             app:destination="@id/startupFragment"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"/>
+            app:exitAnim="@anim/slide_out_right" />
         <action
             android:id="@+id/action_loginFragment_to_forgotPasswordFragment"
             app:destination="@id/forgotPasswordFragment"
             app:enterAnim="@anim/slide_in_right"
-            app:exitAnim="@anim/slide_out_left"/>
+            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_loginFragment_to_demoActivity"
             app:destination="@id/demoActivity" />
@@ -43,12 +48,51 @@
         android:id="@+id/forgotPasswordFragment"
         android:name="com.ubpis.inventame.view.fragment.ForgotPasswordFragment"
         android:label="Login"
-        tools:layout="@layout/fragment_forgot_password" >
+        tools:layout="@layout/fragment_forgot_password">
         <action
             android:id="@+id/action_forgotPasswordFragment_to_loginFragment"
             app:destination="@id/loginFragment"
             app:enterAnim="@anim/slide_in_left"
-            app:exitAnim="@anim/slide_out_right"/>
+            app:exitAnim="@anim/slide_out_right" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerStepOne"
+        android:name="com.ubpis.inventame.view.fragment.RegisterStepOneFragment"
+        tools:layout="@layout/fragment_register_step_one">
+        <action
+            android:id="@+id/action_registerStepOne_to_startupFragment"
+            app:destination="@id/startupFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_registerStepOne_to_registerStepTwo"
+            app:destination="@id/registerStepTwo"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/registerStepTwo"
+        android:name="com.ubpis.inventame.view.fragment.RegisterStepTwoFragment"
+        tools:layout="@layout/fragment_register_step_two">
+
+        <action
+            android:id="@+id/action_registerStepTwo_to_registerStepOne"
+            app:destination="@id/registerStepOne"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right" />
+        <argument
+            android:name="selectedCategory"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_registerStepTwo_to_demoActivity"
+            app:destination="@id/demoActivity"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:launchSingleTop="true"
+            app:popUpTo="@+id/demoActivity"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <activity

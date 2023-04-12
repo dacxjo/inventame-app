@@ -20,6 +20,8 @@ public class ForgotPasswordFragment extends Fragment {
 
     private ForgotPasswordViewModel mViewModel;
 
+    private Button backButton;
+
     public static ForgotPasswordFragment newInstance() {
         return new ForgotPasswordFragment();
     }
@@ -40,13 +42,12 @@ public class ForgotPasswordFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button backButton = view.findViewById(R.id.back_button);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavDirections action = ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToLoginFragment();
-                Navigation.findNavController(view).navigate(action);
-            }
-        });
+        backButton = view.findViewById(R.id.back_button);
+        backButton.setOnClickListener(this::goToLogin);
+    }
+
+    private void goToLogin(View view){
+        NavDirections action = ForgotPasswordFragmentDirections.actionForgotPasswordFragmentToLoginFragment();
+        Navigation.findNavController(view).navigate(action);
     }
 }

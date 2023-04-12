@@ -81,9 +81,8 @@ public class AddProductDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        //TODO: Toolbar rota...
-        //toolbar = view.findViewById(R.id.toolbar);
-        //toolbar.setNavigationOnClickListener(value -> dismiss());
+        toolbar = view.findViewById(R.id.toolbar);
+        toolbar.setNavigationOnClickListener(value -> dismiss());
 
         productPicker = view.findViewById(R.id.productPicker);
         productImage = view.findViewById(R.id.product_image);

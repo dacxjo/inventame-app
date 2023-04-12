@@ -4,12 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.fragment.ForgotPasswordFragment">
+    tools:context=".view.fragment.RegisterStepOneFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/button_recover"
+        android:layout_above="@+id/button_next"
         android:orientation="vertical">
 
         <Button
@@ -30,51 +30,33 @@
                 android:id="@+id/title_login"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/recover_password"
+                android:text="@string/register_title"
                 android:textColor="@color/seed"
                 android:textSize="32sp"
                 android:textStyle="bold" />
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="60dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/text_recover"
+                android:text="@string/register_pick_category"
                 android:textColor="@color/md_theme_light_onSurface"
                 android:textSize="16sp" />
 
         </LinearLayout>
 
-        <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categoryList"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="2"
-            android:orientation="vertical"
-            android:paddingHorizontal="20dp"
-            android:paddingTop="50dp">
+            android:layout_height="match_parent"
+            android:paddingVertical="20dp"/>
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/email_placeholder"
-                android:textColor="@color/seed"
-                app:boxStrokeColor="@color/seed"
-                app:errorEnabled="true">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:maxLines="1"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-        </LinearLayout>
 
     </LinearLayout>
 
     <Button
-        android:id="@+id/button_recover"
+        android:id="@+id/button_next"
+        android:enabled="false"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -82,8 +64,6 @@
         android:layout_gravity="center"
         android:layout_marginBottom="50dp"
         android:backgroundTint="@color/seed"
-        android:text="@string/recover" />
+        android:text="@string/next" />
 
 </RelativeLayout>
-
-

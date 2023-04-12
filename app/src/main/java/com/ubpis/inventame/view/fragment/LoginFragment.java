@@ -20,6 +20,8 @@ public class LoginFragment extends Fragment {
 
     private LoginViewModel mViewModel;
 
+    private Button backButton, loginButton, forgotPasswordButton;
+
     public static LoginFragment newInstance() {
         return new LoginFragment();
     }
@@ -40,33 +42,27 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button backButton = view.findViewById(R.id.back_button);
-        Button loginButton = view.findViewById(R.id.button_login);
-        Button forgotPasswordButton = view.findViewById(R.id.btn_goToForgotPassword);
+        backButton = view.findViewById(R.id.back_button);
+        loginButton = view.findViewById(R.id.button_login);
+        forgotPasswordButton = view.findViewById(R.id.btn_goToForgotPassword);
 
+        backButton.setOnClickListener(this::goToStartup);
+        loginButton.setOnClickListener(this::goToDemoActivity);
+        forgotPasswordButton.setOnClickListener(this::goToForgotPassword);
+    }
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavDirections action = LoginFragmentDirections.actionLoginFragmentToStartupFragment();
-                Navigation.findNavController(view).navigate(action);
-            }
-        });
+    private void goToStartup(View view) {
+        NavDirections action = LoginFragmentDirections.actionLoginFragmentToStartupFragment();
+        Navigation.findNavController(view).navigate(action);
+    }
 
-        loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavDirections action = LoginFragmentDirections.actionLoginFragmentToDemoActivity();
-                Navigation.findNavController(view).navigate(action);
-            }
-        });
+    private void goToDemoActivity(View view) {
+        NavDirections action = LoginFragmentDirections.actionLoginFragmentToDemoActivity();
+        Navigation.findNavController(view).navigate(action);
+    }
 
-        forgotPasswordButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                NavDirections action = LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment();
-                Navigation.findNavController(view).navigate(action);
-            }
-        });
+    private void goToForgotPassword(View view) {
+        NavDirections action = LoginFragmentDirections.actionLoginFragmentToForgotPasswordFragment();
+        Navigation.findNavController(view).navigate(action);
     }
 }
