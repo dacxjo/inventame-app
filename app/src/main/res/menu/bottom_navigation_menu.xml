@@ -11,7 +11,7 @@
         android:icon="@drawable/baseline_shopping_basket_24"
         android:title="@string/basket"/>
     <item
-        android:id="@+id/stockFragment"
+        android:id="@+id/inventoryFragment"
         android:enabled="true"
         android:icon="@drawable/outline_inventory_24"
         android:title="@string/stock"/>

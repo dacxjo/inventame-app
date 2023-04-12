@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="test_placeholder">Test</string>
     <string name="filled_button">Filled</string>
     <string name="outlined_button">Outline</string>
@@ -11,6 +10,9 @@
     <string name="notifications">Notificaciones</string>
     <string name="settings">Ajustes</string>
     <string name="app_name">Inventame</string>
+    <string name="save">Guardar</string>
+
+    <!-- Strings: common -->
     <string name="next">Siguiente</string>
 
     <!-- Strings: common -->
@@ -22,17 +24,6 @@
     <string name="email_placeholder">Correo electrónico</string>
     <string name="forgot_password">¿Has olvidado tu contraseña?</string>
     <string name="welcome_again">¡Bienvenido de nuevo!</string>
-
-    <!-- Strings: forgot_password -->
-    <string name="recover_password">Recuperar contraseña</string>
-    <string name="text_recover">Escribe tu <b>correo electrónico</b> y pulsa en <b>Recuperar</b>.\nTe enviaremos un correo electrónico para poder restaurarla.</string>
-    <string name="recover">Recuperar</string>
-
-    <!-- Strings: startUp -->
-    <string name="title_inventame">INVÉNTAME</string>
-    <string name="register">Registrarse</string>
-    <string name="slogan">Inventar es cosa de todos</string>
-
 
     <!-- Strings: Register -->
     <string name="register_pick_category">Elije una categoria para empezar</string>
@@ -51,5 +42,48 @@
 
     <!-- Strings: Notifications -->
     <string name="notifications_title">Notificaciones</string>
+
+
+    <!-- Strings: forgot_password -->
+    <string name="recover_password">Recuperar contraseña</string>
+    <string name="text_recover">Escribe tu <b>correo electrónico</b> y pulsa en <b>Recuperar</b>.\nTe enviaremos un correo electrónico para poder restaurarla.</string>
+    <string name="recover">Recuperar</string>
+
+    <!-- Strings: startUp -->
+    <string name="title_inventame">INVÉNTAME</string>
+    <string name="register">Registrarse</string>
+    <string name="slogan">Inventar es cosa de todos</string>
+
+    <!-- Strings: product_card -->
+    <string name="product_name_text">Producto</string>
+    <string name="product_stock_text">Stock: X</string>
+
+    <!-- Strings: user_card -->
+    <string name="employee_name_text">Empleado</string>
+
+    <!-- Strings: inventory -->
+    <string name="inventory_search_hint">Buscar producto</string>
+
+    <!-- Strings: inventory_add -->
+    <string name="inventory_add_title">Añadir producto</string>
+    <string name="scanner_button">Escáner</string>
+    <string name="product_image_textfield">Imagen</string>
+    <string name="product_id_textfield">ID</string>
+    <string name="product_name_textfield">Nombre</string>
+    <string name="product_desc_textfield">Descripción</string>
+    <string name="product_price_textfield">Precio</string>
+    <string name="product_stock_textfield">Stock</string>
+    <string name="product_batch_textfield">Lote</string>
+    <string name="product_expiration_textfield">Expiracion</string>
+    <string name="add_product_button">Añadir Producto</string>
+
+    <!-- Strings: employees -->
+    <string name="employee_search_hint">Buscar empleado</string>
+
+    <!-- Strings: employee_add -->
+    <string name="employee_add_title">Añadir Empleado</string>
+    <string name="add_employee_button">Añadir Empleado</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>

@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 //import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Picasso;
 import com.ubpis.inventame.R;
-import com.ubpis.inventame.data.model.Reminder;
+import com.ubpis.inventame.data.model.User;
 
 import java.util.ArrayList;
 
@@ -22,11 +22,11 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         void OnClickHide(int position);
     }
 
-    private ArrayList<Reminder> mUsers;
+    private ArrayList<User> mUsers;
     private OnClickHideListener mOnClickHideListener;
 
     // Constructor
-    public UserCardAdapter(ArrayList<Reminder> userList) {
+    public UserCardAdapter(ArrayList<User> userList) {
         this.mUsers = userList;
     }
 
@@ -38,7 +38,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        View view = inflater.inflate(R.layout.notification_card_layout, parent, false);
+        View view = inflater.inflate(R.layout.user_card_layout, parent, false);
         return new UserCardAdapter.ViewHolder(view);
     }
 
@@ -53,7 +53,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         return mUsers.size();
     }
 
-    public void setUsers(ArrayList<Reminder> users) {
+    public void setUsers(ArrayList<User> users) {
         this.mUsers = users; // no recicla/repinta res
     }
 
@@ -73,22 +73,18 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView mCardPictureUrl;
         private final TextView mCardFullName;
-        private final TextView mCardFullDesc;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            mCardPictureUrl = itemView.findViewById(R.id.product_image);
-            mCardFullName = itemView.findViewById(R.id.product_name);
-            mCardFullDesc = itemView.findViewById(R.id.product_stock);
+            mCardPictureUrl = itemView.findViewById(R.id.employee_image);
+            mCardFullName = itemView.findViewById(R.id.employee_name);
         }
 
-        public void bind(final Reminder user, OnClickHideListener listener) {
-            mCardFullName.setText(user.getNotification());
-            mCardFullDesc.setText(user.getDesc());
+        public void bind(final User user, OnClickHideListener listener) {
+            mCardFullName.setText(user.getName() + " " + user.getSurname());
             Picasso.get().load(user.getmPictureURL()).into(mCardPictureUrl);
 
         }
     }
 
 }
-
