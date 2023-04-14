@@ -1,20 +1,16 @@
 package com.ubpis.inventame.data.model;
 
 public class User {
-
     private String email;
     private String name;
     private String surname;
-    private String pwd;
-    private Integer id_inventame;
-    //private PerfilUsuario perfil;
+    private String mPictureURL; // Url d'Internet, no la foto en si
 
-    public User(String email, String name, String surname, String pwd, Integer id_inventame) {
+    public User(String email, String name, String surname, String pictureURL) {
         this.email = email;
         this.name = name;
         this.surname = surname;
-        this.pwd = pwd;
-        this.id_inventame = id_inventame;
+        this.mPictureURL = pictureURL;
     }
 
     public String getEmail() {
@@ -41,19 +37,16 @@ public class User {
         this.surname = surname;
     }
 
-    public String getPwd() {
-        return pwd;
+
+    public String getmPictureURL() {
+        return mPictureURL;
     }
 
-    public void setPwd(String pwd) {
-        this.pwd = pwd;
+    public void setmPictureURL(String mPictureURL) {
+        this.mPictureURL = mPictureURL;
     }
 
-    public Integer getId_inventame() {
-        return id_inventame;
-    }
-
-    public void setId_inventame(Integer id_inventame) {
-        this.id_inventame = id_inventame;
+    public String getPwd(){
+        return "00000";
     }
 }

@@ -54,7 +54,7 @@ gradle/wrapper/gradle-wrapper.jar
 *.ova
 
 # Firebase files
-google-services.json
+app/google-services.json
 
 # Bazel
 bazel-*

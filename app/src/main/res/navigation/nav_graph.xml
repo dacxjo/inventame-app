@@ -13,8 +13,27 @@
 
     <fragment
         android:id="@+id/employeesFragment"
-        android:name="com.ubpis.inventame.view.fragment.EmployeesFragment"
+        android:name="com.ubpis.inventame.view.fragment.EmployeeFragment"
         android:label="Employees"
-        tools:layout="@layout/fragment_employees" />
+        tools:layout="@layout/fragment_employee" />
+
+
+    <fragment
+        android:id="@+id/inventoryFragment"
+        android:name="com.ubpis.inventame.view.fragment.InventoryFragment"
+        android:label="Inventory"
+        tools:layout="@layout/fragment_inventory" />
+
+    <fragment
+        android:id="@+id/inventoryAddFragment"
+        android:name="com.ubpis.inventame.view.fragment.AddProductDialogFragment"
+        android:label="InventoryAdd"
+        tools:layout="@layout/fragment_add_inventory" />
+
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.ubpis.inventame.view.fragment.NotificationsFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notifications" />
 
 </navigation>
