@@ -26,9 +26,9 @@
 
     <fragment
         android:id="@+id/inventoryAddFragment"
-        android:name="com.ubpis.inventame.view.fragment.AddProductDialogFragment"
+        android:name="com.ubpis.inventame.view.fragment.ProductDialogFragment"
         android:label="InventoryAdd"
-        tools:layout="@layout/fragment_add_inventory" />
+        tools:layout="@layout/fragment_product_form" />
 
     <fragment
         android:id="@+id/notificationsFragment"
