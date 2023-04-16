@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+    android:background="@color/md_theme_light_surface"
     tools:context=".CestaFragment">
 
     <com.google.android.material.search.SearchView
@@ -43,10 +44,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@id/app_bar"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:background="@color/md_theme_light_surface">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/totalItems"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
@@ -55,27 +57,29 @@
                 android:paddingBottom="16dp"
                 android:text="1 item en tu cesta"
                 android:textAlignment="textStart"
-                android:textColor="@color/md_theme_light_onSurfaceVariant"
+                android:textColor="@color/md_theme_light_onSurface"
                 android:textSize="14sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/itemCartList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:dividerInsetStart="16dp"
-                app:dividerInsetEnd="16dp"/>
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recyclerView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="28dp"
+                app:dividerInsetEnd="16dp"
+                app:dividerInsetStart="16dp" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="24dp"
-                android:layout_marginTop="28dp"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:background="@color/md_theme_light_surface" >
 
                 <TextView
                     android:id="@+id/headlineTotal"

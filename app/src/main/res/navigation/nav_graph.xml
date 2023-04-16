@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/cestaFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -16,5 +16,11 @@
         android:name="com.ubpis.inventame.EmployeesFragment"
         android:label="Employees"
         tools:layout="@layout/fragment_employees" />
+
+    <fragment
+        android:id="@+id/cestaFragment"
+        android:name="com.ubpis.inventame.CestaFragment"
+        android:label="Cesta"
+        tools:layout="@layout/fragment_cesta" />
 
 </navigation>

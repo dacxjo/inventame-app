@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/md_theme_light_surface"
     android:gravity="center_vertical">
 
     <RelativeLayout
@@ -10,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
+        android:background="@color/md_theme_light_surface"
         android:orientation="horizontal" >
 
         <ImageView
@@ -29,13 +31,14 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_toRightOf="@id/itemImage"
+            android:background="@color/md_theme_light_surface"
             android:orientation="vertical" >
 
             <TextView
                 android:id="@+id/itemHeadline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
+                android:fontFamily="sans-serif-medium"
                 android:text="Coca-Cola 330 ml"
                 android:textColor="@color/md_theme_light_onSurface"
                 android:textSize="16sp" />
@@ -43,40 +46,45 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/border_quantity_item"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingTop="7dp"
-                android:paddingBottom="7dp" >
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp" >
 
                 <ImageButton
                     android:id="@+id/buttonLessQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center"
-                    android:layout_marginLeft="12dp"
                     android:layout_marginRight="12dp"
-                    android:background="@drawable/ic_remove_20"
-                    android:backgroundTint="#801C1B1F" />
+                    android:background="@drawable/border_card_reader_true"
+                    android:backgroundTint="#F5F5F5"
+                    android:padding="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_remove_20"
+                    app:tint="#CDCDCD"/>
 
                 <TextView
                     android:id="@+id/quantityNumber"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="01"
+                    android:text="1"
                     android:textAlignment="center"
-                    android:textColor="@color/md_theme_light_onSurface"
-                    android:textSize="15sp" />
+                    android:textColor="@color/md_theme_light_onSurfaceVariant"
+                    android:textSize="14sp" />
 
                 <ImageButton
                     android:id="@+id/buttonMoreQuantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
                     android:layout_gravity="center"
                     android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:background="@drawable/ic_add_20"
-                    android:backgroundTint="#000000"/>
+                    android:background="@drawable/border_card_reader_true"
+                    android:backgroundTint="#DBDCDF"
+                    android:padding="5dp"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/ic_add_20"
+                    app:tint="#171A3A"/>
 
             </LinearLayout>
         </LinearLayout>
@@ -89,9 +97,10 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="24dp"
+            android:fontFamily="sans-serif-medium"
             android:text="0,60€"
             android:textColor="@color/md_theme_light_onSurfaceVariant"
-            android:textSize="14sp" />
+            android:textSize="11sp" />
 
     </RelativeLayout>
 </FrameLayout>

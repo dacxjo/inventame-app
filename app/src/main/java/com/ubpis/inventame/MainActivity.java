@@ -23,17 +23,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_cesta);
+        setContentView(R.layout.activity_main);
+
         /*
-
-
         quantity = (TextView) findViewById(R.id.quantityToCharge);
         SpannableString spannableString =  new SpannableString(quantity.getText().toString());
         spannableString.setSpan(new RelativeSizeSpan(1.1875f), 0, 1, 0);
         quantity.setText(spannableString);
          */
     }
-
+    /*
      public void numberPressed(View view){
         Button button = (Button) view;
         digit = Integer.parseInt(button.getText().toString()); // pasa a int el número del boton
@@ -70,4 +69,5 @@ public class MainActivity extends AppCompatActivity {
         quantity.setText(spannableString);
 
     }
+    */
 }
