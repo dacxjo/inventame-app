@@ -21,23 +21,31 @@ public class ProductRepository {
 
     private static final String TAG = "Repository";
 
-    /** Autoinstància, pel patró singleton */
+    /**
+     * Autoinstància, pel patró singleton
+     */
     private static final ProductRepository mInstance = new ProductRepository();
 
-    /** Referència a la Base de Dades */
+    /**
+     * Referència a la Base de Dades
+     */
     private FirebaseFirestore mDb;
 
-    /** Definició de listener (interficie),
-     *  per escoltar quan s'hagin acabat de llegir els usuaris de la BBDD */
+    /**
+     * Definició de listener (interficie),
+     * per escoltar quan s'hagin acabat de llegir els usuaris de la BBDD
+     */
     public interface OnLoadProductsListener {
         void onLoadProducts(ArrayList<Product> products);
     }
 
     public ArrayList<OnLoadProductsListener> mOnLoadProductsListeners = new ArrayList<>();
 
-    /** Definició de listener (interficie)
+    /**
+     * Definició de listener (interficie)
      * per poder escoltar quan s'hagi acabat de llegir la Url de la foto de perfil
-     * d'un usuari concret */
+     * d'un usuari concret
+     */
     public interface OnLoadProductPictureUrlListener {
         void OnLoadProductPictureUrl(String pictureUrl);
     }
@@ -54,6 +62,7 @@ public class ProductRepository {
 
     /**
      * Retorna aqusta instancia singleton
+     *
      * @return
      */
     public static ProductRepository getInstance() {
@@ -64,6 +73,7 @@ public class ProductRepository {
      * Afegir un listener de la operació OnLoadUsersListener.
      * Pot haver-n'hi només un. Fem llista, com a exemple, per demostrar la flexibilitat
      * d'aquest disseny.
+     *
      * @param listener
      */
     public void addOnLoadProductsListener(OnLoadProductsListener listener) {
@@ -74,6 +84,7 @@ public class ProductRepository {
      * Setejem un listener de la operació OnLoadUserPictureUrlListener.
      * En aquest cas, no és una llista de listeners. Només deixem haver-n'hi un,
      * també a tall d'exemple.
+     *
      * @param listener
      */
     public void setOnLoadProductPictureListener(OnLoadProductPictureUrlListener listener) {
@@ -84,7 +95,7 @@ public class ProductRepository {
      * Mètode que llegeix els usuaris. Vindrà cridat des de fora i quan acabi,
      * avisarà sempre als listeners, invocant el seu OnLoadUsers.
      */
-    public void loadProducts(ArrayList<Product> products){
+    public void loadProducts(ArrayList<Product> products) {
         products.clear();
         mDb.collection("products")
                 .get()
@@ -99,12 +110,13 @@ public class ProductRepository {
                                         document.getString("name"),
                                         document.getString("price"),
                                         document.getString("stock"),
-                                        document.getString("picture_url")
+                                        document.getString("picture_url"),
+                                        document.getBoolean("isExpired")
                                 );
                                 products.add(product);
                             }
                             /* Callback listeners */
-                            for (OnLoadProductsListener l: mOnLoadProductsListeners) {
+                            for (OnLoadProductsListener l : mOnLoadProductsListeners) {
                                 l.onLoadProducts(products);
                             }
                         } else {
@@ -142,6 +154,7 @@ public class ProductRepository {
     /**
      * Mètode que afegeix un nou usuari a la base de dades. Utilitzat per la funció
      * de Sign-Up (registre) de la SignUpActivity.
+     *
      * @param id
      * @param name
      * @param price
@@ -177,6 +190,7 @@ public class ProductRepository {
     /**
      * Mètode que guarda la Url d'una foto de perfil que un usuari hagi pujat
      * des de la HomeActivity a la BBDD. Concretament, es cridat pel HomeActivityViewModel.
+     *
      * @param productId
      * @param pictureUrl
      */

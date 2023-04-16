@@ -22,7 +22,7 @@ public class InventoryViewModel extends ViewModel {
         // TODO: Use Firebase to retrieve categories
         ArrayList<Product> testArrayList = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            Product p = new Product(Integer.toString(i + 1), String.format("Prod%s", i + 1), String.format("Desc %s", i + 1), Integer.toString(i + 1), "https://source.unsplash.com/random/?Product&" + i);
+            Product p = new Product(Integer.toString(i + 1), String.format("Prod%s", i + 1), String.format("Desc %s", i + 1), Integer.toString(i + 1), "https://source.unsplash.com/random/?Product&" + i, false);
             testArrayList.add(p);
         }
         this.setProducts(testArrayList);
@@ -32,8 +32,8 @@ public class InventoryViewModel extends ViewModel {
         return products;
     }
 
-    public void setProducts(ArrayList<Product> cats) {
-        products.setValue(cats);
+    public void setProducts(ArrayList<Product> prods) {
+        products.setValue(prods);
     }
 
 }

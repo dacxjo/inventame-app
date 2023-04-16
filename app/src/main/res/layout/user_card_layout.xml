@@ -2,6 +2,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card"
+    android:clickable="true"
+    android:focusable="true"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:layout_width="match_parent"
@@ -11,14 +13,14 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="5dp">
 
         <!-- Employee Picture -->
         <ImageView
             android:id="@+id/employee_image"
-            style="@style/RoundedImageView"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:src="@drawable/outline_people_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"

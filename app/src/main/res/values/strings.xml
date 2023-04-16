@@ -86,4 +86,12 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
 
+    <!-- Strings: Home -->
+    <string name="welcome">Bienvenido</string>
+    <string name="total_value">Valor total</string>
+    <string name="total_products">Productos</string>
+    <string name="total_employees">Empleados</string>
+    <string name="top_three_products">Top 3 productos</string>
+    <string name="share">Share</string>
+
 </resources>

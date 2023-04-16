@@ -24,7 +24,7 @@
             android:paddingStart="6dp"
             android:paddingEnd="16dp"
             app:contentInsetStartWithNavigation="0dp"
-            app:menu="@menu/dialog_menu" />
+         />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -43,104 +43,111 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Bienvenido"
+                android:text="@string/welcome"
+                android:textColor="@color/seed"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                android:textColor="@color/seed"/>
+                android:textStyle="bold" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:clickable="true"
-                app:contentPadding="10dp"
-                app:strokeWidth="0dp"
                 app:cardBackgroundColor="@color/md_theme_dark_secondary"
-                app:checkedIconTint="@color/md_theme_dark_primary">
+                app:checkedIconTint="@color/md_theme_dark_primary"
+                app:contentPadding="10dp"
+                app:strokeWidth="0dp">
 
-               <LinearLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="wrap_content"
-                   android:orientation="vertical">
-                   <TextView
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:text="1.250,00 €"
-                       android:textColor="@android:color/white"
-                       android:textSize="50sp"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
 
-                   <TextView
-                       android:layout_width="match_parent"
-                       android:layout_height="wrap_content"
-                       android:text="Valor total"
-                       android:textColor="@android:color/black" />
-               </LinearLayout>
+                    <TextView
+                        android:id="@+id/total_value"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="0"
+                        android:textColor="@android:color/white"
+                        android:textSize="50sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/total_value"
+                        android:textColor="@android:color/black" />
+                </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="20dp">
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
-                    android:clickable="true"
                     android:layout_marginEnd="20dp"
-                    app:contentPadding="10dp"
-                    app:strokeWidth="0dp"
                     android:layout_weight="1"
+                    android:clickable="true"
                     app:cardBackgroundColor="@color/md_theme_dark_secondary"
-                    app:checkedIconTint="@color/md_theme_dark_primary">
+                    app:checkedIconTint="@color/md_theme_dark_primary"
+                    app:contentPadding="10dp"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:text="1200"
-                            android:layout_weight="1"
-                            android:textColor="@android:color/white"
-                            android:textSize="50sp"/>
 
                         <TextView
-                            android:layout_weight="1"
+                            android:id="@+id/total_products"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Productos"
+                            android:layout_weight="1"
+                            android:text="0"
+                            android:textColor="@android:color/white"
+                            android:textSize="50sp" />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="@string/total_products"
                             android:textColor="@android:color/black" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
+
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="match_parent"
                     android:layout_height="130dp"
-                    android:clickable="true"
-                    app:contentPadding="10dp"
                     android:layout_weight="1"
-                    app:strokeWidth="0dp"
+                    android:clickable="true"
                     app:cardBackgroundColor="@color/md_theme_dark_secondary"
-                    app:checkedIconTint="@color/md_theme_dark_primary">
+                    app:checkedIconTint="@color/md_theme_dark_primary"
+                    app:contentPadding="10dp"
+                    app:strokeWidth="0dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="vertical">
+
                         <TextView
+                            android:id="@+id/total_employees"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="10"
                             android:layout_weight="1"
+                            android:text="0"
                             android:textColor="@android:color/white"
-                            android:textSize="50sp"/>
+                            android:textSize="50sp" />
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Empleados"
                             android:layout_weight="1"
+                            android:text="@string/total_employees"
                             android:textColor="@android:color/black" />
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>
@@ -149,6 +156,56 @@
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/top_three_products"
+                android:textColor="@color/md_theme_light_shadow"
+                android:textSize="20sp"
+                android:textStyle="normal" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/top_three_products_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:overScrollMode="never">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share"
+                android:textColor="@color/md_theme_light_shadow"
+                android:textSize="20sp"
+                android:textStyle="normal" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:background="@drawable/rounded_border">
+                <com.github.mikephil.charting.charts.PieChart
+                    android:id="@+id/share_chart"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp" />
+            </FrameLayout>
+
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="40dp" />
+
         </LinearLayout>
 
 

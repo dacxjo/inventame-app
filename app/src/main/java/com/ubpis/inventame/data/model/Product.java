@@ -13,24 +13,34 @@ public class Product {
     private String mPictureURL;
     private double price;
     private int stock;
+    private boolean isExpired;
+    private boolean shouldShowDescription;
 
-    public Product(String ID, String name, String description, double price, int stock) {
+    public Product(String ID, String name, String description, double price, int stock,boolean isExpired) {
         this.ID = ID;
         this.name = name;
         this.description = description;
         this.price = price;
         this.stock = stock;
+        this.isExpired = isExpired;
     }
 
-    public Product(String ID, String name, String mPrice, String mStock, String mPictureURL) {
+    public Product(String ID, String name, String mPrice, String mStock, String mPictureURL, boolean isExpired) {
         this.ID = ID;
         this.name = name;
         this.mPrice = mPrice;
         this.mStock = mStock;
         this.mPictureURL = mPictureURL;
+        this.isExpired = isExpired;
     }
 
+    public boolean isExpired() {
+        return isExpired;
+    }
 
+    public void setExpired(boolean expired) {
+        isExpired = expired;
+    }
 
     // Getters y setters de atributos
     public String getID() {

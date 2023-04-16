@@ -16,6 +16,8 @@ import com.ubpis.inventame.data.model.User;
 
 import java.util.ArrayList;
 
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
 public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHolder> {
 
     public interface OnClickHideListener {
@@ -81,9 +83,9 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         }
 
         public void bind(final User user, OnClickHideListener listener) {
-            mCardFullName.setText(user.getName() + " " + user.getSurname());
-            Picasso.get().load(user.getmPictureURL()).into(mCardPictureUrl);
-
+            mCardFullName.setText(user.getFullName());
+            Picasso.get().load(user.getmPictureURL()).transform(new RoundedCornersTransformation(50, 0)).fit()
+                    .centerCrop().into(mCardPictureUrl);
         }
     }
 
