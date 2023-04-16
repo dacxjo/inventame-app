@@ -11,10 +11,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 //import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Transformation;
 import com.ubpis.inventame.R;
 import com.ubpis.inventame.data.model.Product;
 
 import java.util.ArrayList;
+
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.ViewHolder> {
 
@@ -24,6 +27,7 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
 
     private ArrayList<Product> mProducts;
     private OnClickHideListener mOnClickHideListener;
+
     public ProductCardAdapter(ArrayList<Product> productList) {
         this.mProducts = productList;
     }
@@ -85,7 +89,13 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
         public void bind(final Product product, OnClickHideListener listener) {
             mCardProductName.setText(product.getName());
             mCardStock.setText(product.getmStock());
-            Picasso.get().load(product.getURL()).into(mCardPictureUrl);
+            Picasso.get().load(product.getURL()).transform(new RoundedCornersTransformation(50, 0)).fit()
+                    .centerCrop().into(mCardPictureUrl);
+            if (product.isExpired()) {
+                mWarningButton.setVisibility(View.VISIBLE);
+            } else {
+                mWarningButton.setVisibility(View.INVISIBLE);
+            }
 
             /*
             mWarningButton.setOnClickListener(new View.OnClickListener() {

@@ -2,7 +2,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/card"
-    android:checkable="true"
     android:clickable="true"
     android:focusable="true"
     android:layout_height="wrap_content"
@@ -14,17 +13,18 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp">
+        android:paddingVertical="16dp"
+        android:paddingHorizontal="5dp">
 
         <!-- Product Image -->
+
         <ImageView
             android:id="@+id/product_image"
-            style="@style/RoundedImageView"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:src="@drawable/baseline_add_24"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:elevation="10dp"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <LinearLayout

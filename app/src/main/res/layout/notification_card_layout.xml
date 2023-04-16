@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:src="@drawable/baseline_circle_notification"
             app:tint="@color/seed"
-
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
@@ -28,11 +27,9 @@
         <!-- Product Image -->
         <ImageView
             android:id="@+id/product_image"
-            style="@style/RoundedImageView"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_marginLeft="16dp"
-
             android:src="@drawable/baseline_add_24"
             app:layout_constraintStart_toEndOf="@id/circle_icon"
             app:layout_constraintTop_toTopOf="parent"

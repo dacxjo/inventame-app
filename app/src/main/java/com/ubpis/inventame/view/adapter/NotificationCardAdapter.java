@@ -16,6 +16,8 @@ import com.ubpis.inventame.data.model.Reminder;
 
 import java.util.ArrayList;
 
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
 public class NotificationCardAdapter extends RecyclerView.Adapter<NotificationCardAdapter.ViewHolder> {
 
     public interface OnClickHideListener {
@@ -84,8 +86,8 @@ public class NotificationCardAdapter extends RecyclerView.Adapter<NotificationCa
         public void bind(final Reminder reminder, OnClickHideListener listener) {
             mCardNotification.setText(reminder.getNotification());
             mCardTime.setText(reminder.getDesc());
-            Picasso.get().load(reminder.getmPictureURL()).into(mCardPictureUrl);
-
+            Picasso.get().load(reminder.getmPictureURL()).transform(new RoundedCornersTransformation(50, 0)).fit()
+                    .centerCrop().into(mCardPictureUrl);
             /*
             mWarningButton.setOnClickListener(new View.OnClickListener() {
                 @Override
