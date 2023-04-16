@@ -50,7 +50,6 @@ public class HomeFragment extends Fragment {
 
 
     public HomeFragment() {
-        // Required empty public constructor
     }
 
     public static HomeFragment newInstance(String param1, String param2) {
@@ -138,7 +137,9 @@ public class HomeFragment extends Fragment {
                 manager.getOrientation());
         topThreeProductsList.setLayoutManager(manager);
         productAdapter = new ProductCardAdapter(
-                mViewModel.getTopThreeProducts().getValue()
+                mViewModel.getTopThreeProducts().getValue(),
+                false,
+                true
         );
         topThreeProductsList.setAdapter(productAdapter);
         topThreeProductsList.addItemDecoration(dividerItemDecoration);

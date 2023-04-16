@@ -16,12 +16,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.search.SearchView;
 import com.ubpis.inventame.R;
-import com.ubpis.inventame.view.adapter.ProductCardAdapter;
 import com.ubpis.inventame.view.adapter.UserCardAdapter;
 import com.ubpis.inventame.viewmodel.EmployeeViewModel;
-import com.ubpis.inventame.viewmodel.InventoryViewModel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,10 +61,12 @@ public class EmployeeFragment extends Fragment {
         userCardAdapter = new UserCardAdapter(
                 ViewModel.getUsers().getValue()
         );
+        userCardAdapter.setOnClickCardListener(this::showEditEmployeeDialog);
         employeeList.setAdapter(userCardAdapter);
 
         SearchView searchView = requireView().findViewById(R.id.search_view);
         BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
+        ExtendedFloatingActionButton fab = getActivity().findViewById(R.id.extended_fab);
         searchView.addTransitionListener((searchView1, previousState, newState) -> {
             if (newState == SearchView.TransitionState.SHOWING) {
                 bottomNav.animate().translationY(bottomNav.getHeight()).setDuration(300).setListener(new AnimatorListenerAdapter() {
@@ -75,10 +76,17 @@ public class EmployeeFragment extends Fragment {
                         bottomNav.setVisibility(View.GONE);
                     }
                 });
+                fab.hide();
             }else if(newState == SearchView.TransitionState.HIDDEN){
                 bottomNav.setVisibility(View.VISIBLE);
                 bottomNav.animate().translationY(0).setDuration(300).setListener(null);
+                fab.show();
             }
         });
+    }
+
+    private void showEditEmployeeDialog(int position){
+        new EmployeeDialogFragment(true).show(
+                getChildFragmentManager(), EmployeeDialogFragment.TAG);
     }
 }

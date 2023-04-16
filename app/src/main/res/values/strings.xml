@@ -66,6 +66,7 @@
 
     <!-- Strings: inventory_add -->
     <string name="inventory_add_title">Añadir producto</string>
+    <string name="inventory_edit_title">Editar producto</string>
     <string name="scanner_button">Escáner</string>
     <string name="product_image_textfield">Imagen</string>
     <string name="product_id_textfield">ID</string>
@@ -76,15 +77,18 @@
     <string name="product_batch_textfield">Lote</string>
     <string name="product_expiration_textfield">Expiracion</string>
     <string name="add_product_button">Añadir Producto</string>
+    <string name="delete_product">Borrar producto</string>
 
     <!-- Strings: employees -->
     <string name="employee_search_hint">Buscar empleado</string>
 
     <!-- Strings: employee_add -->
-    <string name="employee_add_title">Añadir Empleado</string>
-    <string name="add_employee_button">Añadir Empleado</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="employee_add">Añadir Empleado</string>
+    <string name="employee_edit_title">Editar Empleado</string>
+    <string name="employee_name">Nombre</string>
+    <string name="employee_lastname">Apellidos</string>
+    <string name="employee_document">Documento Identidad</string>
+    <string name="employee_delete">Borrar empleado</string>
 
     <!-- Strings: Home -->
     <string name="welcome">Bienvenido</string>

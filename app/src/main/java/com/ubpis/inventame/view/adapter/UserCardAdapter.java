@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 //import com.squareup.picasso.Picasso;
+import com.google.android.material.card.MaterialCardView;
 import com.squareup.picasso.Picasso;
 import com.ubpis.inventame.R;
 import com.ubpis.inventame.data.model.User;
@@ -20,20 +21,20 @@ import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHolder> {
 
-    public interface OnClickHideListener {
-        void OnClickHide(int position);
+    public interface OnClickCardListener {
+        void OnClickCard(int position);
     }
 
     private ArrayList<User> mUsers;
-    private OnClickHideListener mOnClickHideListener;
+    private OnClickCardListener onClickCardListener;
 
     // Constructor
     public UserCardAdapter(ArrayList<User> userList) {
         this.mUsers = userList;
     }
 
-    public void setOnClickHideListener(OnClickHideListener listener) {
-        this.mOnClickHideListener = listener;
+    public void setOnClickCardListener(OnClickCardListener listener) {
+        this.onClickCardListener = listener;
     }
 
     @NonNull
@@ -47,7 +48,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(mUsers.get(position), this.mOnClickHideListener);
+        holder.bind(mUsers.get(position), this.onClickCardListener);
     }
 
     @Override
@@ -76,16 +77,22 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         private final ImageView mCardPictureUrl;
         private final TextView mCardFullName;
 
+        private MaterialCardView card;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             mCardPictureUrl = itemView.findViewById(R.id.employee_image);
             mCardFullName = itemView.findViewById(R.id.employee_name);
+            card = itemView.findViewById(R.id.card);
         }
 
-        public void bind(final User user, OnClickHideListener listener) {
+        public void bind(final User user, OnClickCardListener listener) {
             mCardFullName.setText(user.getFullName());
             Picasso.get().load(user.getmPictureURL()).transform(new RoundedCornersTransformation(50, 0)).fit()
                     .centerCrop().into(mCardPictureUrl);
+            card.setOnClickListener(view -> {
+                listener.OnClickCard(getAdapterPosition());
+            });
         }
     }
 

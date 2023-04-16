@@ -16,10 +16,10 @@
         android:theme="@style/AppTheme"
         tools:targetApi="31">
         <activity
-            android:name=".view.activity.OnboardActivity"
+            android:name=".view.activity.DemoActivity"
             android:exported="false" />
         <activity
-            android:name=".view.activity.DemoActivity"
+            android:name=".view.activity.OnboardActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

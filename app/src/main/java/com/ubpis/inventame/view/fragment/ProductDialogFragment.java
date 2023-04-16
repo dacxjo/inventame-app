@@ -17,7 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-import android.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
@@ -30,34 +30,39 @@ import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.datepicker.MaterialDatePicker;
-import com.google.android.material.datepicker.MaterialPickerOnPositiveButtonClickListener;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.divider.MaterialDivider;
 import com.squareup.picasso.Picasso;
 import com.ubpis.inventame.R;
 
 
 import java.util.Date;
 
-public class AddProductDialogFragment extends DialogFragment {
+public class ProductDialogFragment extends DialogFragment {
 
     private MaterialCardView productPicker;
     private ImageView productImage;
-    private Button scannerButton;
-    private EditText productIdEditText;
-    private EditText productNameEditText;
-    private EditText productDescriptionEditText;
-    private EditText productPriceEditText;
-    private EditText productStockEditText;
-    private EditText productBatchEditText;
-    private EditText productExpirationEditText;
+    private Button scannerButton, deleteButton;
+    private EditText productIdEditText, productNameEditText, productDescriptionEditText, productPriceEditText, productStockEditText, productBatchEditText, productExpirationEditText;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
     private ActivityResultLauncher<Intent> takePictureLauncher;
     private ActivityResultLauncher<String> requestPermissionLauncher;
     private AlertDialog dialog;
-
     public static String TAG = "AddProductDialog";
-
     private Toolbar toolbar;
+
+    private MaterialDivider divider;
+    private boolean isEdit;
+
+
+    public ProductDialogFragment() {
+        this.isEdit = false;
+    }
+
+    public ProductDialogFragment(boolean isEdit) {
+        this.isEdit = isEdit;
+    }
+
 
     @Override
     public void onStart() {
@@ -87,6 +92,8 @@ public class AddProductDialogFragment extends DialogFragment {
         productPicker = view.findViewById(R.id.productPicker);
         productImage = view.findViewById(R.id.product_image);
         scannerButton = view.findViewById(R.id.scanner_button);
+        deleteButton = view.findViewById(R.id.delete_button);
+        divider = view.findViewById(R.id.divider);
 
         productIdEditText = view.findViewById(R.id.product_id_textfield);
         productNameEditText = view.findViewById(R.id.product_name_textfield);
@@ -99,6 +106,7 @@ public class AddProductDialogFragment extends DialogFragment {
         productPicker.setOnClickListener(v -> showProductPickerChoices());
         scannerButton.setOnClickListener(v -> launchScanner());
         productExpirationEditText.setOnClickListener(v -> showDatePicker());
+        handleEdit();
     }
 
     @Nullable
@@ -137,7 +145,7 @@ public class AddProductDialogFragment extends DialogFragment {
                 }
         );
 
-        return inflater.inflate(R.layout.fragment_add_inventory, container, false);
+        return inflater.inflate(R.layout.fragment_product_form, container, false);
     }
 
     private void launchScanner() {
@@ -152,16 +160,12 @@ public class AddProductDialogFragment extends DialogFragment {
                         .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                         .build();
 
-        datePicker.addOnPositiveButtonClickListener(new MaterialPickerOnPositiveButtonClickListener<Long>() {
-            @Override
-            public void onPositiveButtonClick(Long selectedDate) {
-                // Convert the selected date to a formatted string
-                SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
-                String dateString = sdf.format(new Date(selectedDate));
-
-                // Set the selected date string to the textfield
-                productExpirationEditText.setText(dateString);
-            }
+        datePicker.addOnPositiveButtonClickListener(selectedDate -> {
+            // Convert the selected date to a formatted string
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            String dateString = sdf.format(new Date(selectedDate));
+            // Set the selected date string to the textfield
+            productExpirationEditText.setText(dateString);
         });
 
         datePicker.show(getParentFragmentManager(), "Expiration Date");
@@ -202,6 +206,15 @@ public class AddProductDialogFragment extends DialogFragment {
     private void launchCameraIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         takePictureLauncher.launch(takePictureIntent);
+    }
+
+    private void handleEdit(){
+        if(this.isEdit){
+            deleteButton.setVisibility(View.VISIBLE);
+            divider.setVisibility(View.GONE);
+            scannerButton.setVisibility(View.GONE);
+            toolbar.setTitle(R.string.inventory_edit_title);
+        }
     }
 
 }

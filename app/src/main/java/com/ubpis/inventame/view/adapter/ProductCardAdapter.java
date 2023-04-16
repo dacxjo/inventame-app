@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 //import com.squareup.picasso.Picasso;
+import com.google.android.material.card.MaterialCardView;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Transformation;
 import com.ubpis.inventame.R;
@@ -21,19 +22,31 @@ import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.ViewHolder> {
 
-    public interface OnClickHideListener {
-        void OnClickHide(int position);
+    public interface OnClickCardListener {
+        void OnClickCard(int position);
     }
 
     private ArrayList<Product> mProducts;
-    private OnClickHideListener mOnClickHideListener;
+    private boolean enableListener;
+
+    private boolean hideStock;
+    private OnClickCardListener clickCardListener;
+
 
     public ProductCardAdapter(ArrayList<Product> productList) {
         this.mProducts = productList;
+        this.enableListener = true;
+        this.hideStock = false;
     }
 
-    public void setOnClickHideListener(OnClickHideListener listener) {
-        this.mOnClickHideListener = listener;
+    public ProductCardAdapter(ArrayList<Product> productList, boolean enableListener, boolean hideStock) {
+        this.mProducts = productList;
+        this.enableListener = enableListener;
+        this.hideStock = hideStock;
+    }
+
+    public void setOnClickCardListener(OnClickCardListener listener) {
+        this.clickCardListener = listener;
     }
 
     @NonNull
@@ -47,7 +60,7 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
     /* Method called for every ViewHolder in RecyclerView */
     @Override
     public void onBindViewHolder(@NonNull ProductCardAdapter.ViewHolder holder, int position) {
-        holder.bind(mProducts.get(position), this.mOnClickHideListener);
+        holder.bind(mProducts.get(position), this.clickCardListener, this.enableListener,this.hideStock);
     }
 
     @Override
@@ -77,6 +90,7 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
         private final TextView mCardProductName;
         private final TextView mCardStock;
         private final ImageView mWarningButton;
+        private MaterialCardView card;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -84,9 +98,10 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
             mCardProductName = itemView.findViewById(R.id.product_name);
             mCardStock = itemView.findViewById(R.id.product_stock);
             mWarningButton = itemView.findViewById(R.id.warning_icon);
+            card = itemView.findViewById(R.id.card);
         }
 
-        public void bind(final Product product, OnClickHideListener listener) {
+        public void bind(final Product product, OnClickCardListener listener, boolean enableListener,boolean hideStock){
             mCardProductName.setText(product.getName());
             mCardStock.setText(product.getmStock());
             Picasso.get().load(product.getURL()).transform(new RoundedCornersTransformation(50, 0)).fit()
@@ -96,17 +111,14 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
             } else {
                 mWarningButton.setVisibility(View.INVISIBLE);
             }
-
-            /*
-            mWarningButton.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View view) {
-                    listener.OnClickHide(getAdapterPosition());
-                }
-            });
-            */
-
+            if(hideStock){
+                mCardStock.setVisibility(View.GONE);
+            }
+            if(enableListener){
+                card.setOnClickListener(view -> {
+                    listener.OnClickCard(getAdapterPosition());
+                });
+            }
         }
     }
 }
