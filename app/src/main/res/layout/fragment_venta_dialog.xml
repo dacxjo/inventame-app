@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#EFF1F2"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp"
+    tools:context=".VentaDialogFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/app_bar"
+        android:orientation="vertical"
+        android:gravity="center|top">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/topAppBar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="Venta: #00001"
+                app:navigationIcon="@drawable/ic_close_24" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <TextView
+            android:id="@+id/infoVenta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="16dp"
+            android:text="Realizada por: Nombre\nFecha: 27-03-2023"
+            android:textAlignment="textStart"
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="@color/md_theme_light_onSurfaceVariant" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/itemCartList"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="28dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/headlineTotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/totalPrice"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:layout_marginBottom="25dp"
+                android:text="TOTAL"
+                android:textColor="@color/md_theme_light_onSurfaceVariant"
+
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/totalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="25dp"
+                android:text="0,00€"
+                android:textColor="@color/md_theme_light_onSurface"
+                android:textSize="26sp" />
+
+            <TextView
+                android:id="@+id/headlineSubtotal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/headlineTotal"
+                android:layout_alignParentLeft="true"
+                android:text="Subtotal"
+                android:textColor="@color/md_theme_light_onSurface"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/subtotalPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/totalPrice"
+                android:layout_alignParentRight="true"
+                android:text="0,00€"
+                android:textColor="@color/md_theme_light_onSurfaceVariant"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/headlineIVA"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/headlineSubtotal"
+                android:layout_alignParentLeft="true"
+                android:text="IVA (21%)"
+                android:textColor="@color/md_theme_light_onSurface"
+                android:textSize="15sp" />
+
+            <TextView
+                android:id="@+id/IVAPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/subtotalPrice"
+                android:layout_alignParentRight="true"
+                android:text="0,00€"
+                android:textColor="@color/md_theme_light_onSurfaceVariant"
+                android:textSize="15sp" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
