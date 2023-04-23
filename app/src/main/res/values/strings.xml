@@ -98,4 +98,7 @@
     <string name="top_three_products">Top 3 productos</string>
     <string name="share">Share</string>
 
+    <!-- Strings: Form Validation -->
+    <string name="form_validation_required">*Requerido</string>
+
 </resources>

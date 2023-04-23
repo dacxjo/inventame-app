@@ -9,6 +9,15 @@ public class Category {
 
     private boolean isSelected;
 
+
+    public Category(String id, String title, String desc, String img) {
+        this.id = id;
+        this.title = title;
+        this.description = desc;
+        this.img = img;
+        this.isSelected = false;
+    }
+
     public Category(String id, String title, String desc, String img, boolean isSelected) {
         this.id = id;
         this.title = title;

@@ -94,7 +94,9 @@
                     android:hint="@string/register_company_name"
                     android:textColor="@color/seed"
                     app:boxStrokeColor="@color/seed"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    app:helperText="@string/form_validation_required"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/company_name"
@@ -112,7 +114,8 @@
                     android:hint="@string/register_desc"
                     android:textColor="@color/seed"
                     app:boxStrokeColor="@color/seed"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    >
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/company_desc"
@@ -131,7 +134,8 @@
                     android:hint="@string/register_cif"
                     android:textColor="@color/seed"
                     app:boxStrokeColor="@color/seed"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    app:helperText="@string/form_validation_required">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/company_cif"
@@ -150,7 +154,8 @@
                     android:hint="@string/register_email"
                     android:textColor="@color/seed"
                     app:boxStrokeColor="@color/seed"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    app:helperText="@string/form_validation_required">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/company_email"
@@ -171,7 +176,8 @@
                     android:textColor="@color/seed"
                     app:boxStrokeColor="@color/seed"
                     app:endIconMode="password_toggle"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    app:helperText="@string/form_validation_required">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/company_password"
@@ -192,7 +198,8 @@
                     android:textColor="@color/seed"
                     app:boxStrokeColor="@color/seed"
                     app:endIconMode="password_toggle"
-                    app:errorEnabled="true">
+                    app:errorEnabled="true"
+                    app:helperText="@string/form_validation_required">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/company_password_confirm"
@@ -202,6 +209,10 @@
                         android:maxLines="1" />
 
                 </com.google.android.material.textfield.TextInputLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="20dp"    />
 
                 <Button
                     android:id="@+id/registerBtn"

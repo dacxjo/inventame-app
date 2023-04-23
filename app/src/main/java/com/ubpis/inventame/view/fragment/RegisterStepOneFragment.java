@@ -9,6 +9,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -19,6 +20,8 @@ import com.ubpis.inventame.R;
 import com.ubpis.inventame.data.model.Category;
 import com.ubpis.inventame.view.adapter.CategoryAdapter;
 import com.ubpis.inventame.viewmodel.RegisterStepOneViewModel;
+
+import java.util.ArrayList;
 
 public class RegisterStepOneFragment extends Fragment {
 
@@ -56,6 +59,10 @@ public class RegisterStepOneFragment extends Fragment {
         );
         categoryAdapter.setOnClickCardListener(this::onClickRegisterCard);
         categoryList.setAdapter(categoryAdapter);
+
+        final Observer<ArrayList<Category>> observerCategories = categories -> categoryAdapter.notifyDataSetChanged();
+        mViewModel.getCategories().observe(this.getViewLifecycleOwner(), observerCategories);
+        mViewModel.loadCategoriesFromRepository();
 
         backButton.setOnClickListener(this::goBack);
 

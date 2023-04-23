@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.ubpis.inventame.data.model.Category;
+import com.ubpis.inventame.data.repository.CategoryRepository;
 
 import java.util.ArrayList;
 
@@ -12,18 +13,13 @@ public class RegisterStepOneViewModel extends ViewModel {
 
     private final MutableLiveData<ArrayList<Category>> categories;
 
+    private final CategoryRepository categoryRepository;
+
     public RegisterStepOneViewModel() {
 
         categories = new MutableLiveData<>(new ArrayList<>());
-
-        // TODO: Remove this, is just for testing purposes
-        // TODO: Use Firebase to retrieve categories
-        ArrayList<Category> testArrayList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            Category c = new Category(Integer.toString(i + 1), String.format("Cat%s", i + 1), String.format("Desc %s", i + 1), "https://source.unsplash.com/random/?Product&" + i, false);
-            testArrayList.add(c);
-        }
-        this.setCategories(testArrayList);
+        categoryRepository = CategoryRepository.getInstance();
+        categoryRepository.addOnLoadCategoriesListener(categories -> setCategories(categories));
     }
 
     public Category checkCategoryByPosition(int position) {
@@ -46,5 +42,9 @@ public class RegisterStepOneViewModel extends ViewModel {
 
     public void setCategories(ArrayList<Category> cats) {
         categories.setValue(cats);
+    }
+
+    public void loadCategoriesFromRepository() {
+        categoryRepository.getCategories(categories.getValue());
     }
 }
