@@ -55,6 +55,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
+                android:id="@+id/emailTextField"
                 android:layout_height="wrap_content"
                 android:hint="@string/email_placeholder"
                 android:textColor="@color/seed"
@@ -63,6 +64,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
+                    android:id="@+id/email"
                     android:layout_height="wrap_content"
                     android:inputType="textEmailAddress"
                     android:maxLines="1" />
@@ -71,7 +73,9 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:hint="@string/password_placeholder"
+                android:id="@+id/passwordTextField"
                 android:textColor="@color/seed"
                 app:boxStrokeColor="@color/seed"
                 app:endIconMode="password_toggle"
@@ -79,6 +83,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="match_parent"
+                    android:id="@+id/password"
                     android:layout_height="wrap_content"
                     android:inputType="textPassword"
                     android:maxLines="1" />
@@ -87,7 +92,7 @@
 
 
             <Button
-                android:id="@+id/btn_goToForgotPassword"
+                android:id="@+id/btnGoToForgotPassword"
                 style="@style/Widget.Material3.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

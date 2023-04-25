@@ -40,8 +40,8 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left" />
         <action
-            android:id="@+id/action_loginFragment_to_demoActivity"
-            app:destination="@id/demoActivity" />
+            android:id="@+id/action_loginFragment_to_mainActivity"
+            app:destination="@id/mainActivity" />
     </fragment>
 
     <fragment
@@ -86,18 +86,23 @@
             android:name="selectedCategory"
             app:argType="string" />
         <action
-            android:id="@+id/action_registerStepTwo_to_demoActivity"
-            app:destination="@id/demoActivity"
+            android:id="@+id/action_registerStepTwo_to_mainActivity"
+            app:destination="@id/mainActivity"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:launchSingleTop="true"
-            app:popUpTo="@+id/demoActivity"
+            app:popUpTo="@+id/mainActivity"
             app:popUpToInclusive="true" />
     </fragment>
 
     <activity
-        android:id="@+id/demoActivity"
-        android:name="com.ubpis.inventame.view.activity.DemoActivity"
-        android:label="DemoActivity" />
+        android:id="@+id/mainActivity"
+        android:name="com.ubpis.inventame.view.activity.MainActivity"
+        android:label="MainActivity" />
+
+    <action
+        android:id="@+id/action_global_mainActivity"
+        app:destination="@id/mainActivity"
+       />
 
 </navigation>

@@ -7,26 +7,29 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
+import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.ubpis.inventame.R;
 import com.ubpis.inventame.view.fragment.EmployeeDialogFragment;
 import com.ubpis.inventame.view.fragment.ProductDialogFragment;
 
-public class DemoActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
     ExtendedFloatingActionButton fab;
     NavigationBarView bottomNav;
-
     NavHostFragment navHostFragment;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_demo);
+        setContentView(R.layout.activity_main);
+        auth = FirebaseAuth.getInstance();
         fab = findViewById(R.id.extended_fab);
         fab.setExtended(false);
         bottomNav = findViewById(R.id.bottom_navigation);
@@ -35,32 +38,42 @@ public class DemoActivity extends AppCompatActivity {
         NavController navController = navHostFragment.getNavController();
         navController.addOnDestinationChangedListener(this::setupFab);
         NavigationUI.setupWithNavController(bottomNav, navController);
+        navController.addOnDestinationChangedListener((controller, navDestination, bundle) -> {
+            // If user is not logged in (all fragments of this scope), go to startup
+            if (auth.getCurrentUser() == null) {
+                this.goToStartup(controller);
+            }
+        });
     }
 
     private void setupFab(@NonNull NavController navController, @NonNull NavDestination destination, @Nullable Bundle bundle) {
         if (destination.getId() == R.id.homeFragment || destination.getId() == R.id.notificationsFragment) {
             fab.hide();
-        }else if (destination.getId() == R.id.inventoryFragment){
-           showFabNicely();
+        } else if (destination.getId() == R.id.inventoryFragment) {
+            showFabNicely();
             fab.setOnClickListener(view -> new ProductDialogFragment().show(
                     navHostFragment.getParentFragmentManager(), ProductDialogFragment.TAG));
-        }else if(destination.getId() == R.id.employeesFragment){
+        } else if (destination.getId() == R.id.employeesFragment) {
             showFabNicely();
-            fab.setOnClickListener(view ->  new EmployeeDialogFragment().show(
+            fab.setOnClickListener(view -> new EmployeeDialogFragment().show(
                     navHostFragment.getParentFragmentManager(), EmployeeDialogFragment.TAG));
-        }else {
-           showFabNicely();
+        } else {
+            showFabNicely();
         }
     }
 
-    private void showFabNicely(){
+    private void showFabNicely() {
         if (!fab.isShown()) {
             fab.postDelayed(() -> fab.show(), 200);
-        }
-        else {
+        } else {
             fab.hide();
             fab.postDelayed(() -> fab.show(), 200);
         }
+    }
+
+    private void goToStartup(NavController controller) {
+        NavDirections action = OnboardActivityDirections.actionGlobalOnBoardActivity();
+        controller.navigate(action);
     }
 
 }

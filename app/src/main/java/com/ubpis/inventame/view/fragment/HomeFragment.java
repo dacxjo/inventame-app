@@ -7,12 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.appcompat.widget.Toolbar;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.NavDirections;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,8 +23,10 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
-import com.google.protobuf.Value;
+import com.google.firebase.auth.FirebaseAuth;
 import com.ubpis.inventame.R;
+import com.ubpis.inventame.databinding.FragmentHomeBinding;
+import com.ubpis.inventame.view.activity.OnboardActivityDirections;
 import com.ubpis.inventame.view.adapter.ProductCardAdapter;
 import com.ubpis.inventame.viewmodel.HomeViewModel;
 
@@ -47,6 +50,8 @@ public class HomeFragment extends Fragment {
     private PieChart shareChart;
     private Toolbar toolbar;
     private TextView totalProducts, totalEmployees, totalValue;
+    private FragmentHomeBinding binding;
+    private FirebaseAuth auth;
 
 
     public HomeFragment() {
@@ -62,12 +67,15 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_home, container, false);
+        binding =  FragmentHomeBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        auth = FirebaseAuth.getInstance();
         mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         topThreeProductsList = view.findViewById(R.id.top_three_products_list);
         toolbar = view.findViewById(R.id.toolbar);
@@ -75,6 +83,13 @@ public class HomeFragment extends Fragment {
         setupTopThreeProductsList();
         setupShareChart(view);
         setupCounters(view);
+        binding.toolbar.setNavigationOnClickListener(this::logout);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
     }
 
     private void setupCounters(View view) {
@@ -143,5 +158,11 @@ public class HomeFragment extends Fragment {
         );
         topThreeProductsList.setAdapter(productAdapter);
         topThreeProductsList.addItemDecoration(dividerItemDecoration);
+    }
+
+    private void logout(View view){
+        auth.signOut();
+        NavDirections action = OnboardActivityDirections.actionGlobalOnBoardActivity();
+        Navigation.findNavController(view).navigate(action);
     }
 }

@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -27,7 +26,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.squareup.picasso.Picasso;
 import com.ubpis.inventame.R;
@@ -103,6 +101,11 @@ public class RegisterStepTwoFragment extends Fragment {
         binding.logoPicker.setOnClickListener(v -> showLogoPickerChoices());
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 
     private void goBack(View view) {
         NavDirections action = RegisterStepTwoFragmentDirections.actionRegisterStepTwoToRegisterStepOne();
@@ -110,7 +113,7 @@ public class RegisterStepTwoFragment extends Fragment {
     }
 
     private void goToDashboard(View view) {
-        NavDirections action = RegisterStepTwoFragmentDirections.actionRegisterStepTwoToDemoActivity();
+        NavDirections action = RegisterStepTwoFragmentDirections.actionRegisterStepTwoToMainActivity();
         Navigation.findNavController(view).navigate(action);
     }
 
