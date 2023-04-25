@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/cestaFragment">
+    app:startDestination="@id/ventaDialogFragment">
 
     <fragment
         android:id="@+id/homeFragment"
@@ -12,15 +12,15 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/employeesFragment"
-        android:name="com.ubpis.inventame.EmployeesFragment"
-        android:label="Employees"
-        tools:layout="@layout/fragment_employees" />
+        android:id="@+id/ventaDialogFragment"
+        android:name="com.ubpis.inventame.VentaDialogFragment"
+        android:label="Venta Dialog"
+        tools:layout="@layout/fragment_venta_dialog" />
 
     <fragment
-        android:id="@+id/cestaFragment"
-        android:name="com.ubpis.inventame.CestaFragment"
-        android:label="Cesta"
-        tools:layout="@layout/fragment_cesta" />
+        android:id="@+id/ventasFragment"
+        android:name="com.ubpis.inventame.VentasFragment"
+        android:label="Ventas"
+        tools:layout="@layout/fragment_ventas" />
 
 </navigation>

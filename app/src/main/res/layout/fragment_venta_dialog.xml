@@ -2,32 +2,38 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFF1F2"
-    android:paddingLeft="24dp"
-    android:paddingRight="24dp"
     tools:context=".VentaDialogFragment">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#EFF1F2" >
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/topAppBar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:paddingEnd="16dp"
+            app:menu="@menu/venta_app_bar"
+            app:navigationIcon="@drawable/ic_close_24"
+            app:navigationIconTint="@color/md_theme_light_onSurface"
+            app:title="Venta: #00001"
+            app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge" />
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/app_bar"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:orientation="vertical"
-        android:gravity="center|top">
-
-        <com.google.android.material.appbar.AppBarLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.appbar.MaterialToolbar
-                android:id="@+id/topAppBar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:title="Venta: #00001"
-                app:navigationIcon="@drawable/ic_close_24" />
-
-        </com.google.android.material.appbar.AppBarLayout>
+        android:paddingLeft="24dp"
+        android:paddingRight="24dp" >
 
         <TextView
             android:id="@+id/infoVenta"
@@ -66,7 +72,6 @@
                 android:layout_marginBottom="25dp"
                 android:text="TOTAL"
                 android:textColor="@color/md_theme_light_onSurfaceVariant"
-
                 android:textSize="16sp" />
 
             <TextView
@@ -120,6 +125,20 @@
                 android:textSize="15sp" />
 
         </RelativeLayout>
-
     </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        style="?attr/extendedFloatingActionButtonSurfaceStyle"
+        android:id="@+id/deleteSaleFABButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="100dp"
+        android:layout_gravity="center|bottom"
+        app:backgroundTint="?attr/colorErrorContainer"
+        android:text="Eliminar venta"
+        android:textColor="?attr/colorError"
+        app:icon="@drawable/ic_delete_24"
+        app:iconTint="?attr/colorError"
+        app:rippleColor="?attr/colorOnErrorContainer"/>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
