@@ -52,8 +52,8 @@ public class NotificationCardAdapter extends RecyclerView.Adapter<NotificationCa
         return mReminder.size();
     }
 
-    public void setUsers(ArrayList<Reminder> remind) {
-        this.mReminder = remind; // no recicla/repinta res
+    public void setUsers(ArrayList<Reminder> reminders) {
+        this.mReminder = reminders; // no recicla/repinta res
     }
 
     public void updateProducts() {
