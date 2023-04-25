@@ -26,8 +26,8 @@ import com.ubpis.inventame.viewmodel.NotificationsViewModel;
 public class NotificationsFragment extends Fragment {
 
     private NotificationsViewModel ViewModel;
-    private RecyclerView productList;
-    private NotificationCardAdapter productCardAdapter;
+    private RecyclerView nList;
+    private NotificationCardAdapter notificationCardAdapter;
 
     public static NotificationsFragment newInstance() {
         return new NotificationsFragment();
@@ -50,19 +50,19 @@ public class NotificationsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ViewModel = new ViewModelProvider(this).get(NotificationsViewModel.class);
-        productList = view.findViewById(R.id.notificationList);
+        nList = view.findViewById(R.id.notificationList);
         LinearLayoutManager manager = new LinearLayoutManager(
                 this.getContext(), LinearLayoutManager.VERTICAL, false
         );
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(productList.getContext(),
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(nList.getContext(),
                 manager.getOrientation());
-        productList.addItemDecoration(dividerItemDecoration);
+        nList.addItemDecoration(dividerItemDecoration);
 
-        productList.setLayoutManager(manager);
-        productCardAdapter = new NotificationCardAdapter(
+        nList.setLayoutManager(manager);
+        notificationCardAdapter = new NotificationCardAdapter(
                 ViewModel.getUsers().getValue()
         );
-        productList.setAdapter(productCardAdapter);
+        nList.setAdapter(notificationCardAdapter);
     }
 }
