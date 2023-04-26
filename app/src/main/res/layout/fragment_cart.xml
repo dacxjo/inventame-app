@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
     android:background="@color/md_theme_light_surface"
-    tools:context=".CestaFragment">
+    tools:context=".CartFragment">
 
     <com.google.android.material.search.SearchView
         android:id="@+id/search_view"
@@ -155,7 +155,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:text="Nueva venta"
+        android:text="Cobrar"
         app:icon="@drawable/ic_shopping_cart_checkout_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

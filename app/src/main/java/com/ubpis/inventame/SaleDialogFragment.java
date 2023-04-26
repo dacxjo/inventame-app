@@ -10,10 +10,10 @@ import android.view.ViewGroup;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link VentaDialogFragment#newInstance} factory method to
+ * Use the {@link SaleDialogFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class VentaDialogFragment extends Fragment {
+public class SaleDialogFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,7 +24,7 @@ public class VentaDialogFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public VentaDialogFragment() {
+    public SaleDialogFragment() {
         // Required empty public constructor
     }
 
@@ -37,8 +37,8 @@ public class VentaDialogFragment extends Fragment {
      * @return A new instance of fragment VentaDialogFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static VentaDialogFragment newInstance(String param1, String param2) {
-        VentaDialogFragment fragment = new VentaDialogFragment();
+    public static SaleDialogFragment newInstance(String param1, String param2) {
+        SaleDialogFragment fragment = new SaleDialogFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -59,6 +59,6 @@ public class VentaDialogFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_venta_dialog, container, false);
+        return inflater.inflate(R.layout.fragment_sale_dialog, container, false);
     }
 }

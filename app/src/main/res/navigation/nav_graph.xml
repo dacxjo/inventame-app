@@ -13,14 +13,14 @@
 
     <fragment
         android:id="@+id/ventaDialogFragment"
-        android:name="com.ubpis.inventame.VentaDialogFragment"
+        android:name="com.ubpis.inventame.SaleDialogFragment"
         android:label="Venta Dialog"
-        tools:layout="@layout/fragment_venta_dialog" />
+        tools:layout="@layout/fragment_sale_dialog" />
 
     <fragment
         android:id="@+id/ventasFragment"
-        android:name="com.ubpis.inventame.VentasFragment"
+        android:name="com.ubpis.inventame.SalesFragment"
         android:label="Ventas"
-        tools:layout="@layout/fragment_ventas" />
+        tools:layout="@layout/fragment_sales" />
 
 </navigation>

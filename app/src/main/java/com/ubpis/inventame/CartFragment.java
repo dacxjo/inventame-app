@@ -1,7 +1,5 @@
 package com.ubpis.inventame;
 
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.ubpis.inventame.data.model.CartItem;
@@ -21,11 +18,11 @@ import com.ubpis.inventame.view.adapter.ItemAdapter;
 
 import java.util.ArrayList;
 
-public class CestaFragment extends Fragment {
+public class CartFragment extends Fragment {
     private RecyclerView itemCartList;
     private ItemAdapter itemAdapter;
 
-    public CestaFragment() {
+    public CartFragment() {
         // Required empty public constructor
     }
 
@@ -38,8 +35,8 @@ public class CestaFragment extends Fragment {
      * @return A new instance of fragment Cesta.
      */
     // TODO: Rename and change types and number of parameters
-    public static CestaFragment newInstance(String param1, String param2) {
-        CestaFragment fragment = new CestaFragment();
+    public static CartFragment newInstance(String param1, String param2) {
+        CartFragment fragment = new CartFragment();
         return fragment;
     }
 
@@ -54,7 +51,7 @@ public class CestaFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_cesta, container, false);
+        return inflater.inflate(R.layout.fragment_cart, container, false);
     }
 
     @Override

@@ -17,7 +17,6 @@ import com.ubpis.inventame.R;
 import com.ubpis.inventame.data.model.CartItem;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
 
@@ -31,7 +30,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
     @Override
     public ItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.cesta_row_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.cart_row_item, parent, false);
         return new ItemAdapter.ViewHolder(view);
     }
 
