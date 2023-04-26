@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
@@ -17,12 +19,17 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.ubpis.inventame.databinding.FragmentLoginBinding;
+import com.ubpis.inventame.viewmodel.LoginViewModel;
+
+import java.util.Map;
 
 public class LoginFragment extends Fragment {
 
 
     private FirebaseAuth auth;
     private FragmentLoginBinding binding;
+    private LoginViewModel mViewModel;
+
     public static LoginFragment newInstance() {
         return new LoginFragment();
     }
@@ -32,6 +39,15 @@ public class LoginFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         auth = FirebaseAuth.getInstance();
         binding = FragmentLoginBinding.inflate(inflater, container, false);
+        mViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
+        mViewModel.errorMessages.observe(getViewLifecycleOwner(), (Observer<? super Map<String, Integer>>) errors -> {
+            if (errors == null) {
+                return;
+            }
+            binding.emailTextField.setError(getContext().getString(errors.get("email")));
+            binding.passwordTextField.setError(getContext().getString(errors.get("password")));
+        });
+        binding.setViewModel(mViewModel);
         View view = binding.getRoot();
         return view;
     }
@@ -62,6 +78,9 @@ public class LoginFragment extends Fragment {
 
     private void login(String username, String password) {
         resetFormState();
+        if (!mViewModel.validateFields(username, password)) {
+            return;
+        }
         auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Log.d("LoginFragment", "signInWithEmail:success");

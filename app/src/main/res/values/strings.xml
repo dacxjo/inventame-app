@@ -100,5 +100,6 @@
 
     <!-- Strings: Form Validation -->
     <string name="form_validation_required">*Requerido</string>
+    <string name="form_validation_email">Email no válido</string>
 
 </resources>
