@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#EFF1F2"
-    tools:context=".SaleDialogFragment">
+    tools:context=".view.fragment.SaleDialogFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -15,7 +15,7 @@
         android:background="#EFF1F2" >
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/topAppBar"
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:paddingEnd="16dp"
@@ -39,12 +39,12 @@
             android:id="@+id/infoVenta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="center|start"
             android:paddingBottom="16dp"
             android:text="Realizada por: Nombre\nFecha: 27-03-2023"
-            android:textAlignment="textStart"
             android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
-            android:textColor="@color/md_theme_light_onSurfaceVariant" />
+            android:textColor="@color/md_theme_light_onSurfaceVariant"
+            />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/itemCartList"
