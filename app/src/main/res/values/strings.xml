@@ -1,24 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="test_placeholder">Test</string>
-    <string name="password_placeholder">Password</string>
     <string name="filled_button">Filled</string>
     <string name="outlined_button">Outline</string>
     <string name="home">Inicio</string>
+    <string name="basket">Cesta</string>
     <string name="stock">Inventario</string>
     <string name="employees">Empleados</string>
+    <string name="notifications">Notificaciones</string>
     <string name="settings">Ajustes</string>
     <string name="app_name">Inventame</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="save">Guardar</string>
 
-    <!-- Checkout activity -->
-    <string name="title_activity_checkout">CheckoutActivity</string>
-    <string name="checkout_item_description">Description</string>
-    <string name="googlepay_status_unavailable" translatable="false">Unfortunately, Google Pay is
-        not available on this phone.
-    </string>
-    <string name="payments_show_name" translatable="false">Successfully received payment data for
-        %s!
-    </string>
+    <!-- Strings: common -->
+    <string name="next">Siguiente</string>
+
+    <!-- Strings: common -->
+    <string name="common_cancel">Cancelar</string>
+
+    <!-- Strings: login -->
+    <string name="title_login">Iniciar sesión</string>
+    <string name="password_placeholder">Contraseña</string>
+    <string name="email_placeholder">Correo electrónico</string>
+    <string name="forgot_password">¿Has olvidado tu contraseña?</string>
+    <string name="welcome_again">¡Bienvenido de nuevo!</string>
+
+    <!-- Strings: Register -->
+    <string name="register_pick_category">Elije una categoria para empezar</string>
+    <string name="register_tell_us_more">Dinos mas sobre ti</string>
+    <string name="register_title">Registro</string>
+    <string name="register_company_name">Nombre Empresa</string>
+    <string name="register_desc">Descripción</string>
+    <string name="register_cif">CIF</string>
+    <string name="register_email">Email</string>
+    <string name="register_password">Contraseña</string>
+    <string name="register_password_confirm">Repetir Contraseña</string>
+    <string name="register_logo">Logo</string>
+    <string name="register_take_photo">Tomar foto</string>
+    <string name="register_pick_photo">Elegir foto</string>
+    <string name="register_add_logo">Añadir Logo</string>
+
+    <!-- Strings: Notifications -->
+    <string name="notifications_title">Notificaciones</string>
+
+
+    <!-- Strings: forgot_password -->
+    <string name="recover_password">Recuperar contraseña</string>
+    <string name="text_recover">Escribe tu <b>correo electrónico</b> y pulsa en <b>Recuperar</b>.\nTe enviaremos un correo electrónico para poder restaurarla.</string>
+    <string name="recover">Recuperar</string>
+
+    <!-- Strings: startUp -->
+    <string name="title_inventame">INVÉNTAME</string>
+    <string name="register">Registrarse</string>
+    <string name="slogan">Inventar es cosa de todos</string>
+
+    <!-- Strings: product_card -->
+    <string name="product_name_text">Producto</string>
+    <string name="product_stock_text">Stock: X</string>
+
+    <!-- Strings: user_card -->
+    <string name="employee_name_text">Empleado</string>
+
+    <!-- Strings: inventory -->
+    <string name="inventory_search_hint">Buscar producto</string>
+
+    <!-- Strings: inventory_add -->
+    <string name="inventory_add_title">Añadir producto</string>
+    <string name="inventory_edit_title">Editar producto</string>
+    <string name="scanner_button">Escáner</string>
+    <string name="product_image_textfield">Imagen</string>
+    <string name="product_id_textfield">ID</string>
+    <string name="product_name_textfield">Nombre</string>
+    <string name="product_desc_textfield">Descripción</string>
+    <string name="product_price_textfield">Precio</string>
+    <string name="product_stock_textfield">Stock</string>
+    <string name="product_batch_textfield">Lote</string>
+    <string name="product_expiration_textfield">Expiracion</string>
+    <string name="add_product_button">Añadir Producto</string>
+    <string name="delete_product">Borrar producto</string>
+
+    <!-- Strings: employees -->
+    <string name="employee_search_hint">Buscar empleado</string>
+
+    <!-- Strings: employee_add -->
+    <string name="employee_add">Añadir Empleado</string>
+    <string name="employee_edit_title">Editar Empleado</string>
+    <string name="employee_name">Nombre</string>
+    <string name="employee_lastname">Apellidos</string>
+    <string name="employee_document">Documento Identidad</string>
+    <string name="employee_delete">Borrar empleado</string>
+
+    <!-- Strings: Home -->
+    <string name="welcome">Bienvenido</string>
+    <string name="total_value">Valor total</string>
+    <string name="total_products">Productos</string>
+    <string name="total_employees">Empleados</string>
+    <string name="top_three_products">Top 3 productos</string>
+    <string name="share">Share</string>
+
 </resources>

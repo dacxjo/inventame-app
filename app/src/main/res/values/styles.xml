@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme.FullScreenDialog" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimaryDark">@color/md_theme_light_surfaceTint</item>
+        <item name="colorAccent">@color/seed</item>
+        <item name="colorPrimary">@color/md_theme_light_primary</item>
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@color/md_theme_light_background</item>
+        <item name="actionMenuTextColor">@color/seed</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/md_theme_light_surface</item>
+    </style>
+    <style name="AppTheme.Slide">
+        <item name="android:windowEnterAnimation">@anim/slide_up</item>
+        <item name="android:windowExitAnimation">@anim/slide_down</item>
+    </style>
+    <style name="AppTheme.InventameInputLayout">
+        <item name="android:textColor">@color/seed</item>
+        <item name="boxStrokeColor">@color/seed</item>
+    </style>
+</resources>

@@ -3,24 +3,43 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/ventaDialogFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/homeFragment"
-        android:name="com.ubpis.inventame.HomeFragment"
+        android:name="com.ubpis.inventame.view.fragment.HomeFragment"
         android:label="Home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/ventaDialogFragment"
-        android:name="com.ubpis.inventame.SaleDialogFragment"
-        android:label="Venta Dialog"
-        tools:layout="@layout/fragment_sale_dialog" />
+        android:id="@+id/employeesFragment"
+        android:name="com.ubpis.inventame.view.fragment.EmployeeFragment"
+        android:label="Employees"
+        tools:layout="@layout/fragment_employee" />
 
     <fragment
         android:id="@+id/ventasFragment"
         android:name="com.ubpis.inventame.SalesFragment"
         android:label="Ventas"
         tools:layout="@layout/fragment_sales" />
+
+
+    <fragment
+        android:id="@+id/inventoryFragment"
+        android:name="com.ubpis.inventame.view.fragment.InventoryFragment"
+        android:label="Inventory"
+        tools:layout="@layout/fragment_inventory" />
+
+    <fragment
+        android:id="@+id/inventoryAddFragment"
+        android:name="com.ubpis.inventame.view.fragment.ProductDialogFragment"
+        android:label="InventoryAdd"
+        tools:layout="@layout/fragment_product_form" />
+
+    <fragment
+        android:id="@+id/notificationsFragment"
+        android:name="com.ubpis.inventame.view.fragment.NotificationsFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_notifications" />
 
 </navigation>
