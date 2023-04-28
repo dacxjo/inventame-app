@@ -1,4 +1,4 @@
-package com.ubpis.inventame;
+package com.ubpis.inventame.view.fragment;
 
 import android.os.Bundle;
 
@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.ubpis.inventame.R;
 import com.ubpis.inventame.data.model.CartItem;
 import com.ubpis.inventame.view.adapter.ItemAdapter;
 

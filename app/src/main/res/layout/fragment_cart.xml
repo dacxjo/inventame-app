@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
     android:background="@color/md_theme_light_surface"
-    tools:context=".CartFragment">
+    tools:context=".view.fragment.CartFragment">
 
     <com.google.android.material.search.SearchView
         android:id="@+id/search_view"

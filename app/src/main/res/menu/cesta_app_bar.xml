@@ -4,6 +4,6 @@
     <item
         android:id="@+id/escaner"
         android:icon="@drawable/ic_barcode_scanner_24"
-        android:title="escaner"
+        android:title="Scanner"
         app:showAsAction="ifRoom" />
 </menu>
