@@ -18,24 +18,24 @@ import com.ubpis.inventame.data.model.CartItem;
 
 import java.util.ArrayList;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ViewHolder> {
+public class ItemCardAdapter extends RecyclerView.Adapter<ItemCardAdapter.ViewHolder> {
 
     private final ArrayList<CartItem> itemList;
 
-    public ItemAdapter(ArrayList<CartItem> itemList) {
+    public ItemCardAdapter(ArrayList<CartItem> itemList) {
         this.itemList = itemList;
     }
 
     @NonNull
     @Override
-    public ItemAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ItemCardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.cart_row_item, parent, false);
-        return new ItemAdapter.ViewHolder(view);
+        return new ItemCardAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ItemCardAdapter.ViewHolder holder, int position) {
         holder.bind(itemList.get(position));
     }
 

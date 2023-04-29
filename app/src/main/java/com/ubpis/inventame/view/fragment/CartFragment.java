@@ -15,13 +15,13 @@ import android.widget.TextView;
 
 import com.ubpis.inventame.R;
 import com.ubpis.inventame.data.model.CartItem;
-import com.ubpis.inventame.view.adapter.ItemAdapter;
+import com.ubpis.inventame.view.adapter.ItemCardAdapter;
 
 import java.util.ArrayList;
 
 public class CartFragment extends Fragment {
     private RecyclerView itemCartList;
-    private ItemAdapter itemAdapter;
+    private ItemCardAdapter itemCardAdapter;
 
     public CartFragment() {
         // Required empty public constructor
@@ -44,8 +44,8 @@ public class CartFragment extends Fragment {
         ArrayList<CartItem> cartItems = new ArrayList<>();
         cartItems.add(new CartItem("https://www.cardamomo.news/__export/1655926043504/sites/debate/img/2022/06/22/refresco_de_cola.png_1902800913.png", "Coca-Cola 330 ml", 1,0.60f));
         cartItems.add(new CartItem("https://static2.mujerhoy.com/www/multimedia/202205/13/media/cortadas/cargo-aper-krxD--984x552@MujerHoy.jpg", "Pantalón Tejano - Talla 40", 4, 20.00f));
-        itemAdapter = new ItemAdapter(cartItems);
-        itemCartList.setAdapter(itemAdapter);
+        itemCardAdapter = new ItemCardAdapter(cartItems);
+        itemCartList.setAdapter(itemCardAdapter);
         TextView textView = view.findViewById(R.id.totalItems);
         if (cartItems.size() > 1){
             textView.setText(textView.getText().toString().replace("1", Integer.toString(cartItems.size())));
