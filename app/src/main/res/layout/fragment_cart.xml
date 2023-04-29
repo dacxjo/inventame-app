@@ -35,7 +35,7 @@
                 android:layout_weight="1"
                 android:hint="@string/inventory_search_hint"
                 android:paddingEnd="4dp"
-                app:menu="@menu/cesta_app_bar" />
+                app:menu="@menu/cart_appbar_menu" />
 
         </com.google.android.material.appbar.AppBarLayout>
 

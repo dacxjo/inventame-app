@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:paddingEnd="16dp"
-            app:menu="@menu/venta_app_bar"
+            app:menu="@menu/sale_appbar_menu"
             app:navigationIcon="@drawable/ic_close_24"
             app:navigationIconTint="@color/md_theme_light_onSurface"
             app:title="Venta: #00001"
@@ -37,7 +37,7 @@
 
         <!-- TODO: Make this a linear layout with two TextViews -->
         <TextView
-            android:id="@+id/infoVenta"
+            android:id="@+id/infoSale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center|start"
