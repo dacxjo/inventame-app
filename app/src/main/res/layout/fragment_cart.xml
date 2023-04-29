@@ -12,9 +12,9 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="Buscar producto"
+        android:hint="@string/inventory_search_hint"
         app:layout_anchor="@id/search_bar"
-        tools:context=".MainActivity">
+        >
         <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
     </com.google.android.material.search.SearchView>
 
@@ -33,9 +33,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Buscar producto"
+                android:hint="@string/inventory_search_hint"
                 android:paddingEnd="4dp"
-                app:menu="@menu/cesta_app_bar" />
+                app:menu="@menu/cart_appbar_menu" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -51,12 +51,11 @@
                 android:id="@+id/totalItems"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:gravity="center|start"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
                 android:paddingBottom="16dp"
-                android:text="1 item en tu cesta"
-                android:textAlignment="textStart"
+                android:text="@string/item_count"
                 android:textColor="@color/md_theme_light_onSurface"
                 android:textSize="14sp" />
 
@@ -76,8 +75,8 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="24dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="24dp"
                 android:orientation="horizontal"
                 android:background="@color/md_theme_light_surface" >
 
@@ -86,10 +85,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/totalPrice"
-                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="25dp"
-                    android:text="TOTAL"
+                    android:text="@string/total"
                     android:textColor="@color/md_theme_light_onSurfaceVariant"
                     android:textSize="16sp" />
 
@@ -98,8 +97,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="25dp"
-                    android:layout_alignParentRight="true"
-                    android:text="0,00€"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/initial_quantity"
                     android:textColor="@color/md_theme_light_onSurface"
                     android:textSize="26sp" />
 
@@ -108,8 +107,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/headlineTotal"
-                    android:layout_alignParentLeft="true"
-                    android:text="Subtotal"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/subtotal"
                     android:textColor="@color/md_theme_light_onSurface"
                     android:textSize="15sp" />
 
@@ -118,8 +117,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/totalPrice"
-                    android:layout_alignParentRight="true"
-                    android:text="0,00€"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/initial_quantity"
                     android:textColor="@color/md_theme_light_onSurfaceVariant"
                     android:textSize="15sp" />
 
@@ -128,8 +127,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/headlineSubtotal"
-                    android:layout_alignParentLeft="true"
-                    android:text="IVA (21%)"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/vat"
                     android:textColor="@color/md_theme_light_onSurface"
                     android:textSize="15sp" />
 
@@ -138,8 +137,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/subtotalPrice"
-                    android:layout_alignParentRight="true"
-                    android:text="0,00€"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/initial_quantity"
                     android:textColor="@color/md_theme_light_onSurfaceVariant"
                     android:textSize="15sp" />
 
@@ -155,7 +154,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="16dp"
-        android:text="Cobrar"
+        android:text="@string/charge"
         app:icon="@drawable/ic_shopping_cart_checkout_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

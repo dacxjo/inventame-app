@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="test_placeholder">Test</string>
-    <string name="filled_button">Filled</string>
-    <string name="outlined_button">Outline</string>
     <string name="home">Inicio</string>
     <string name="stock">Inventario</string>
     <string name="employees">Empleados</string>

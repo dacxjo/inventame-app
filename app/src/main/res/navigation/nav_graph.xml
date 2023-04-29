@@ -42,4 +42,15 @@
         android:label="Notifications"
         tools:layout="@layout/fragment_notifications" />
 
+    <activity
+        android:id="@+id/onboardActivity"
+        android:name="com.ubpis.inventame.view.activity.OnboardActivity"
+        android:label="OnboardActivity" />
+
+    <action
+        android:id="@+id/action_global_onBoardActivity"
+        app:destination="@id/onboardActivity"
+        app:enterAnim="@anim/slide_in_left"
+        app:exitAnim="@anim/slide_out_right"/>
+
 </navigation>

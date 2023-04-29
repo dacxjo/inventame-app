@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/md_theme_light_secondaryContainer"
-    tools:context=".SoftPOSNumericPadFragment">
+    tools:context=".view.fragment.SoftPOSNumericPadFragment">
 
     <LinearLayout
         android:id="@+id/topNavigation"
@@ -26,10 +26,10 @@
 
         <TextView
             android:id="@+id/textView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Nueva venta manual"
+            android:text="@string/new_manual_sale"
             android:textColor="#000000"
             android:textSize="20sp" />
     </LinearLayout>
@@ -42,7 +42,7 @@
         android:layout_below="@+id/topNavigation"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:text="0,00€"
+        android:text="@string/initial_quantity"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="80sp" />
@@ -78,7 +78,7 @@
             android:onClick="numberPressed"
             android:text="1"
             android:textColor="#000000"
-            android:textSize="38dp" />
+            android:textSize="38sp" />
 
         <Button
             android:id="@+id/button2"
@@ -97,7 +97,7 @@
             android:onClick="numberPressed"
             android:text="2"
             android:textColor="#000000"
-            android:textSize="38dp" />
+            android:textSize="38sp" />
 
         <Button
             android:id="@+id/button3"
@@ -116,7 +116,7 @@
             android:onClick="numberPressed"
             android:text="3"
             android:textColor="#000000"
-            android:textSize="38dp" />
+            android:textSize="38sp" />
 
         <Button
             android:id="@+id/button4"
@@ -135,7 +135,7 @@
             android:onClick="numberPressed"
             android:text="4"
             android:textColor="#000000"
-            android:textSize="38dp" />
+            android:textSize="38sp" />
 
         <Button
             android:id="@+id/button5"
@@ -154,7 +154,7 @@
             android:onClick="numberPressed"
             android:text="5"
             android:textColor="#000000"
-            android:textSize="38dp" />
+            android:textSize="38sp" />
 
         <Button
             android:id="@+id/button6"
@@ -173,7 +173,7 @@
             android:onClick="numberPressed"
             android:text="6"
             android:textColor="#000000"
-            android:textSize="38dp" />
+            android:textSize="38sp" />
 
         <Button
             android:id="@+id/button7"
@@ -192,7 +192,7 @@
             android:onClick="numberPressed"
             android:text="7"
             android:textColor="#000000"
-            android:textSize="38dp" />
+            android:textSize="38sp" />
 
         <Button
             android:id="@+id/button8"
@@ -211,7 +211,7 @@
             android:onClick="numberPressed"
             android:text="8"
             android:textColor="#000000"
-            android:textSize="38dp" />
+            android:textSize="38sp" />
 
         <Button
             android:id="@+id/button9"
@@ -230,7 +230,7 @@
             android:onClick="numberPressed"
             android:text="9"
             android:textColor="#000000"
-            android:textSize="38dp" />
+            android:textSize="38sp" />
 
         <Button
             android:id="@+id/buttonClear"
@@ -243,9 +243,9 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="4dp"
             android:backgroundTint="#FF5722"
-            android:paddingLeft="28dp"
+            android:paddingStart="28dp"
             android:paddingTop="14dp"
-            android:paddingRight="21dp"
+            android:paddingEnd="21dp"
             android:paddingBottom="14dp"
             android:onClick="clearPressed"
             app:icon="@drawable/ic_clear_24"
@@ -269,7 +269,7 @@
             android:onClick="numberPressed"
             android:text="0"
             android:textColor="#000000"
-            android:textSize="38dp" />
+            android:textSize="38sp" />
 
         <Button
             android:id="@+id/buttonBackspace"
@@ -283,9 +283,9 @@
             android:layout_marginTop="0dp"
             android:layout_marginRight="4dp"
             android:backgroundTint="#FFC107"
-            android:paddingLeft="30dp"
+            android:paddingStart="30dp"
             android:paddingTop="17dp"
-            android:paddingRight="26dp"
+            android:paddingEnd="26dp"
             android:paddingBottom="17dp"
             android:onClick="backspacePressed"
             app:icon="@drawable/ic_backspace_38"
@@ -303,9 +303,9 @@
         android:layout_marginBottom="50dp"
         android:backgroundTint="#388E3C"
         android:gravity="center"
-        android:text="Cobrar"
+        android:text="@string/charge"
         android:textColor="#FFFFFF"
-        android:textSize="22dp"
+        android:textSize="22sp"
         app:icon="@drawable/ic_contactless_26"
         app:iconGravity="textStart"
         app:iconSize="30dp"

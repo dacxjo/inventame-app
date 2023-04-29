@@ -5,12 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    tools:context=".SoftPOSPaymentFragment">
+    tools:context=".view.fragment.SoftPOSPaymentFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="right"
+        android:gravity="end"
         android:background="@color/md_theme_light_primary"
         android:orientation="horizontal">
 
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:gravity="center"
-            android:text="0,00€"
+            android:text="@string/initial_quantity"
             android:textAlignment="center"
             android:textColor="@color/md_theme_light_onPrimary"
             android:textSize="60sp" />
@@ -49,7 +49,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Presenta la tarjeta o móvil"
+            android:text="@string/present_card"
             android:textAlignment="center"
             android:textColor="@color/md_theme_light_onPrimary"
             android:textSize="14sp" />
@@ -65,6 +65,7 @@
 
             <ImageView
                 android:id="@+id/imageView"
+                android:importantForAccessibility="no"
                 android:layout_width="118.7dp"
                 android:layout_height="70dp"
                 android:layout_gravity="center"
@@ -84,34 +85,38 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:importantForAccessibility="no"
             android:id="@+id/visaMark"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/visa_mark" />
 
         <ImageView
             android:id="@+id/mastercardMark"
+            android:importantForAccessibility="no"
             android:layout_width="wrap_content"
             android:layout_height="30dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/mastercard_mark" />
 
         <ImageView
             android:id="@+id/googlepayMark"
+            android:importantForAccessibility="no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
+            android:layout_marginEnd="20dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             android:src="@drawable/google_pay_mark" />
 
         <ImageView
             android:id="@+id/applepayMark"
+            android:importantForAccessibility="no"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
@@ -133,21 +138,21 @@
             android:id="@+id/readCard1"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:layout_marginRight="61dp"
+            android:layout_marginEnd="61dp"
             android:gravity="center"
             android:background="@drawable/border_card_reader_true" />
         <View
             android:id="@+id/readCard2"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:layout_marginRight="61dp"
+            android:layout_marginEnd="61dp"
             android:background="@drawable/border_card_reader_false"
             android:gravity="center" />
         <View
             android:id="@+id/readCard3"
             android:layout_width="22dp"
             android:layout_height="22dp"
-            android:layout_marginRight="61dp"
+            android:layout_marginEnd="61dp"
             android:background="@drawable/border_card_reader_false"
             android:gravity="center" />
         <View

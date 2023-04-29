@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/escaner"
-        android:icon="@drawable/ic_barcode_scanner_24"
-        android:title="Scanner"
-        app:showAsAction="ifRoom" />
+        android:id="@+id/download"
+        android:title="@string/download"
+        app:showAsAction="ifRoom"/>
+
+
 </menu>

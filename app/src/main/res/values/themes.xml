@@ -32,9 +32,4 @@
         <item name="android:windowLightStatusBar">true</item>
         <item name="android:statusBarColor">@color/md_theme_light_surface</item>
     </style>
-
-    <style name="ThemeOverlay.Inventame.FullscreenContainer" parent="">
-        <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
-        <item name="fullscreenTextColor">@color/light_blue_A200</item>
-    </style>
 </resources>

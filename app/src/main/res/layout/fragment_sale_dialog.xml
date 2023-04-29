@@ -19,7 +19,7 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:paddingEnd="16dp"
-            app:menu="@menu/venta_app_bar"
+            app:menu="@menu/sale_appbar_menu"
             app:navigationIcon="@drawable/ic_close_24"
             app:navigationIconTint="@color/md_theme_light_onSurface"
             app:title="Venta: #00001"
@@ -35,8 +35,9 @@
         android:paddingLeft="24dp"
         android:paddingRight="24dp" >
 
+        <!-- TODO: Make this a linear layout with two TextViews -->
         <TextView
-            android:id="@+id/infoVenta"
+            android:id="@+id/infoSale"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center|start"
@@ -67,10 +68,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@id/totalPrice"
-                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
                 android:layout_centerInParent="true"
                 android:layout_marginBottom="25dp"
-                android:text="TOTAL"
+                android:text="@string/total"
+                android:textAllCaps="true"
                 android:textColor="@color/md_theme_light_onSurfaceVariant"
                 android:textSize="16sp" />
 
@@ -78,9 +80,9 @@
                 android:id="@+id/totalPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
                 android:layout_marginBottom="25dp"
-                android:text="0,00€"
+                android:text="@string/initial_quantity"
                 android:textColor="@color/md_theme_light_onSurface"
                 android:textSize="26sp" />
 
@@ -89,8 +91,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/headlineTotal"
-                android:layout_alignParentLeft="true"
-                android:text="Subtotal"
+                android:layout_alignParentStart="true"
+                android:text="@string/subtotal"
                 android:textColor="@color/md_theme_light_onSurface"
                 android:textSize="15sp" />
 
@@ -99,8 +101,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/totalPrice"
-                android:layout_alignParentRight="true"
-                android:text="0,00€"
+                android:layout_alignParentEnd="true"
+                android:text="@string/initial_quantity"
                 android:textColor="@color/md_theme_light_onSurfaceVariant"
                 android:textSize="15sp" />
 
@@ -109,8 +111,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/headlineSubtotal"
-                android:layout_alignParentLeft="true"
-                android:text="IVA (21%)"
+                android:layout_alignParentStart="true"
+                android:text="@string/vat"
                 android:textColor="@color/md_theme_light_onSurface"
                 android:textSize="15sp" />
 
@@ -119,8 +121,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/subtotalPrice"
-                android:layout_alignParentRight="true"
-                android:text="0,00€"
+                android:layout_alignParentEnd="true"
+                android:text="@string/initial_quantity"
                 android:textColor="@color/md_theme_light_onSurfaceVariant"
                 android:textSize="15sp" />
 
@@ -135,7 +137,7 @@
         android:layout_marginBottom="100dp"
         android:layout_gravity="center|bottom"
         app:backgroundTint="?attr/colorErrorContainer"
-        android:text="Eliminar venta"
+        android:text="@string/delete_sale"
         android:textColor="?attr/colorError"
         app:icon="@drawable/ic_delete_24"
         app:iconTint="?attr/colorError"

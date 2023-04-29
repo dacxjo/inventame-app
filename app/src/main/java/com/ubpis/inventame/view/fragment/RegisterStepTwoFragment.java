@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
@@ -27,22 +26,20 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.squareup.picasso.Picasso;
 import com.ubpis.inventame.R;
+import com.ubpis.inventame.databinding.FragmentRegisterStepTwoBinding;
 import com.ubpis.inventame.viewmodel.RegisterStepTwoViewModel;
 
 public class RegisterStepTwoFragment extends Fragment {
 
     private RegisterStepTwoViewModel mViewModel;
-    private Button backButton, registerBtn;
-    private MaterialCardView logoPicker;
-    private ImageView logo;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
     private ActivityResultLauncher<Intent> takePictureLauncher;
     private ActivityResultLauncher<String> requestPermissionLauncher;
     private AlertDialog dialog;
+    private FragmentRegisterStepTwoBinding binding;
 
     public static RegisterStepTwoFragment newInstance() {
         return new RegisterStepTwoFragment();
@@ -67,7 +64,7 @@ public class RegisterStepTwoFragment extends Fragment {
                 registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                     if (uri != null) {
                         Log.d("PhotoPicker", "Selected URI: " + uri);
-                        Picasso.get().load(uri).into(logo);
+                        Picasso.get().load(uri).into(binding.logo);
                     } else {
                         Log.d("PhotoPicker", "No media selected");
                     }
@@ -78,17 +75,18 @@ public class RegisterStepTwoFragment extends Fragment {
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Bitmap photo = (Bitmap) result.getData().getExtras().get("data");
-                        logo.setImageBitmap(photo);
+                        binding.logo.setImageBitmap(photo);
                     }
                 }
         );
-        return inflater.inflate(R.layout.fragment_register_step_two, container, false);
+        binding = FragmentRegisterStepTwoBinding.inflate(inflater, container, false);
+        View view = binding.getRoot();
+        return view;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(RegisterStepTwoViewModel.class);
         // TODO: Use the ViewModel
     }
 
@@ -96,16 +94,18 @@ public class RegisterStepTwoFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        mViewModel = new ViewModelProvider(this).get(RegisterStepTwoViewModel.class);
         String selectedCategory = RegisterStepTwoFragmentArgs.fromBundle(getArguments()).getSelectedCategory();
-        backButton = view.findViewById(R.id.back_button);
-        registerBtn = view.findViewById(R.id.registerBtn);
-        logoPicker = view.findViewById(R.id.logoPicker);
-        logo = view.findViewById(R.id.logo);
-        registerBtn.setOnClickListener(this::goToDashboard);
-        backButton.setOnClickListener(this::goBack);
-        logoPicker.setOnClickListener(v -> showLogoPickerChoices());
+        binding.registerBtn.setOnClickListener(this::goToDashboard);
+        binding.backButton.setOnClickListener(this::goBack);
+        binding.logoPicker.setOnClickListener(v -> showLogoPickerChoices());
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
 
     private void goBack(View view) {
         NavDirections action = RegisterStepTwoFragmentDirections.actionRegisterStepTwoToRegisterStepOne();
@@ -113,7 +113,7 @@ public class RegisterStepTwoFragment extends Fragment {
     }
 
     private void goToDashboard(View view) {
-        NavDirections action = RegisterStepTwoFragmentDirections.actionRegisterStepTwoToDemoActivity();
+        NavDirections action = RegisterStepTwoFragmentDirections.actionRegisterStepTwoToMainActivity();
         Navigation.findNavController(view).navigate(action);
     }
 

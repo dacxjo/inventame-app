@@ -11,9 +11,9 @@
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:hint="Buscar venta"
+        android:hint="@string/search_sale"
         app:layout_anchor="@id/search_bar"
-        tools:context=".MainActivity">
+        >
         <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
     </com.google.android.material.search.SearchView>
 
@@ -32,9 +32,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="Buscar venta"
-                android:paddingEnd="4dp"
-                app:menu="@menu/ventas_app_bar" />
+                android:hint="@string/search_sale"
+                android:paddingStart="4dp"
+                app:menu="@menu/sales_appbar_menu" />
 
         </com.google.android.material.appbar.AppBarLayout>
 
