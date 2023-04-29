@@ -102,4 +102,23 @@
     <string name="form_validation_required">*Requerido</string>
     <string name="form_validation_email">Email no válido</string>
 
+    <!-- Strings: Cart/Softpos -->
+    <string name="initial_quantity">0,00€</string>
+    <string name="present_card">Presenta la tarjeta o móvil</string>
+    <string name="new_manual_sale">Nueva venta manual</string>
+    <string name="charge">Cobrar</string>
+    <string name="import_csv">Importar CSV</string>
+    <string name="export_csv">Exportar CSV</string>
+    <string name="download">Descargar</string>
+    <string name="scanner">Escaner</string>
+    <string name="search_sale">Buscar venta</string>
+    <string name="decrement">Menos cantidad</string>
+    <string name="increment">Mas cantidad</string>
+    <string name="total">Total</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="vat">IVA (%1$d%)</string>
+    <string name="delete_sale">Eliminar venta</string>
+    <string name="item_count">%1$d item en tu cesta</string>
+    <string name="quantity">Cant.: %1$d</string>
+
 </resources>

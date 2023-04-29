@@ -17,6 +17,12 @@
         android:label="Employees"
         tools:layout="@layout/fragment_employee" />
 
+    <fragment
+        android:id="@+id/salesFragment"
+        android:name="com.ubpis.inventame.view.fragment.SalesFragment"
+        android:label="Sales"
+        tools:layout="@layout/fragment_sales" />
+
 
     <fragment
         android:id="@+id/inventoryFragment"

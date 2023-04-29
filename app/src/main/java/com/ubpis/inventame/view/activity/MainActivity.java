@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.NavDirections;
@@ -17,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.ubpis.inventame.R;
 import com.ubpis.inventame.view.fragment.EmployeeDialogFragment;
 import com.ubpis.inventame.view.fragment.ProductDialogFragment;
+import com.ubpis.inventame.view.fragment.SaleDialogFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -49,15 +51,32 @@ public class MainActivity extends AppCompatActivity {
     private void setupFab(@NonNull NavController navController, @NonNull NavDestination destination, @Nullable Bundle bundle) {
         if (destination.getId() == R.id.homeFragment || destination.getId() == R.id.notificationsFragment) {
             fab.hide();
-        } else if (destination.getId() == R.id.inventoryFragment) {
-            showFabNicely();
+        }else if (destination.getId() == R.id.inventoryFragment){
+           showFabNicely();
+            fab.postDelayed(()-> {
+                fab.shrink();
+                fab.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_add_20));
+            }, 200);
             fab.setOnClickListener(view -> new ProductDialogFragment().show(
                     navHostFragment.getParentFragmentManager(), ProductDialogFragment.TAG));
-        } else if (destination.getId() == R.id.employeesFragment) {
+        }else if(destination.getId() == R.id.employeesFragment){
             showFabNicely();
-            fab.setOnClickListener(view -> new EmployeeDialogFragment().show(
+            fab.postDelayed(()-> {
+                fab.shrink();
+                fab.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_add_20));
+            }, 200);
+            fab.setOnClickListener(view ->  new EmployeeDialogFragment().show(
                     navHostFragment.getParentFragmentManager(), EmployeeDialogFragment.TAG));
-        } else {
+        }else if(destination.getId() == R.id.salesFragment){
+            showFabNicely();
+            fab.postDelayed(()-> {
+                fab.extend();
+                fab.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_shopping_cart_24));
+            }, 200);
+            fab.setOnClickListener(view ->  new SaleDialogFragment().show(
+                    navHostFragment.getParentFragmentManager(), SaleDialogFragment.TAG));
+        }else {
+            fab.postDelayed(()-> fab.shrink(), 200);
             showFabNicely();
         }
     }

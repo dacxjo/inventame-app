@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
+    android:background="@color/md_theme_light_surface"
+    tools:context=".view.fragment.CartFragment">
+
+    <com.google.android.material.search.SearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:hint="@string/inventory_search_hint"
+        app:layout_anchor="@id/search_bar"
+        >
+        <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
+    </com.google.android.material.search.SearchView>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.search.SearchBar
+                android:id="@+id/search_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="@string/inventory_search_hint"
+                android:paddingEnd="4dp"
+                app:menu="@menu/cesta_app_bar" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <LinearLayout
+            android:id="@+id/cont"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/app_bar"
+            android:orientation="vertical"
+            android:background="@color/md_theme_light_surface">
+
+            <TextView
+                android:id="@+id/totalItems"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center|start"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingBottom="16dp"
+                android:text="@string/item_count"
+                android:textColor="@color/md_theme_light_onSurface"
+                android:textSize="14sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/itemCartList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="28dp"
+                app:dividerInsetEnd="16dp"
+                app:dividerInsetStart="16dp" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="24dp"
+                android:orientation="horizontal"
+                android:background="@color/md_theme_light_surface" >
+
+                <TextView
+                    android:id="@+id/headlineTotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBaseline="@id/totalPrice"
+                    android:layout_alignParentStart="true"
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="25dp"
+                    android:text="@string/total"
+                    android:textColor="@color/md_theme_light_onSurfaceVariant"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/totalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/initial_quantity"
+                    android:textColor="@color/md_theme_light_onSurface"
+                    android:textSize="26sp" />
+
+                <TextView
+                    android:id="@+id/headlineSubtotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/headlineTotal"
+                    android:layout_alignParentStart="true"
+                    android:text="@string/subtotal"
+                    android:textColor="@color/md_theme_light_onSurface"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/subtotalPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/totalPrice"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/initial_quantity"
+                    android:textColor="@color/md_theme_light_onSurfaceVariant"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/headlineIVA"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/headlineSubtotal"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/vat"
+                    android:textColor="@color/md_theme_light_onSurface"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/IVAPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/subtotalPrice"
+                    android:layout_alignParentEnd="true"
+                    android:text="@string/initial_quantity"
+                    android:textColor="@color/md_theme_light_onSurfaceVariant"
+                    android:textSize="15sp" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/chargeFABButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:text="@string/charge"
+        app:icon="@drawable/ic_shopping_cart_checkout_24" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
+
