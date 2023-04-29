@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
@@ -20,8 +20,6 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.ubpis.inventame.databinding.FragmentLoginBinding;
 import com.ubpis.inventame.viewmodel.LoginViewModel;
-
-import java.util.Map;
 
 public class LoginFragment extends Fragment {
 
@@ -38,16 +36,11 @@ public class LoginFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         auth = FirebaseAuth.getInstance();
-        binding = FragmentLoginBinding.inflate(inflater, container, false);
+        binding = DataBindingUtil.inflate(inflater, com.ubpis.inventame.R.layout.fragment_login, container, false);
         mViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
-        mViewModel.errorMessages.observe(getViewLifecycleOwner(), (Observer<? super Map<String, Integer>>) errors -> {
-            if (errors == null) {
-                return;
-            }
-            binding.emailTextField.setError(getContext().getString(errors.get("email")));
-            binding.passwordTextField.setError(getContext().getString(errors.get("password")));
-        });
         binding.setViewModel(mViewModel);
+        binding.setLifecycleOwner(this);
+        setupValidationObservers();
         View view = binding.getRoot();
         return view;
     }
@@ -55,7 +48,6 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         binding.backButton.setOnClickListener(this::goToStartup);
         binding.buttonLogin.setOnClickListener(v -> {
             String username = binding.email.getText().toString();
@@ -71,6 +63,28 @@ public class LoginFragment extends Fragment {
         binding = null;
     }
 
+    private void setupValidationObservers(){
+        mViewModel.getEmail().observe(getViewLifecycleOwner(), email -> mViewModel.checkEmail());
+        mViewModel.getPassword().observe(getViewLifecycleOwner(), password -> mViewModel.checkPassword());
+        mViewModel.errors.observe(getViewLifecycleOwner(), errors -> {
+            if (errors.containsKey("email")) {
+                binding.emailTextField.setError(getString(errors.get("email")));
+            } else {
+                binding.emailTextField.setError(null);
+            }
+            if(errors.containsKey("password")){
+                binding.passwordTextField.setError(getString(errors.get("password")));
+            } else {
+                binding.passwordTextField.setError(null);
+            }
+            if(mViewModel.isValidForm()){
+                binding.buttonLogin.setEnabled(true);
+            } else {
+                binding.buttonLogin.setEnabled(false);
+            }
+        });
+    }
+
     private void resetFormState() {
         binding.emailTextField.setError(null);
         binding.passwordTextField.setError(null);
@@ -78,9 +92,7 @@ public class LoginFragment extends Fragment {
 
     private void login(String username, String password) {
         resetFormState();
-        if (!mViewModel.validateFields(username, password)) {
-            return;
-        }
+        binding.buttonLogin.setEnabled(false);
         auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Log.d("LoginFragment", "signInWithEmail:success");
@@ -109,6 +121,7 @@ public class LoginFragment extends Fragment {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+                binding.buttonLogin.setEnabled(true);
             }
         });
     }

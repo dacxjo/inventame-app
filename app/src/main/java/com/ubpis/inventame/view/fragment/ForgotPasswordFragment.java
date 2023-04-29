@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
@@ -15,6 +16,7 @@ import androidx.navigation.Navigation;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.ubpis.inventame.R;
 import com.ubpis.inventame.databinding.FragmentForgotPasswordBinding;
 import com.ubpis.inventame.viewmodel.ForgotPasswordViewModel;
 
@@ -32,15 +34,11 @@ public class ForgotPasswordFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         auth = FirebaseAuth.getInstance();
-        binding = FragmentForgotPasswordBinding.inflate(inflater, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_forgot_password, container, false);
         mViewModel = new ViewModelProvider(this).get(ForgotPasswordViewModel.class);
-        mViewModel.errorMessage.observe(getViewLifecycleOwner(), errorCode -> {
-            if (errorCode == null) {
-                return;
-            }
-            binding.emailTextField.setError(getContext().getString(errorCode));
-        });
         binding.setViewModel(mViewModel);
+        binding.setLifecycleOwner(this);
+        setupValidationObservers();
         View view = binding.getRoot();
         return view;
     }
@@ -58,6 +56,22 @@ public class ForgotPasswordFragment extends Fragment {
         binding = null;
     }
 
+    private void setupValidationObservers() {
+        mViewModel.getEmail().observe(getViewLifecycleOwner(), email -> mViewModel.checkEmail());
+        mViewModel.errors.observe(getViewLifecycleOwner(), errors -> {
+            if (errors.containsKey("email")) {
+                binding.emailTextField.setError(getString(errors.get("email")));
+            }else{
+                binding.emailTextField.setError(null);
+            }
+            if(mViewModel.isValidForm()){
+                binding.buttonRecover.setEnabled(true);
+            }else{
+                binding.buttonRecover.setEnabled(false);
+            }
+        });
+    }
+
     private void resetFormState() {
         binding.emailTextField.setError(null);
         binding.email.setText("");
@@ -70,9 +84,6 @@ public class ForgotPasswordFragment extends Fragment {
 
     private void sendForgotPasswordEmail(View view) {
         String email = mViewModel.getEmail().getValue();
-        if (!mViewModel.validateEmail(email)) {
-            return;
-        }
         binding.buttonRecover.setEnabled(false);
         auth.sendPasswordResetEmail(email).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {

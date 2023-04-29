@@ -78,7 +78,8 @@
                         android:layout_height="wrap_content"
                         android:inputType="textEmailAddress"
                         android:maxLines="1"
-                        android:text="@={viewModel.email}" />
+                        android:text="@={viewModel.email}"
+                        />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -119,6 +120,7 @@
 
 
         <Button
+            android:enabled="false"
             android:id="@+id/button_login"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
