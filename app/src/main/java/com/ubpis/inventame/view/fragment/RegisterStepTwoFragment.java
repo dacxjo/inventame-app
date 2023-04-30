@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -21,14 +22,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.squareup.picasso.Picasso;
 import com.ubpis.inventame.R;
+import com.ubpis.inventame.data.model.Business;
+import com.ubpis.inventame.data.model.UserType;
+import com.ubpis.inventame.data.repository.BusinessRepository;
 import com.ubpis.inventame.databinding.FragmentRegisterStepTwoBinding;
 import com.ubpis.inventame.viewmodel.RegisterStepTwoViewModel;
 
@@ -40,6 +48,8 @@ public class RegisterStepTwoFragment extends Fragment {
     private ActivityResultLauncher<String> requestPermissionLauncher;
     private AlertDialog dialog;
     private FragmentRegisterStepTwoBinding binding;
+    private String selectedCategory;
+    private FirebaseAuth auth;
 
     public static RegisterStepTwoFragment newInstance() {
         return new RegisterStepTwoFragment();
@@ -48,7 +58,7 @@ public class RegisterStepTwoFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-
+        auth = FirebaseAuth.getInstance();
         requestPermissionLauncher =
                 registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                     if (isGranted) {
@@ -79,32 +89,112 @@ public class RegisterStepTwoFragment extends Fragment {
                     }
                 }
         );
-        binding = FragmentRegisterStepTwoBinding.inflate(inflater, container, false);
+        mViewModel = new ViewModelProvider(this).get(RegisterStepTwoViewModel.class);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_register_step_two, container, false);
+        binding.setLifecycleOwner(this);
+        binding.setViewModel(mViewModel);
         View view = binding.getRoot();
         return view;
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        // TODO: Use the ViewModel
-    }
-
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(RegisterStepTwoViewModel.class);
-        String selectedCategory = RegisterStepTwoFragmentArgs.fromBundle(getArguments()).getSelectedCategory();
-        binding.registerBtn.setOnClickListener(this::goToDashboard);
+        this.selectedCategory = RegisterStepTwoFragmentArgs.fromBundle(getArguments()).getSelectedCategory();
         binding.backButton.setOnClickListener(this::goBack);
         binding.logoPicker.setOnClickListener(v -> showLogoPickerChoices());
+        binding.registerBtn.setOnClickListener(this::register);
+        setupValidationObservers();
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+    }
+
+    private void setupValidationObservers() {
+        mViewModel.getEmail().observe(getViewLifecycleOwner(), email -> mViewModel.checkEmail());
+        mViewModel.getPassword().observe(getViewLifecycleOwner(), password -> mViewModel.checkPassword());
+        mViewModel.getTradename().observe(getViewLifecycleOwner(), description -> mViewModel.checkTradename());
+        mViewModel.getPasswordConfirmation().observe(getViewLifecycleOwner(), confirmation -> mViewModel.checkPasswordConfirm());
+        mViewModel.getCif().observe(getViewLifecycleOwner(), cif -> mViewModel.checkCif());
+        mViewModel.errors.observe(getViewLifecycleOwner(), errors -> {
+            if (errors.containsKey("tradename")) {
+                binding.nameTextField.setError(getString(errors.get("tradename")));
+            } else {
+                binding.nameTextField.setError(null);
+            }
+            if (errors.containsKey("email")) {
+                binding.emailTextField.setError(getString(errors.get("email")));
+            } else {
+                binding.emailTextField.setError(null);
+            }
+            if (errors.containsKey("password")) {
+                binding.passwordTextField.setError(getString(errors.get("password")));
+            } else {
+                binding.passwordTextField.setError(null);
+            }
+            if (errors.containsKey("passwordConfirm")) {
+                binding.confirmTextField.setError(getString(errors.get("passwordConfirm")));
+            } else {
+                binding.confirmTextField.setError(null);
+            }
+            if (errors.containsKey("cif")) {
+                binding.cifTextField.setError(getString(errors.get("cif")));
+            } else {
+                binding.cifTextField.setError(null);
+            }
+            binding.registerBtn.setEnabled(mViewModel.isValidForm());
+        });
+    }
+
+
+    private void register(View view) {
+        binding.registerBtn.setEnabled(false);
+        auth.createUserWithEmailAndPassword(mViewModel.getEmail().getValue(), mViewModel.getPassword().getValue())
+                .addOnCompleteListener(getActivity(), task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = auth.getCurrentUser();
+                        Business newBusiness = new Business();
+                        newBusiness.setId(user.getUid());
+                        newBusiness.setTradename(binding.companyName.getText().toString());
+                        newBusiness.setDescription(binding.companyDesc.getText().toString());
+                        newBusiness.setCif(binding.companyCif.getText().toString());
+                        newBusiness.setEmail(binding.companyEmail.getText().toString());
+                        newBusiness.setCategory(selectedCategory);
+                        newBusiness.setType(UserType.BUSINESS);
+                        newBusiness.setCreatedAt(Timestamp.now());
+                        if (binding.logo.getDrawable() != null) {
+                            Bitmap bitmap = ((BitmapDrawable) binding.logo.getDrawable()).getBitmap();
+                            BusinessRepository.getInstance().uploadLogo(user.getUid(), bitmap, o -> {
+                                newBusiness.setImageUrl(o.toString());
+                                BusinessRepository.getInstance().addBusiness(newBusiness).addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        goToDashboard(view);
+                                    } else {
+                                        Log.w("Register", "Error adding document", task1.getException());
+                                        binding.registerBtn.setEnabled(true);
+                                    }
+                                });
+                            });
+                        } else {
+                            BusinessRepository.getInstance().addBusiness(newBusiness).addOnCompleteListener(task1 -> {
+                                if (task1.isSuccessful()) {
+                                    goToDashboard(view);
+                                } else {
+                                    Log.w("Register", "Error adding document", task1.getException());
+                                    binding.registerBtn.setEnabled(true);
+                                }
+                            });
+                        }
+                    } else {
+                        Log.w("Register", "createUserWithEmail:failure", task.getException());
+                        Toast.makeText(getActivity(), "Register failed",
+                                Toast.LENGTH_SHORT).show();
+                        binding.registerBtn.setEnabled(true);
+                    }
+                });
     }
 
     private void goBack(View view) {

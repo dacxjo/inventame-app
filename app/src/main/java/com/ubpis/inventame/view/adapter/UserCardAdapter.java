@@ -9,11 +9,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-//import com.squareup.picasso.Picasso;
 import com.google.android.material.card.MaterialCardView;
 import com.squareup.picasso.Picasso;
 import com.ubpis.inventame.R;
-import com.ubpis.inventame.data.model.User;
+import com.ubpis.inventame.data.model.Employee;
 
 import java.util.ArrayList;
 
@@ -21,15 +20,10 @@ import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
 public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHolder> {
 
-    public interface OnClickCardListener {
-        void OnClickCard(int position);
-    }
-
-    private ArrayList<User> mUsers;
+    private ArrayList<Employee> mUsers;
     private OnClickCardListener onClickCardListener;
-
     // Constructor
-    public UserCardAdapter(ArrayList<User> userList) {
+    public UserCardAdapter(ArrayList<Employee> userList) {
         this.mUsers = userList;
     }
 
@@ -45,7 +39,6 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         return new UserCardAdapter.ViewHolder(view);
     }
 
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(mUsers.get(position), this.onClickCardListener);
@@ -56,7 +49,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         return mUsers.size();
     }
 
-    public void setUsers(ArrayList<User> users) {
+    public void setUsers(ArrayList<Employee> users) {
         this.mUsers = users; // no recicla/repinta res
     }
 
@@ -68,6 +61,10 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         notifyItemRemoved(position);
     }
 
+    public interface OnClickCardListener {
+        void OnClickCard(int position);
+    }
+
     /*
      * ViewHolder class. It's just a placeholder for the view (user_card_list.xml)
      * of the RecyclerView items. We can implement this outside RecyclerViewAdapter,
@@ -77,7 +74,7 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
         private final ImageView mCardPictureUrl;
         private final TextView mCardFullName;
 
-        private MaterialCardView card;
+        private final MaterialCardView card;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,9 +83,9 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
             card = itemView.findViewById(R.id.card);
         }
 
-        public void bind(final User user, OnClickCardListener listener) {
+        public void bind(final Employee user, OnClickCardListener listener) {
             mCardFullName.setText(user.getFullName());
-            Picasso.get().load(user.getmPictureURL()).transform(new RoundedCornersTransformation(50, 0)).fit()
+            Picasso.get().load(user.getImageUrl()).transform(new RoundedCornersTransformation(50, 0)).fit()
                     .centerCrop().into(mCardPictureUrl);
             card.setOnClickListener(view -> {
                 listener.OnClickCard(getAdapterPosition());

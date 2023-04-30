@@ -1,11 +1,10 @@
 package com.ubpis.inventame.viewmodel;
 
-import android.util.Patterns;
-
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.ubpis.inventame.R;
+import com.ubpis.inventame.utils.Validation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,7 +14,8 @@ public class LoginViewModel extends ViewModel {
     public MutableLiveData<String> email;
     public MutableLiveData<String> password;
     public MutableLiveData<Map<String, Integer>> errors;
-    private HashMap<String, Integer> errorsMap = new HashMap<>();
+    Validation validation = new Validation();
+    private final HashMap<String, Integer> errorsMap = new HashMap<>();
 
     public LoginViewModel() {
         email = new MutableLiveData<>();
@@ -27,12 +27,12 @@ public class LoginViewModel extends ViewModel {
         return email;
     }
 
-    public MutableLiveData<String> getPassword() {
-        return password;
-    }
-
     public void setEmail(String email) {
         this.email.setValue(email);
+    }
+
+    public MutableLiveData<String> getPassword() {
+        return password;
     }
 
     public void setPassword(String password) {
@@ -42,12 +42,10 @@ public class LoginViewModel extends ViewModel {
 
     public void checkEmail() {
         String emailValue = email.getValue();
-        System.out.println(emailValue);
-        if (emailValue == null || emailValue.isEmpty()) {
+        if (!validation.exists(emailValue)) {
             errorsMap.put("email", R.string.form_validation_required);
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(emailValue).matches()) {
+        } else if (validation.isEmail(emailValue)) {
             errorsMap.put("email", R.string.form_validation_email);
-            System.out.println(errors.getValue());
         } else {
             errorsMap.remove("email");
         }
@@ -56,7 +54,7 @@ public class LoginViewModel extends ViewModel {
 
     public void checkPassword() {
         String passwordValue = password.getValue();
-        if (passwordValue == null || passwordValue.isEmpty()) {
+        if (!validation.exists(passwordValue)) {
             errorsMap.put("password", R.string.form_validation_required);
         } else {
             errorsMap.remove("password");
@@ -65,9 +63,8 @@ public class LoginViewModel extends ViewModel {
     }
 
     public boolean isValidForm() {
-       return errorsMap.isEmpty() && email.getValue() != null && password.getValue() != null;
+        return errorsMap.isEmpty() && email.getValue() != null && password.getValue() != null;
     }
-
 
 
 }
