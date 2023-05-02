@@ -19,7 +19,7 @@ public class NotificationsViewModel extends ViewModel {
         // TODO: Use Firebase to retrieve categories
         ArrayList<Reminder> testArrayList = new ArrayList<>();
         for (int i = 0; i < 4; i++) {
-            Reminder u = new Reminder("Hola", "Va a Caducar lokete", "18:05 - 6 horas atras", "https://source.unsplash.com/random/?Product&" + i);
+            Reminder u = new Reminder("1", "Producto " + (i + 1), "18:05 - 6 horas atras", "https://source.unsplash.com/random/?Product&" + i);
             testArrayList.add(u);
         }
         this.setUsers(testArrayList);

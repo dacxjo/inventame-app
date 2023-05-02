@@ -18,13 +18,13 @@ import java.util.ArrayList;
 
 import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 
-public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHolder> {
+public class EmployeeCardAdapter extends RecyclerView.Adapter<EmployeeCardAdapter.ViewHolder> {
 
-    private ArrayList<Employee> mUsers;
+    private ArrayList<Employee> employees;
     private OnClickCardListener onClickCardListener;
     // Constructor
-    public UserCardAdapter(ArrayList<Employee> userList) {
-        this.mUsers = userList;
+    public EmployeeCardAdapter(ArrayList<Employee> userList) {
+        this.employees = userList;
     }
 
     public void setOnClickCardListener(OnClickCardListener listener) {
@@ -36,44 +36,38 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.user_card_layout, parent, false);
-        return new UserCardAdapter.ViewHolder(view);
+        return new EmployeeCardAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(mUsers.get(position), this.onClickCardListener);
+        holder.bind(employees.get(position), this.onClickCardListener);
     }
 
     @Override
     public int getItemCount() {
-        return mUsers.size();
+        return employees.size();
     }
 
-    public void setUsers(ArrayList<Employee> users) {
-        this.mUsers = users; // no recicla/repinta res
+    public void setEmployees(ArrayList<Employee> employees) {
+        this.employees = employees;
     }
 
-    public void updateUsers() {
+    public void updateEmployees() {
         notifyDataSetChanged();
     }
 
-    public void hideUser(int position) {
+    public void hideEmployee(int position) {
         notifyItemRemoved(position);
     }
 
     public interface OnClickCardListener {
-        void OnClickCard(int position);
+        void OnClickCard(Employee employee);
     }
 
-    /*
-     * ViewHolder class. It's just a placeholder for the view (user_card_list.xml)
-     * of the RecyclerView items. We can implement this outside RecyclerViewAdapter,
-     * but it can be done inside.
-     */
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final ImageView mCardPictureUrl;
         private final TextView mCardFullName;
-
         private final MaterialCardView card;
 
         public ViewHolder(@NonNull View itemView) {
@@ -83,12 +77,14 @@ public class UserCardAdapter extends RecyclerView.Adapter<UserCardAdapter.ViewHo
             card = itemView.findViewById(R.id.card);
         }
 
-        public void bind(final Employee user, OnClickCardListener listener) {
-            mCardFullName.setText(user.getFullName());
-            Picasso.get().load(user.getImageUrl()).transform(new RoundedCornersTransformation(50, 0)).fit()
-                    .centerCrop().into(mCardPictureUrl);
+        public void bind(final Employee employee, OnClickCardListener listener) {
+            mCardFullName.setText(employee.getFullName());
+            int randomInt = (int) (Math.random() * 1000000);
+            String randomPath = "https://api.dicebear.com/6.x/notionists/png?seed=" + randomInt;
+            Picasso.get().load(employee.getImageUrl().isEmpty() ? randomPath : employee.getImageUrl()).transform(new RoundedCornersTransformation(50, 0)).fit()
+                        .centerCrop().into(mCardPictureUrl);
             card.setOnClickListener(view -> {
-                listener.OnClickCard(getAdapterPosition());
+                listener.OnClickCard(employee);
             });
         }
     }
