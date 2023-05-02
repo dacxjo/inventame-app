@@ -34,25 +34,20 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.divider.MaterialDivider;
 import com.squareup.picasso.Picasso;
 import com.ubpis.inventame.R;
+import com.ubpis.inventame.databinding.FragmentProductFormBinding;
 
 
 import java.util.Date;
 
 public class ProductDialogFragment extends DialogFragment {
 
-    private MaterialCardView productPicker;
-    private ImageView productImage;
-    private Button scannerButton, deleteButton;
-    private EditText productIdEditText, productNameEditText, productDescriptionEditText, productPriceEditText, productStockEditText, productBatchEditText, productExpirationEditText;
     private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
     private ActivityResultLauncher<Intent> takePictureLauncher;
     private ActivityResultLauncher<String> requestPermissionLauncher;
     private AlertDialog dialog;
     public static String TAG = "AddProductDialog";
-    private Toolbar toolbar;
-
-    private MaterialDivider divider;
     private boolean isEdit;
+    private FragmentProductFormBinding binding;
 
 
     public ProductDialogFragment() {
@@ -85,27 +80,10 @@ public class ProductDialogFragment extends DialogFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setNavigationOnClickListener(value -> dismiss());
-
-        productPicker = view.findViewById(R.id.productPicker);
-        productImage = view.findViewById(R.id.product_image);
-        scannerButton = view.findViewById(R.id.scanner_button);
-        deleteButton = view.findViewById(R.id.delete_button);
-        divider = view.findViewById(R.id.divider);
-
-        productIdEditText = view.findViewById(R.id.product_id_textfield);
-        productNameEditText = view.findViewById(R.id.product_name_textfield);
-        productDescriptionEditText = view.findViewById(R.id.product_description_textarea);
-        productPriceEditText = view.findViewById(R.id.product_price_textfield);
-        productStockEditText = view.findViewById(R.id.product_stock_textfield);
-        productBatchEditText = view.findViewById(R.id.product_batch_textfield);
-        productExpirationEditText = view.findViewById(R.id.product_expiration_textfield);
-
-        productPicker.setOnClickListener(v -> showProductPickerChoices());
-        scannerButton.setOnClickListener(v -> launchScanner());
-        productExpirationEditText.setOnClickListener(v -> showDatePicker());
+        binding.productPicker.setOnClickListener(v -> showProductPickerChoices());
+        binding.scannerButton.setOnClickListener(v -> launchScanner());
+        binding.productExpirationTextfield.setOnClickListener(v -> showDatePicker());
+        binding.toolbar.setNavigationOnClickListener(v -> dismiss());
         handleEdit();
     }
 
@@ -113,7 +91,7 @@ public class ProductDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-
+        binding = FragmentProductFormBinding.inflate(inflater, container, false);
         requestPermissionLauncher =
                 registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                     if (isGranted) {
@@ -129,7 +107,7 @@ public class ProductDialogFragment extends DialogFragment {
                 registerForActivityResult(new ActivityResultContracts.PickVisualMedia(), uri -> {
                     if (uri != null) {
                         Log.d("PhotoPicker", "Selected URI: " + uri);
-                        Picasso.get().load(uri).into(productImage);
+                        Picasso.get().load(uri).into(binding.product);
                     } else {
                         Log.d("PhotoPicker", "No media selected");
                     }
@@ -140,12 +118,12 @@ public class ProductDialogFragment extends DialogFragment {
                 result -> {
                     if (result.getResultCode() == Activity.RESULT_OK) {
                         Bitmap photo = (Bitmap) result.getData().getExtras().get("data");
-                        productImage.setImageBitmap(photo);
+                        binding.product.setImageBitmap(photo);
                     }
                 }
         );
 
-        return inflater.inflate(R.layout.fragment_product_form, container, false);
+        return binding.getRoot();
     }
 
     private void launchScanner() {
@@ -165,7 +143,7 @@ public class ProductDialogFragment extends DialogFragment {
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             String dateString = sdf.format(new Date(selectedDate));
             // Set the selected date string to the textfield
-            productExpirationEditText.setText(dateString);
+            binding.productExpirationTextfield.setText(dateString);
         });
 
         datePicker.show(getParentFragmentManager(), "Expiration Date");
@@ -210,10 +188,10 @@ public class ProductDialogFragment extends DialogFragment {
 
     private void handleEdit(){
         if(this.isEdit){
-            deleteButton.setVisibility(View.VISIBLE);
-            divider.setVisibility(View.GONE);
-            scannerButton.setVisibility(View.GONE);
-            toolbar.setTitle(R.string.inventory_edit_title);
+            binding.deleteButton.setVisibility(View.VISIBLE);
+            binding.divider.setVisibility(View.GONE);
+            binding.scannerButton.setVisibility(View.GONE);
+            binding.toolbar.setTitle(R.string.inventory_edit_title);
         }
     }
 

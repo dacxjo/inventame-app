@@ -1,6 +1,7 @@
 package com.ubpis.inventame.view.fragment;
 
 import android.animation.ValueAnimator;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ubpis.inventame.R;
 import com.ubpis.inventame.databinding.FragmentHomeBinding;
@@ -67,7 +69,7 @@ public class HomeFragment extends Fragment {
         mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         topThreeProductsList = view.findViewById(R.id.top_three_products_list);
         toolbar = view.findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.outline_settings_24);
+        toolbar.setNavigationIcon(R.drawable.baseline_logout_24);
         setupTopThreeProductsList();
         setupShareChart(view);
         setupCounters(view);
@@ -149,9 +151,18 @@ public class HomeFragment extends Fragment {
     }
 
     private void logout(View view) {
-        PreferenceManager.getDefaultSharedPreferences(getContext()).edit().clear().apply();
-        auth.signOut();
-        NavDirections action = OnboardActivityDirections.actionGlobalOnBoardActivity();
-        Navigation.findNavController(view).navigate(action);
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext())
+                .setTitle("¿Cerrar sesión?")
+                .setMessage("No te vayas, te extrañaremos :c")
+                .setPositiveButton("Si", (dialog, which) -> {
+                    PreferenceManager.getDefaultSharedPreferences(getContext()).edit().clear().apply();
+                    auth.signOut();
+                    NavDirections action = OnboardActivityDirections.actionGlobalOnBoardActivity();
+                    Navigation.findNavController(view).popBackStack();
+                    Navigation.findNavController(view).clearBackStack(R.id.startupFragment);
+                    Navigation.findNavController(view).navigate(action);
+                })
+                .setNegativeButton("No", null);
+        builder.create().show();
     }
 }
