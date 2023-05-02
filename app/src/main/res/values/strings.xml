@@ -83,6 +83,12 @@
     <string name="employee_document">Documento Identidad</string>
     <string name="employee_delete">Borrar empleado</string>
 
+    <!-- Strings: CRUD notifications -->
+    <string name="employee_added">Empleado agregado</string>
+    <string name="employee_updated">Empleado actualizado</string>
+    <string name="employee_deleted">Empleado borrado</string>
+
+
     <!-- Strings: Home -->
     <string name="welcome">Bienvenido</string>
     <string name="total_value">Valor total</string>
@@ -116,5 +122,8 @@
     <string name="delete_sale">Eliminar venta</string>
     <string name="item_count">%1$d item en tu cesta</string>
     <string name="quantity">Cant.: %1$d</string>
+
+    <!-- Strings: Empty State -->
+    <string name="empty_state_employees">No tienes empleados registrados</string>
 
 </resources>

@@ -10,17 +10,23 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
+import com.faltenreich.skeletonlayout.Skeleton;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.search.SearchView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.ubpis.inventame.R;
-import com.ubpis.inventame.view.adapter.UserCardAdapter;
+import com.ubpis.inventame.data.model.Employee;
+import com.ubpis.inventame.databinding.FragmentEmployeeBinding;
+import com.ubpis.inventame.view.adapter.EmployeeCardAdapter;
 import com.ubpis.inventame.viewmodel.EmployeeViewModel;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,8 +36,9 @@ import com.ubpis.inventame.viewmodel.EmployeeViewModel;
 public class EmployeeFragment extends Fragment {
 
     private EmployeeViewModel viewModel;
-    private RecyclerView employeeList;
-    private UserCardAdapter userCardAdapter;
+    private EmployeeCardAdapter employeeCardAdapter;
+    private FragmentEmployeeBinding binding;
+    private Skeleton skeleton;
 
     public static EmployeeFragment newInstance() {
         return new EmployeeFragment();
@@ -40,31 +47,58 @@ public class EmployeeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_employee, container, false);
+        binding = FragmentEmployeeBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         viewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
-        employeeList = view.findViewById(R.id.employeeCardRv);
         LinearLayoutManager manager = new LinearLayoutManager(
                 this.getContext(), LinearLayoutManager.VERTICAL, false
         );
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(employeeList.getContext(),
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.employeeList.getContext(),
                 manager.getOrientation());
-        employeeList.addItemDecoration(dividerItemDecoration);
+        binding.employeeList.addItemDecoration(dividerItemDecoration);
 
-        employeeList.setLayoutManager(manager);
-        userCardAdapter = new UserCardAdapter(
-                viewModel.getUsers().getValue()
+        binding.employeeList.setLayoutManager(manager);
+        employeeCardAdapter = new EmployeeCardAdapter(
+                viewModel.getEmployees().getValue()
         );
-        userCardAdapter.setOnClickCardListener(this::showEditEmployeeDialog);
-        employeeList.setAdapter(userCardAdapter);
+        employeeCardAdapter.setOnClickCardListener(this::showEditEmployeeDialog);
+        binding.employeeList.setAdapter(employeeCardAdapter);
+        /*viewModel.getIsLoading().observe(this.getViewLifecycleOwner(), isLoading -> {
+            if (isLoading) {
+                skeleton.showSkeleton();
+            } else {
+                skeleton.showOriginal();
+            }
+        });
+        skeleton = SkeletonLayoutUtils.applySkeleton(binding.employeeList, R.layout.user_card_layout);
+        skeleton.setMaskCornerRadius(40f);*/
+        final Observer<ArrayList<Employee>> observerEmployees = employees -> {
+            if (viewModel.getEmployees().getValue().isEmpty()) {
+                binding.emptyState.setVisibility(View.VISIBLE);
+                binding.employeeList.setVisibility(View.GONE);
+            } else {
+                binding.emptyState.setVisibility(View.GONE);
+                binding.employeeList.setVisibility(View.VISIBLE);
+            }
+            employeeCardAdapter.notifyDataSetChanged();
+        };
+        viewModel.getEmployees().observe(this.getViewLifecycleOwner(), observerEmployees);
+        viewModel.loadEmployeesFromRepository(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        this.setupBottomNavigationTransition();
+    }
 
-        SearchView searchView = requireView().findViewById(R.id.search_view);
+    private void showEditEmployeeDialog(Employee employee) {
+         new EmployeeDialogFragment(true, employee).show(
+                getChildFragmentManager(), EmployeeDialogFragment.TAG);
+    }
+
+    private void setupBottomNavigationTransition(){
+        SearchView searchView = binding.searchView;
         BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
         ExtendedFloatingActionButton fab = getActivity().findViewById(R.id.extended_fab);
         searchView.addTransitionListener((searchView1, previousState, newState) -> {
@@ -83,10 +117,5 @@ public class EmployeeFragment extends Fragment {
                 fab.show();
             }
         });
-    }
-
-    private void showEditEmployeeDialog(int position) {
-        new EmployeeDialogFragment(true).show(
-                getChildFragmentManager(), EmployeeDialogFragment.TAG);
     }
 }

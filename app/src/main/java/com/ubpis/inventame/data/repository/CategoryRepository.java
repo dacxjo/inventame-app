@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.ubpis.inventame.data.model.Category;
 
@@ -34,6 +35,7 @@ public class CategoryRepository {
     public void getCategories(ArrayList<Category> categories) {
         categories.clear();
         categoriesCollection
+                .orderBy("createdAt", Query.Direction.ASCENDING)
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
