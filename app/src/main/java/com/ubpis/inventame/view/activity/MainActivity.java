@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         });
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String userType = sharedPref.getString("userType", UserType.BUSINESS.toString());
-        new Toast(this).makeText(this, userType, Toast.LENGTH_SHORT).show();
         if (userType.equals(UserType.EMPLOYEE.toString())) {
             bottomNav.getMenu().removeItem(R.id.employeesFragment);
         }
