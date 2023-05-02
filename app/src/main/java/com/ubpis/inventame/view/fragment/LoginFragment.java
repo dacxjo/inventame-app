@@ -1,8 +1,8 @@
 package com.ubpis.inventame.view.fragment;
 
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,10 +14,13 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavDirections;
 import androidx.navigation.Navigation;
+import androidx.preference.PreferenceManager;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.ubpis.inventame.databinding.FragmentLoginBinding;
 import com.ubpis.inventame.viewmodel.LoginViewModel;
 
@@ -41,8 +44,7 @@ public class LoginFragment extends Fragment {
         binding.setViewModel(mViewModel);
         binding.setLifecycleOwner(this);
         setupValidationObservers();
-        View view = binding.getRoot();
-        return view;
+        return binding.getRoot();
     }
 
     @Override
@@ -63,7 +65,7 @@ public class LoginFragment extends Fragment {
         binding = null;
     }
 
-    private void setupValidationObservers(){
+    private void setupValidationObservers() {
         mViewModel.getEmail().observe(getViewLifecycleOwner(), email -> mViewModel.checkEmail());
         mViewModel.getPassword().observe(getViewLifecycleOwner(), password -> mViewModel.checkPassword());
         mViewModel.errors.observe(getViewLifecycleOwner(), errors -> {
@@ -72,16 +74,12 @@ public class LoginFragment extends Fragment {
             } else {
                 binding.emailTextField.setError(null);
             }
-            if(errors.containsKey("password")){
+            if (errors.containsKey("password")) {
                 binding.passwordTextField.setError(getString(errors.get("password")));
             } else {
                 binding.passwordTextField.setError(null);
             }
-            if(mViewModel.isValidForm()){
-                binding.buttonLogin.setEnabled(true);
-            } else {
-                binding.buttonLogin.setEnabled(false);
-            }
+            binding.buttonLogin.setEnabled(mViewModel.isValidForm());
         });
     }
 
@@ -95,7 +93,15 @@ public class LoginFragment extends Fragment {
         binding.buttonLogin.setEnabled(false);
         auth.signInWithEmailAndPassword(username, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Log.d("LoginFragment", "signInWithEmail:success");
+                FirebaseUser user = auth.getCurrentUser();
+                FirebaseFirestore.getInstance().collection("users").document(user.getUid()).get().addOnSuccessListener(documentSnapshot -> {
+                    String userType = documentSnapshot.getString("type");
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.clear();
+                    editor.putString("userType", userType);
+                    editor.commit();
+                });
                 goToMainActivity(binding.getRoot());
             } else {
                 try {
@@ -117,7 +123,6 @@ public class LoginFragment extends Fragment {
                                     .show();
                             break;
                     }
-                    Log.w("LoginFragment", errorCode);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

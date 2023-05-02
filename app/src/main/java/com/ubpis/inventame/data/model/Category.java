@@ -1,28 +1,35 @@
 package com.ubpis.inventame.data.model;
 
-public class Category {
+import com.google.firebase.Timestamp;
+
+public class Category implements FirebaseDocument {
 
     private String id;
-    private String title;
-    private String description;
-    private String img;
-
+    private final String title;
+    private final String description;
+    private final String img;
+    private Timestamp createdAt;
+    private Timestamp deletedAt;
     private boolean isSelected;
 
 
-    public Category(String id, String title, String desc, String img) {
+    public Category(String id, String title, String desc, String img, Timestamp createdAt, Timestamp deletedAt) {
         this.id = id;
         this.title = title;
         this.description = desc;
         this.img = img;
+        this.createdAt = createdAt;
+        this.deletedAt = deletedAt;
         this.isSelected = false;
     }
 
-    public Category(String id, String title, String desc, String img, boolean isSelected) {
+    public Category(String id, String title, String desc, String img, Timestamp createdAt, Timestamp deletedAt, boolean isSelected) {
         this.id = id;
         this.title = title;
         this.description = desc;
         this.img = img;
+        this.createdAt = createdAt;
+        this.deletedAt = deletedAt;
         this.isSelected = isSelected;
     }
 
@@ -56,5 +63,26 @@ public class Category {
 
     public boolean getIsSelected() {
         return this.isSelected;
+    }
+
+
+    @Override
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    @Override
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @Override
+    public Timestamp getDeletedAt() {
+        return deletedAt;
+    }
+
+    @Override
+    public void setDeletedAt(Timestamp deletedAt) {
+        this.deletedAt = deletedAt;
     }
 }

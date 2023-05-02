@@ -1,16 +1,18 @@
 package com.ubpis.inventame.data.model;
 
-public class User {
-    private String email;
-    private String name;
-    private String surname;
-    private String mPictureURL; // Url d'Internet, no la foto en si
+import com.google.firebase.Timestamp;
 
-    public User(String email, String name, String surname, String pictureURL) {
-        this.email = email;
-        this.name = name;
-        this.surname = surname;
-        this.mPictureURL = pictureURL;
+public class User implements FirebaseDocument {
+
+    private String id;
+    private String email;
+    private UserType type;
+
+    private String imageUrl;
+    private Timestamp createdAt;
+    private Timestamp deletedAt;
+
+    public User() {
     }
 
     public String getEmail() {
@@ -21,35 +23,50 @@ public class User {
         this.email = email;
     }
 
-    public String getName() {
-        return name;
+    public UserType getType() {
+        return type;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setType(UserType type) {
+        this.type = type;
     }
 
-    public String getSurname() {
-        return surname;
+
+    @Override
+    public String getId() {
+        return this.id;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    @Override
+    public void setId(String id) {
+        this.id = id;
     }
 
-    public String getFullName() {
-        return name + " " + surname;
+    @Override
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public String getmPictureURL() {
-        return mPictureURL;
+    @Override
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public void setmPictureURL(String mPictureURL) {
-        this.mPictureURL = mPictureURL;
+    @Override
+    public Timestamp getDeletedAt() {
+        return deletedAt;
     }
 
-    public String getPwd(){
-        return "00000";
+    @Override
+    public void setDeletedAt(Timestamp deletedAt) {
+        this.deletedAt = deletedAt;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

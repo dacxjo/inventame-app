@@ -94,6 +94,9 @@
     <!-- Strings: Form Validation -->
     <string name="form_validation_required">*Requerido</string>
     <string name="form_validation_email">Email no válido</string>
+    <string name="form_validation_password_confirm">La contraseña no coincide</string>
+    <string name="form_validation_min_length">La contraseña debe tener al menos 6 carácteres</string>
+    <string name="form_validation_invalid_document">Documento inválido</string>
 
     <!-- Strings: Cart/Softpos -->
     <string name="initial_quantity">0,00€</string>

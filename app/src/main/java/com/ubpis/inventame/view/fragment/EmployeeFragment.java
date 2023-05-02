@@ -29,7 +29,7 @@ import com.ubpis.inventame.viewmodel.EmployeeViewModel;
  */
 public class EmployeeFragment extends Fragment {
 
-    private EmployeeViewModel ViewModel;
+    private EmployeeViewModel viewModel;
     private RecyclerView employeeList;
     private UserCardAdapter userCardAdapter;
 
@@ -47,7 +47,7 @@ public class EmployeeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ViewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
+        viewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
         employeeList = view.findViewById(R.id.employeeCardRv);
         LinearLayoutManager manager = new LinearLayoutManager(
                 this.getContext(), LinearLayoutManager.VERTICAL, false
@@ -59,7 +59,7 @@ public class EmployeeFragment extends Fragment {
 
         employeeList.setLayoutManager(manager);
         userCardAdapter = new UserCardAdapter(
-                ViewModel.getUsers().getValue()
+                viewModel.getUsers().getValue()
         );
         userCardAdapter.setOnClickCardListener(this::showEditEmployeeDialog);
         employeeList.setAdapter(userCardAdapter);
@@ -77,7 +77,7 @@ public class EmployeeFragment extends Fragment {
                     }
                 });
                 fab.hide();
-            }else if(newState == SearchView.TransitionState.HIDDEN){
+            } else if (newState == SearchView.TransitionState.HIDDEN) {
                 bottomNav.setVisibility(View.VISIBLE);
                 bottomNav.animate().translationY(0).setDuration(300).setListener(null);
                 fab.show();
@@ -85,7 +85,7 @@ public class EmployeeFragment extends Fragment {
         });
     }
 
-    private void showEditEmployeeDialog(int position){
+    private void showEditEmployeeDialog(int position) {
         new EmployeeDialogFragment(true).show(
                 getChildFragmentManager(), EmployeeDialogFragment.TAG);
     }
