@@ -1,5 +1,7 @@
 package com.ubpis.inventame.data.model;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.UUID;
@@ -41,5 +43,9 @@ public class Sale {
 
     public double getTotal() {
         return total;
+    }
+
+    public void addProduct(Product product){
+        productList.add(product);
     }
 }

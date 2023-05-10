@@ -116,5 +116,10 @@
     <string name="delete_sale">Eliminar venta</string>
     <string name="item_count">%1$d item en tu cesta</string>
     <string name="quantity">Cant.: %1$d</string>
-
+    <string description="a transient text that appears on screen when a card is dismissed [CHAR LIMIT=30]"
+        name="cat_card_dismissed">Card dismissed</string>
+    <string description="A label in a button to dismiss the last action [CHAR LIMIT=15]"
+        name="cat_card_undo">Undo</string>
+    <string description="a transient text that appears on screen when a notification card is dismissed [CHAR LIMIT=30]"
+        name="cat_notification_card_dismissed">Notificación descartada</string>
 </resources>

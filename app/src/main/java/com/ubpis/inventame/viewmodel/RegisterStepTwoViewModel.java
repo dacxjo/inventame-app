@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.ubpis.inventame.R;
-import com.ubpis.inventame.utils.Validation;
+import com.ubpis.inventame.data.model.utils.Validation;
 
 import java.util.HashMap;
 import java.util.Map;

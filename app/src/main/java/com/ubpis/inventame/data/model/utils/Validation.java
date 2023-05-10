@@ -1,4 +1,4 @@
-package com.ubpis.inventame.utils;
+package com.ubpis.inventame.data.model.utils;
 
 import android.util.Patterns;
 

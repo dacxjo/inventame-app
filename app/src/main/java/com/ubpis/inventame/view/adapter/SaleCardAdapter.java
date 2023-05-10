@@ -10,34 +10,122 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.behavior.SwipeDismissBehavior;
+import com.google.android.material.behavior.SwipeDismissBehavior.OnDismissListener;
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 import com.ubpis.inventame.R;
-import com.ubpis.inventame.data.model.CartItem;
+import com.ubpis.inventame.data.model.Product;
 import com.ubpis.inventame.data.model.Sale;
 import com.ubpis.inventame.view.adapter.SaleCardAdapter;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class SaleCardAdapter extends RecyclerView.Adapter<SaleCardAdapter.ViewHolder> {
+    public interface OnClickCardListener {
+        void OnClickCard(int position);
+    }
     private final ArrayList<Sale> salesList;
-
-    public SaleCardAdapter(ArrayList<Sale> salesList) {
+    private OnClickCardListener clickCardListener;
+    boolean enableListener;
+    private SwipeDismissBehavior<View> swipeDismissBehavior;
+    private CoordinatorLayout container;
+    private MaterialCardView card;
+    private ExtendedFloatingActionButton fab;
+    public SaleCardAdapter(ArrayList<Sale> salesList, CoordinatorLayout container, ExtendedFloatingActionButton fab) {
         this.salesList = salesList;
+        this.enableListener = true;
+        this.container = container;
+        this.fab = fab;
+    }
+
+    public SaleCardAdapter(ArrayList<Sale> salesList, boolean enableListener, CoordinatorLayout container, ExtendedFloatingActionButton fab) {
+        this.salesList = salesList;
+        this.enableListener = enableListener;
+        this.container = container;
+        this.fab = fab;
+    }
+
+    public void setOnClickCardListener(OnClickCardListener listener) {
+        this.clickCardListener = listener;
     }
 
     @NonNull
     @Override
     public SaleCardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.cart_row_item, parent, false);
+        View view = layoutInflater.inflate(R.layout.sales_row_card, parent, false);
+
+        /** Setup with {@link SwipeDismissBehavior} */
+        swipeDismissBehavior = new SwipeDismissBehavior<>();
+        swipeDismissBehavior.setSwipeDirection(SwipeDismissBehavior.SWIPE_DIRECTION_END_TO_START);
+
+        card = view.findViewById(R.id.card);
+        CoordinatorLayout.LayoutParams coordinatorParams =
+                (CoordinatorLayout.LayoutParams) card.getLayoutParams();
+
+        coordinatorParams.setBehavior(swipeDismissBehavior);
+
         return new SaleCardAdapter.ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SaleCardAdapter.ViewHolder holder, int position) {
-        holder.bind(salesList.get(position));
+        holder.bind(salesList.get(position), this.clickCardListener, this.enableListener);
+        swipeDismissBehavior.setListener(new OnDismissListener() {
+            final Sale sale = salesList.get(position);
+            @Override
+            public void onDismiss(View view) {
+                restoreSale(sale, position);
+                Snackbar.make(container, R.string.cat_card_dismissed, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.cat_card_undo, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                //restoreSale(sale, position);
+                                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) card
+                                        .getLayoutParams();
+                                params.setMargins(0, 0, 0, 0);
+                                card.setAlpha(1.0f);
+                                card.requestLayout();
+                            }
+                        }).setAnchorView(fab).show();
+
+                //salesList.remove(position);
+                //notifyItemRemoved(position);
+            }
+
+            @Override
+            public void onDragStateChanged(int state) {
+                SaleCardAdapter.onDragStateChanged(state, card);
+            }
+        });
+
+        /* TEO: Utiliza este codigo para hacer swipe-to-dismiss en Notificaciones,
+        ya que no interesa restaurar la card eliminada:
+
+        swipeDismissBehavior.setListener(new OnDismissListener() {
+            @Override
+            public void onDismiss(View view) {
+                Snackbar.make(container, R.string.cat_notification_card_dismissed, Snackbar.LENGTH_SHORT).setAnchorView(fab).show();
+                removeSale(position);
+            }
+
+            @Override
+            public void onDragStateChanged(int state) {
+                SaleCardAdapter.onDragStateChanged(state, card);
+            }
+        });
+        */
     }
 
     @Override
@@ -46,23 +134,67 @@ public class SaleCardAdapter extends RecyclerView.Adapter<SaleCardAdapter.ViewHo
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final ImageView itemImage;
-        private final TextView itemName;
-        private final TextView quantityNumber;
-        private final ImageButton lessQuantityButton;
-        private final TextView itemPrice;
+        private MaterialCardView card;
+        private final TextView id;
+        private final TextView date;
+        private final TextView price;
 
         public ViewHolder(View view) {
             super(view);
-            itemImage = view.findViewById(R.id.itemImage);
-            itemName = view.findViewById(R.id.itemHeadline);
-            quantityNumber = view.findViewById(R.id.quantityNumber);
-            lessQuantityButton = view.findViewById(R.id.buttonLessQuantity);
-            itemPrice = view.findViewById(R.id.itemPrice);
+            card = view.findViewById(R.id.card);
+            id = view.findViewById(R.id.saleID);
+            date = view.findViewById(R.id.saleDate);
+            price = view.findViewById(R.id.salePrice);
         }
 
-        public void bind(final Sale saleCard){
+        public void bind(final Sale sale, OnClickCardListener listener, boolean enableListener){
+            id.setText("#" + sale.getUuid().toString().substring(0,8));
 
+            Date dateSale = sale.getDate();
+
+            Instant instant = dateSale.toInstant();
+            ZoneId zoneId = ZoneId.systemDefault();
+            LocalDateTime localDateTime = instant.atZone(zoneId).toLocalDateTime();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+            String formattedDate = localDateTime.format(formatter);
+            date.setText(formattedDate);
+            price.setText(String.valueOf(sale.getTotal()).replace(".",",") + "€");
+
+            if (enableListener){
+                card.setOnClickListener(view -> {
+                    listener.OnClickCard(getAdapterPosition());
+                });
+            }
         }
+    }
+
+    private static void onDragStateChanged(int state, MaterialCardView cardContentLayout) {
+        switch (state) {
+            case SwipeDismissBehavior.STATE_DRAGGING:
+            case SwipeDismissBehavior.STATE_SETTLING:
+                cardContentLayout.setDragged(true);
+                break;
+            case SwipeDismissBehavior.STATE_IDLE:
+                cardContentLayout.setDragged(false);
+                break;
+            default: // fall out
+        }
+    }
+
+    private static void resetCard(MaterialCardView cardContentLayout) {
+        CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) cardContentLayout
+                .getLayoutParams();
+        params.setMargins(0, 0, 0, 0);
+        cardContentLayout.setAlpha(1.0f);
+        cardContentLayout.requestLayout();
+    }
+
+    public void removeSale(int position) {
+        salesList.remove(position);
+        notifyItemInserted(position);
+    }
+    public void restoreSale(Sale sale, int position) {
+        salesList.add(position, sale);
+        notifyItemInserted(position);
     }
 }
