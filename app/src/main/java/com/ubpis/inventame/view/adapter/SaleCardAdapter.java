@@ -68,7 +68,7 @@ public class SaleCardAdapter extends RecyclerView.Adapter<SaleCardAdapter.ViewHo
 
         /** Setup with {@link SwipeDismissBehavior} */
         swipeDismissBehavior = new SwipeDismissBehavior<>();
-        swipeDismissBehavior.setSwipeDirection(SwipeDismissBehavior.SWIPE_DIRECTION_END_TO_START);
+        swipeDismissBehavior.setSwipeDirection(SwipeDismissBehavior.SWIPE_DIRECTION_ANY);
 
         card = view.findViewById(R.id.card);
         CoordinatorLayout.LayoutParams coordinatorParams =
@@ -84,24 +84,26 @@ public class SaleCardAdapter extends RecyclerView.Adapter<SaleCardAdapter.ViewHo
         holder.bind(salesList.get(position), this.clickCardListener, this.enableListener);
         swipeDismissBehavior.setListener(new OnDismissListener() {
             final Sale sale = salesList.get(position);
+            final MaterialCardView materialCardView = holder.card;
             @Override
             public void onDismiss(View view) {
-                restoreSale(sale, position);
                 Snackbar.make(container, R.string.cat_card_dismissed, Snackbar.LENGTH_LONG)
                         .setAction(R.string.cat_card_undo, new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
-                                //restoreSale(sale, position);
-                                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) card
+                                salesList.add(position, sale);
+                                notifyItemInserted(position);
+
+                                CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) materialCardView
                                         .getLayoutParams();
                                 params.setMargins(0, 0, 0, 0);
-                                card.setAlpha(1.0f);
-                                card.requestLayout();
+                                materialCardView.setAlpha(1.0f);
+                                materialCardView.requestLayout();
                             }
                         }).setAnchorView(fab).show();
 
-                //salesList.remove(position);
-                //notifyItemRemoved(position);
+                salesList.remove(position);
+                notifyItemRemoved(position);
             }
 
             @Override
@@ -109,23 +111,6 @@ public class SaleCardAdapter extends RecyclerView.Adapter<SaleCardAdapter.ViewHo
                 SaleCardAdapter.onDragStateChanged(state, card);
             }
         });
-
-        /* TEO: Utiliza este codigo para hacer swipe-to-dismiss en Notificaciones,
-        ya que no interesa restaurar la card eliminada:
-
-        swipeDismissBehavior.setListener(new OnDismissListener() {
-            @Override
-            public void onDismiss(View view) {
-                Snackbar.make(container, R.string.cat_notification_card_dismissed, Snackbar.LENGTH_SHORT).setAnchorView(fab).show();
-                removeSale(position);
-            }
-
-            @Override
-            public void onDragStateChanged(int state) {
-                SaleCardAdapter.onDragStateChanged(state, card);
-            }
-        });
-        */
     }
 
     @Override
