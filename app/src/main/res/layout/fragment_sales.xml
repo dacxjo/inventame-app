@@ -39,6 +39,47 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp">
+
+            <TextView
+                android:id="@+id/numSales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_alignBaseline="@id/sortButton"
+                android:text="@string/info_num_sales"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="@color/md_theme_light_onSurface" />
+
+            <TextView
+                android:id="@+id/sortType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@id/sortButton"
+                android:layout_centerInParent="true"
+                android:layout_toStartOf="@id/sortButton"
+                android:text="@string/sort_type"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="@color/md_theme_light_onSurface" />
+
+            <Button
+                android:id="@+id/sortButton"
+                style="?attr/materialIconButtonStyle"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                app:icon="@drawable/ic_arrow_drop_down_24"
+                app:iconGravity="textStart"
+                app:iconSize="18dp"
+                app:iconTint="@color/md_theme_light_onSurface" />
+
+        </RelativeLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/saleCardList"
             android:layout_width="wrap_content"

@@ -56,8 +56,8 @@
                 android:paddingRight="16dp"
                 android:paddingBottom="16dp"
                 android:text="@string/item_count"
-                android:textColor="@color/md_theme_light_onSurface"
-                android:textSize="14sp" />
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="@color/md_theme_light_onSurface" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/itemCartList"

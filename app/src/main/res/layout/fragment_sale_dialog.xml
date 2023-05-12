@@ -22,7 +22,7 @@
             app:menu="@menu/sale_appbar_menu"
             app:navigationIcon="@drawable/ic_close_24"
             app:navigationIconTint="@color/md_theme_light_onSurface"
-            app:title="Venta: #00001"
+            app:title="@string/titleToolbarSaleDialog"
             app:titleTextAppearance="@style/TextAppearance.Material3.TitleLarge" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -41,26 +41,23 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center|start"
-            android:paddingBottom="16dp"
-            android:text="Realizada por: Nombre\nFecha: 27-03-2023"
-            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:paddingBottom="8dp"
+            android:text="@string/info_sale"
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
             android:textColor="@color/md_theme_light_onSurfaceVariant"
             />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/itemCartList"
+            android:id="@+id/saleCartList"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <com.google.android.material.divider.MaterialDivider
-            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="28dp" />
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp" />
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
             android:orientation="horizontal">
 
             <TextView

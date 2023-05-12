@@ -23,16 +23,18 @@ import com.ubpis.inventame.R;
 import com.ubpis.inventame.data.model.CartItem;
 import com.ubpis.inventame.data.model.Product;
 import com.ubpis.inventame.data.model.Sale;
-import com.ubpis.inventame.view.adapter.ItemCardAdapter;
-import com.ubpis.inventame.view.adapter.SaleCardAdapter;
+import com.ubpis.inventame.view.adapter.SalesCardAdapter;
 
 import java.util.ArrayList;
 
 public class SalesFragment extends Fragment {
 
     private RecyclerView saleCardList;
-    private SaleCardAdapter saleCardAdapter;
+    private SalesCardAdapter salesCardAdapter;
     private CoordinatorLayout coordinatorLayout;
+    private ArrayList<Sale> saleCards;
+    private double total = 0;
+
     public static SalesFragment newInstance() {
         return new SalesFragment();
     }
@@ -51,18 +53,28 @@ public class SalesFragment extends Fragment {
         LinearLayoutManager manager = new LinearLayoutManager(this.getContext(), LinearLayoutManager.VERTICAL, false);
         saleCardList.setLayoutManager(manager);
 
-        ArrayList<Sale> saleCards = new ArrayList<>();
-        ArrayList<Product> productList = new ArrayList<>();
-        productList.add(new Product("149141710", "Coca-Cola 330 ml", "Lata de Coca-Cola", 0.60, 5, false));
-        productList.add(new Product("149141710", "Coca-Cola 330 ml", "Lata de Coca-Cola", 0.60, 5, false));
-        productList.add(new Product("149141710", "Coca-Cola 330 ml", "Lata de Coca-Cola", 0.60, 5, false));
-        productList.add(new Product("149141710", "Coca-Cola 330 ml", "Lata de Coca-Cola", 0.60, 5, false));
+        saleCards = new ArrayList<>();
+        ArrayList<CartItem> cartItems = new ArrayList<>();
+        cartItems.add(new CartItem("https://images.hola.com/imagenes/seleccion/20220301205438/google-nest-hub-guia/1-185-257/google-nest-hub-m.jpg", "Google Nest Hub", 1,99.00f));
+        cartItems.add(new CartItem("https://cdn.businessinsider.es/sites/navi.axelspringer.es/public/media/image/2022/02/reloj-cocina-2620297.jpg", "Clock", 3, 45.00f));
+        cartItems.add(new CartItem("https://www.powerplanetonline.com/cdnassets/yeelight_crystal_pendant_light_lampara_de_techo_inteligente_09_ad_l.jpg", "Pendant Lamp", 2, 200.00f));
+        cartItems.add(new CartItem("https://lh3.googleusercontent.com/cewixHQrBsI-iviE4qPNPLppaYuNTccxIBTi9v2XusjhRvp-UdBpOAYr78exyrJPM5lyFjWHnEQFBSUyJuSSCd3sI-UGN67G8Nbi=s2048", "Google Pixelbook Go", 1, 600.00f));
 
-        saleCards.add(new Sale(productList, 2.40));
-        saleCards.add(new Sale(productList, 2.40));
-        saleCards.add(new Sale(productList, 2.40));
-        saleCards.add(new Sale(productList, 2.40));
-        saleCards.add(new Sale(productList, 2.40));
+
+        for (CartItem cartItem : cartItems) {
+            total += cartItem.getTotalPrice();
+        }
+        saleCards.add(new Sale(cartItems, total));
+        saleCards.add(new Sale(cartItems, total));
+        saleCards.add(new Sale(cartItems, total));
+        saleCards.add(new Sale(cartItems, total));
+        saleCards.add(new Sale(cartItems, total));
+
+        TextView numSales = view.findViewById(R.id.numSales);
+        TextView sortType = view.findViewById(R.id.sortType);
+
+        numSales.setText(String.format(numSales.getText().toString(), saleCards.size()));
+        sortType.setText(String.format(sortType.getText().toString(), "Recently Bought"));
 
         SearchView searchView = requireView().findViewById(R.id.search_view);
         BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
@@ -85,12 +97,12 @@ public class SalesFragment extends Fragment {
             }
         });
 
-        saleCardAdapter = new SaleCardAdapter(saleCards, coordinatorLayout, fab);
-        saleCardList.setAdapter(saleCardAdapter);
-        saleCardAdapter.setOnClickCardListener(this::showInfoSaleDialog);
+        salesCardAdapter = new SalesCardAdapter(saleCards, coordinatorLayout, fab);
+        saleCardList.setAdapter(salesCardAdapter);
+        salesCardAdapter.setOnClickCardListener(this::showInfoSaleDialog);
     }
 
     private void showInfoSaleDialog(int position){
-        new SaleDialogFragment().show(getChildFragmentManager(), SaleDialogFragment.TAG);
+        new SaleDialogFragment(saleCards.get(position), total).show(getChildFragmentManager(), SaleDialogFragment.TAG);
     }
 }

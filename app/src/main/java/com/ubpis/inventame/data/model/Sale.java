@@ -10,20 +10,20 @@ public class Sale {
 
     private UUID uuid;
     private Date date;
-    private ArrayList<Product> productList;
+    private ArrayList<CartItem> cartList;
     private double total;
 
     // private PerfilUsuario perfil; Podriamos registrar las ventas de cada usuario para mas datos...
 
-    public Sale(ArrayList<Product> productList, double total){
-        this.productList = productList;
+    public Sale(ArrayList<CartItem> cartList, double total){
+        this.cartList = cartList;
         this.uuid = UUID.randomUUID();
         this.date = new Date();
         this.total = total;
     }
 
     public Sale(double total){
-        this.productList = new ArrayList<>();
+        this.cartList = new ArrayList<>();
         this.uuid = UUID.randomUUID();
         this.date = new Date();
         this.total = total;
@@ -37,15 +37,15 @@ public class Sale {
         return date;
     }
 
-    public ArrayList<Product> getLista() {
-        return productList;
+    public ArrayList<CartItem> getList() {
+        return cartList;
     }
 
     public double getTotal() {
         return total;
     }
 
-    public void addProduct(Product product){
-        productList.add(product);
+    public void addCartItem(CartItem cartItem){
+        cartList.add(cartItem);
     }
 }
