@@ -39,6 +39,55 @@
 
         </com.google.android.material.appbar.AppBarLayout>
 
+        <HorizontalScrollView
+            android:id="@+id/scrollViewFilterChip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:visibility="gone"
+            android:scrollbars="none" >
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:singleLine="true" >
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filterChipSaleType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_filter_sale_type"
+                    app:closeIcon="@drawable/ic_arrow_drop_down_24"
+                    app:closeIconVisible="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filterChipDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_filter_date"
+                    app:closeIcon="@drawable/ic_arrow_drop_down_24"
+                    app:closeIconVisible="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filterChipPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_filter_price"
+                    app:closeIcon="@drawable/ic_arrow_drop_down_24"
+                    app:closeIconVisible="true"/>
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/filterChipHighlightType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/text_filter_highlight_type"
+                    app:closeIcon="@drawable/ic_arrow_drop_down_24"
+                    app:closeIconVisible="true"/>
+
+            </com.google.android.material.chip.ChipGroup>
+        </HorizontalScrollView>
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -59,9 +108,9 @@
                 android:id="@+id/sortType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@id/sortButton"
                 android:layout_centerInParent="true"
                 android:layout_toStartOf="@id/sortButton"
+                android:layout_alignBaseline="@id/sortButton"
                 android:text="@string/sort_type"
                 android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
                 android:textColor="@color/md_theme_light_onSurface" />

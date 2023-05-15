@@ -126,4 +126,9 @@
     <string name="info_sale">Realizada por: %1$s\nFecha: %2$s</string>
     <string name="info_num_sales">%1$d Ventas</string>
     <string name="sort_type">%1$s</string>
+    <string name="text_filter_sale_type">Tipo de venta</string>
+    <string name="text_filter_date">Fecha</string>
+    <string name="text_filter_price">Precio</string>
+    <string name="text_filter_highlight_type">Tipo de destacado</string>
+
 </resources>

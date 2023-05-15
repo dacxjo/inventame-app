@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/favoriteSaleButton"
+        android:title="Favorite"
+        android:icon="@drawable/ic_favorite_24"
+        app:showAsAction="ifRoom"/>
+
+    <item
         android:id="@+id/download"
         android:title="@string/download"
         app:showAsAction="ifRoom"/>

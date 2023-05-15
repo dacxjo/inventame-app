@@ -130,7 +130,7 @@ public class SaleDialogFragment extends DialogFragment {
     }
 
     private boolean downloadSaleCSV(){
-
+        System.out.println("DOWNLOADING SALE!");
         return true;
     }
 }
