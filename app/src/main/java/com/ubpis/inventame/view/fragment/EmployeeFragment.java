@@ -85,9 +85,12 @@ public class EmployeeFragment extends Fragment {
                 binding.emptyState.setVisibility(View.GONE);
                 binding.employeeList.setVisibility(View.VISIBLE);
             }
+            //employeeCardAdapter.setEmployees(employees); // Hacer un set con filtrados
             employeeCardAdapter.notifyDataSetChanged();
         };
-        viewModel.getEmployees().observe(this.getViewLifecycleOwner(), observerEmployees);
+        // Sustituir observer de employees por search query.
+        // viewModel.getSearchResults().observe(this.getViewLifecycleOwner(), observerSearchResults);
+        viewModel.getEmployees().observe(this.getViewLifecycleOwner(), observerEmployees); // ELIMINAR
         viewModel.loadEmployeesFromRepository(FirebaseAuth.getInstance().getCurrentUser().getUid());
         this.setupBottomNavigationTransition();
     }

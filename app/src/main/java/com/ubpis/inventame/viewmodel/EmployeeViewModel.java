@@ -13,6 +13,8 @@ import java.util.ArrayList;
 public class EmployeeViewModel extends ViewModel {
 
     private final MutableLiveData<ArrayList<Employee>> employees;
+    // empleados filtrados
+    private final MutableLiveData<ArrayList<Employee>> searchResults = new MutableLiveData<>();
     private final EmployeeRepository employeeRepository;
     private final MutableLiveData<Boolean> isLoading;
     public final MutableLiveData<Employee> selected = new MutableLiveData<>();
@@ -27,6 +29,23 @@ public class EmployeeViewModel extends ViewModel {
 
     public LiveData<ArrayList<Employee>> getEmployees() {
         return employees;
+    }
+
+    public LiveData<ArrayList<Employee>> getSearchResults() { return searchResults; } // Getter filtrado
+
+    // Search con datos disponibles, puede no ser viable en casos mayores (usar Firebase)
+    public void searchEmployees(String query) {
+
+        ArrayList<Employee> allEmployees = employees.getValue();
+        if (allEmployees != null) {
+            ArrayList<Employee> filteredEmployees = new ArrayList<>();
+            for (Employee employee : allEmployees) {
+                if (employee.getName().toLowerCase().contains(query.toLowerCase())) {
+                    filteredEmployees.add(employee);
+                }
+            }
+            searchResults.setValue(filteredEmployees);
+        }
     }
 
     public LiveData<Boolean> getIsLoading() {
