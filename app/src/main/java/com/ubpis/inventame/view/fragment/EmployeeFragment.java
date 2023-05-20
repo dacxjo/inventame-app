@@ -77,6 +77,7 @@ public class EmployeeFragment extends Fragment {
         });
         skeleton = SkeletonLayoutUtils.applySkeleton(binding.employeeList, R.layout.user_card_layout);
         skeleton.setMaskCornerRadius(40f);*/
+
         final Observer<ArrayList<Employee>> observerEmployees = employees -> {
             if (viewModel.getEmployees().getValue().isEmpty()) {
                 binding.emptyState.setVisibility(View.VISIBLE);
@@ -85,13 +86,24 @@ public class EmployeeFragment extends Fragment {
                 binding.emptyState.setVisibility(View.GONE);
                 binding.employeeList.setVisibility(View.VISIBLE);
             }
-            //employeeCardAdapter.setEmployees(employees); // Hacer un set con filtrados
+            employeeCardAdapter.setEmployees(employees);
             employeeCardAdapter.notifyDataSetChanged();
         };
-        // Sustituir observer de employees por search query.
-        // viewModel.getSearchResults().observe(this.getViewLifecycleOwner(), observerSearchResults);
         viewModel.getEmployees().observe(this.getViewLifecycleOwner(), observerEmployees); // ELIMINAR
         viewModel.loadEmployeesFromRepository(FirebaseAuth.getInstance().getCurrentUser().getUid());
+
+        // Listener recuperado de Google Material para recuperar texto del SearchView.
+        binding.searchView.getEditText().setOnEditorActionListener((v, actionId, event) -> {
+            // Recuperamos el texto
+            String query = binding.searchView.getText().toString();
+
+            // Realizamos busqueda (cambiando el valor de SearchResults).
+            viewModel.searchEmployees(query);
+
+            return true;
+        });
+        viewModel.getSearchResults().observe(this.getViewLifecycleOwner(), observerEmployees);
+
         this.setupBottomNavigationTransition();
     }
 

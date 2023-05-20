@@ -14,13 +14,14 @@ public class EmployeeViewModel extends ViewModel {
 
     private final MutableLiveData<ArrayList<Employee>> employees;
     // empleados filtrados
-    private final MutableLiveData<ArrayList<Employee>> searchResults = new MutableLiveData<>();
+    private final MutableLiveData<ArrayList<Employee>> searchResults;
     private final EmployeeRepository employeeRepository;
     private final MutableLiveData<Boolean> isLoading;
     public final MutableLiveData<Employee> selected = new MutableLiveData<>();
 
     public EmployeeViewModel() {
         employees = new MutableLiveData<>(new ArrayList<>());
+        searchResults = new MutableLiveData<>();
         employeeRepository = EmployeeRepository.getInstance();
         isLoading = new MutableLiveData<>(false);
         employeeRepository.addOnLoadEmployeesListener((employees, isFromCache) -> setEmployees(employees));
