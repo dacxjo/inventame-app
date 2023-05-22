@@ -23,7 +23,6 @@
             android:layout_centerInParent="true"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:backgroundTint="#801C1B1F"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/coca_cola" />
 

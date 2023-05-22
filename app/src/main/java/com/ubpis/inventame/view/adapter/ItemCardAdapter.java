@@ -18,6 +18,8 @@ import com.ubpis.inventame.data.model.CartItem;
 
 import java.util.ArrayList;
 
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
 public class ItemCardAdapter extends RecyclerView.Adapter<ItemCardAdapter.ViewHolder> {
 
     private final ArrayList<CartItem> itemList;
@@ -28,14 +30,14 @@ public class ItemCardAdapter extends RecyclerView.Adapter<ItemCardAdapter.ViewHo
 
     @NonNull
     @Override
-    public ItemCardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.cart_row_item, parent, false);
-        return new ItemCardAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemCardAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(itemList.get(position));
     }
 
@@ -61,7 +63,8 @@ public class ItemCardAdapter extends RecyclerView.Adapter<ItemCardAdapter.ViewHo
         }
 
         public void bind(final CartItem cartItem){
-            Picasso.get().load(cartItem.getImage()).into(itemImage);
+            Picasso.get().load(cartItem.getImage()).transform(new RoundedCornersTransformation(16, 0)).fit()
+                    .centerCrop().into(itemImage);
             itemName.setText(cartItem.getNameProduct());
             quantityNumber.setText(Integer.toString(cartItem.getQuantityNum()));
             if (!quantityNumber.getText().toString().equals("1")){
