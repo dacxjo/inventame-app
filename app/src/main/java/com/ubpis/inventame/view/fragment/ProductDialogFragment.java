@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -37,6 +39,8 @@ import com.ubpis.inventame.R;
 import com.ubpis.inventame.data.model.Employee;
 import com.ubpis.inventame.data.model.Product;
 import com.ubpis.inventame.data.model.UserType;
+import com.ubpis.inventame.data.repository.BusinessRepository;
+import com.ubpis.inventame.data.repository.ProductRepository;
 import com.ubpis.inventame.databinding.FragmentProductFormBinding;
 import com.ubpis.inventame.viewmodel.EmployeeViewModel;
 import com.ubpis.inventame.viewmodel.InventoryViewModel;
@@ -55,6 +59,7 @@ public class ProductDialogFragment extends DialogFragment {
     private InventoryViewModel viewModel;
     private FirebaseAuth auth;
     private Product product;
+    private Drawable originalDrawable;
 
 
     public ProductDialogFragment() {
@@ -91,7 +96,7 @@ public class ProductDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if(isEdit){
-            viewModel = new ViewModelProvider(this.requireParentFragment()).get(InventoryViewModel.class);
+            viewModel = new ViewModelProvider(requireParentFragment()).get(InventoryViewModel.class);
         }else{
             viewModel = new ViewModelProvider(this.requireActivity()).get(InventoryViewModel.class);
         }
@@ -100,6 +105,7 @@ public class ProductDialogFragment extends DialogFragment {
         binding.productPicker.setOnClickListener(v -> showProductPickerChoices());
         binding.scannerButton.setOnClickListener(v -> launchScanner());
         binding.productExpirationTextfield.setOnClickListener(v -> showDatePicker());
+        binding.deleteButton.setOnClickListener(value -> deleteProduct());
         setupToolbar();
         handleEdit();
     }
@@ -107,8 +113,7 @@ public class ProductDialogFragment extends DialogFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product_form, container, false);
+
         requestPermissionLauncher =
                 registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                     if (isGranted) {
@@ -139,7 +144,9 @@ public class ProductDialogFragment extends DialogFragment {
                     }
                 }
         );
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product_form, container, false);
         binding.setLifecycleOwner(getViewLifecycleOwner());
+        Picasso .get().load(R.drawable.placeholder).into(binding.product);
         return binding.getRoot();
     }
 
@@ -209,28 +216,73 @@ public class ProductDialogFragment extends DialogFragment {
             binding.divider.setVisibility(View.GONE);
             binding.scannerButton.setVisibility(View.GONE);
             binding.toolbar.setTitle(R.string.inventory_edit_title);
+
+            if(this.product != null && this.product.getImageUrl() != null && !this.product.getImageUrl().isEmpty()){
+                Picasso .get().load(this.product.getImageUrl()).error(R.drawable.placeholder).into(binding.product);
+                originalDrawable = binding.product.getDrawable();
+            }
         }
     }
 
     private void addProduct() {
         String businessId = auth.getCurrentUser().getUid();
         Product product = new Product();
-        product.setId(binding.productIdTextfield.getText().toString());
+        product.setBarcode(binding.productCodeTextfield.getText().toString());
         product.setPrice(Float.parseFloat(binding.productPriceTextfield.getText().toString()));
         product.setDescription(binding.productDescriptionTextarea.getText().toString());
         product.setStock(Integer.parseInt(binding.productStockTextfield.getText().toString()));
         product.setName(binding.productNameTextfield.getText().toString());
-        product.setImageUrl("");
         product.setBatch(binding.productBatchTextfield.getText().toString());
         product.setBusinessId(businessId);
         product.setExpired(false);
         product.setExpirationDate(binding.productExpirationTextfield.getText().toString());
         product.setCreatedAt(Timestamp.now());
-        viewModel.addProduct(product);
-        dismiss();
+        if (binding.product.getDrawable() != null) {
+            Bitmap bitmap = ((BitmapDrawable) binding.product.getDrawable()).getBitmap();
+            ProductRepository.getInstance().uploadPicture(businessId + product.getBarcode(), bitmap, o -> {
+                product.setImageUrl(o.toString());
+                viewModel.addProduct(product);
+                dismiss();
+            });
+        } else {
+            Log.i("ProductFormFragment", "No image selected");
+            product.setImageUrl("");
+            viewModel.addProduct(product);
+            dismiss();
+        }
+
     }
 
     private void updateProduct(){
+        if (binding.product.getDrawable() != null && binding.product.getDrawable() != originalDrawable) {
+            Bitmap bitmap = ((BitmapDrawable) binding.product.getDrawable()).getBitmap();
+            ProductRepository.getInstance().uploadPicture(viewModel.selected.getValue().getBusinessId() + product.getBarcode(), bitmap, o -> {
+                product.setImageUrl(o.toString());
+                viewModel.updateProduct(viewModel.selected.getValue());
+                dismiss();
+            });
+        } else {
+            product.setImageUrl("");
+            viewModel.updateProduct(viewModel.selected.getValue());
+            dismiss();
+        }
+    }
+
+    private void deleteProduct(){
+
+        MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext())
+                .setTitle("¿Borrar producto?")
+                .setMessage("Esta acción no se puede deshacer")
+                .setPositiveButton("Borrar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        viewModel.deleteProduct(viewModel.selected.getValue().getId());
+                        dismiss();
+                    }
+                })
+                .setNegativeButton("Cancelar", null);
+        builder.create().show();
+
 
     }
 

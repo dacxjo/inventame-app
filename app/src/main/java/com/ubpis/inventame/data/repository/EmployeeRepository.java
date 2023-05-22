@@ -46,7 +46,7 @@ public class EmployeeRepository {
 
     public void getEmployees(ArrayList<Employee> employees, String businessId) {
         Query query = employeesCollection.whereEqualTo("type", UserType.EMPLOYEE.toString())
-                .whereEqualTo("businessId", businessId);
+                .whereEqualTo("businessId", businessId).orderBy("createdAt", Query.Direction.DESCENDING);
         query.get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {

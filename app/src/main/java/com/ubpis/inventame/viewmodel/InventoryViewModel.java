@@ -23,6 +23,9 @@ public class InventoryViewModel extends ViewModel {
         productRepository = ProductRepository.getInstance();
         isLoading = new MutableLiveData<>(false);
         productRepository.addOnLoadProductsListener((products, isFromCache) -> setProducts(products));
+        productRepository.addOnAddProductListener((product) -> {
+           loadProductsFromRepository(product.getBusinessId());
+        });
     }
 
     public LiveData<Boolean> getIsLoading() {
@@ -42,8 +45,21 @@ public class InventoryViewModel extends ViewModel {
         productRepository.getProducts(products.getValue(), businessId);
     }
 
+    public void addOnAddProductListener(ProductRepository.OnAddProductListener listener) {
+        productRepository.addOnAddProductListener(listener);
+    }
+
     public void addProduct(Product product) {
         productRepository.addProduct(product);
+    }
+
+
+    public void updateProduct(Product product) {
+        productRepository.updateProduct(product);
+    }
+
+    public void deleteProduct(String id) {
+        productRepository.deleteProduct(id);
     }
 
     public LiveData<ArrayList<Product>> getProducts() {

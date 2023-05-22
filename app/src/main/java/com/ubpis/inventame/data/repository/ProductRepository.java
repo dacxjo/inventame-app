@@ -1,16 +1,24 @@
 package com.ubpis.inventame.data.repository;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.ubpis.inventame.data.model.Employee;
 import com.ubpis.inventame.data.model.Product;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Map;
 
 public class ProductRepository {
     private static final String TAG = "ProductRepository";
@@ -42,7 +50,7 @@ public class ProductRepository {
     }
 
     public void getProducts(ArrayList<Product> products, String businessId) {
-        Query query = productsCollection.whereEqualTo("businessId", businessId);
+        Query query = productsCollection.whereEqualTo("businessId", businessId).orderBy("createdAt", Query.Direction.DESCENDING);
         query.get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -52,7 +60,9 @@ public class ProductRepository {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Product product = new Product();
                                 product.setId(document.getId());
+                                product.setBarcode(document.getString("barcode"));
                                 product.setName(document.getString("name"));
+                                product.setDescription(document.getString("description"));
                                 product.setBusinessId(document.getString("businessId"));
                                 product.setBatch(document.getString("batch"));
                                 product.setExpirationDate(document.getString("expirationDate"));
@@ -77,7 +87,9 @@ public class ProductRepository {
     public void addProduct(Product product) {
         productsCollection.add(product).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
-                Log.d(TAG, "DocumentSnapshot added with ID: " + task.getResult());
+                Log.d(TAG, "DocumentSnapshot added with ID: " + task.getResult().getId());
+                product.setId(task.getResult().getId());
+                updateProduct(product);
                 for (ProductRepository.OnAddProductListener l : onAddProductListeners) {
                     l.onAddProduct(product);
                 }
@@ -85,6 +97,36 @@ public class ProductRepository {
                 Log.w(TAG, "Error adding document", task.getException());
             }
         });
+    }
+
+    public void updateProduct(Product product) {
+        Map<String, Object> map = product.toMap();
+        productsCollection.document(product.getId()).update(map).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, "DocumentSnapshot added with ID: " + task.getResult());
+            } else {
+                Log.w(TAG, "Error adding document", task.getException());
+            }
+        });
+    }
+
+    public void deleteProduct(String id) {
+        productsCollection.document(id).delete().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, "DocumentSnapshot added with ID: " + task.getResult());
+            } else {
+                Log.w(TAG, "Error adding document", task.getException());
+            }
+        });
+    }
+
+    public void uploadPicture(String uid, Bitmap logoBitmap, OnSuccessListener onSuccessListener) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        logoBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] logoData = baos.toByteArray();
+        StorageReference productRef = FirebaseStorage.getInstance().getReference().child("products/" + uid + ".png");
+        UploadTask uploadTask = productRef.putBytes(logoData);
+        uploadTask.addOnSuccessListener(taskSnapshot -> productRef.getDownloadUrl().addOnSuccessListener(onSuccessListener));
     }
 
     public interface OnLoadProductsListener {

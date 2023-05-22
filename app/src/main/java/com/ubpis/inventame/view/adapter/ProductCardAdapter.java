@@ -111,8 +111,7 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
             if (imageUrl == null || imageUrl.isEmpty()) {
                 imageUrl = "https://firebasestorage.googleapis.com/v0/b/inventame-2c44f.appspot.com/o/placeholders%2F3369023662.jpg?alt=media&token=350dff3b-2799-400d-af14-80c3a92e21e7";
             }
-            Picasso.get().load(imageUrl).transform(new RoundedCornersTransformation(50, 0)).fit()
-                    .centerCrop().into(mCardPictureUrl);
+            Picasso.get().load(imageUrl).error(R.drawable.placeholder).into(mCardPictureUrl);
             if (product.isExpired()) {
                 mWarningButton.setVisibility(View.VISIBLE);
             } else {
