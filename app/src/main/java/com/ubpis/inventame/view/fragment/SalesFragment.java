@@ -25,6 +25,7 @@ import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.*;
@@ -49,27 +50,47 @@ import com.ubpis.inventame.view.adapter.SalesCardAdapter;
 import android.view.Menu;
 
 import java.lang.reflect.Field;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class SalesFragment extends Fragment implements OnMenuItemClickListener, OnClickListener {
+public class SalesFragment extends Fragment implements OnMenuItemClickListener, OnDismissListener, OnClickListener {
     private static final int ICON_MARGIN = 8;
     private RecyclerView saleCardList;
     private SalesCardAdapter salesCardAdapter;
     private CoordinatorLayout coordinatorLayout;
+    private ArrayList<Sale> saleCardsOriginal;
     private ArrayList<Sale> saleCards;
     private MenuItem filterButton;
     private HorizontalScrollView scrollViewFilterChip;
+    private Button sortButton;
     private ChipGroup filterChipGroup;
     private Chip filterChipSaleType;
     private Chip filterChipDate;
     private Chip filterChipPrice;
     private Chip filterChipHighlightType;
+    private PopupMenu popupMenuOrderOptions;
     private PopupMenu popupMenuFilterSaleType;
     private PopupMenu popupMenuFilterDate;
     private PopupMenu popupMenuFilterPrice;
     private PopupMenu popupMenuFilterHighlightType;
+    private TextView numSales;
+    private TextView sortType;
     private Context wrapper;
     private double total = 0;
+    private ArrayList<MenuItem> lastUsedFilterOptions;
+    private ArrayList<MenuItem> filterSaleTypeIDs;
+    private ArrayList<MenuItem> filterDateIDs;
+    private ArrayList<MenuItem> filterPriceIDs;
+    private ArrayList<MenuItem> filterHighlightTypeIDs;
+    private Comparator<Sale> currentOrder;
+    private HashMap<Comparator<Sale>,String> nameOrder;
 
     public static SalesFragment newInstance() {
         return new SalesFragment();
@@ -99,16 +120,18 @@ public class SalesFragment extends Fragment implements OnMenuItemClickListener, 
             total += cartItem.getTotalPrice();
         }
         saleCards.add(new Sale(cartItems, total));
-        saleCards.add(new Sale(cartItems, total));
-        saleCards.add(new Sale(cartItems, total));
-        saleCards.add(new Sale(cartItems, total));
-        saleCards.add(new Sale(cartItems, total));
+        saleCards.add(new Sale(cartItems, 200));
+        saleCards.add(new Sale(cartItems, 100));
+        saleCards.add(new Sale(cartItems, 50));
+        saleCards.add(new Sale(cartItems, 20));
 
-        TextView numSales = view.findViewById(R.id.numSales);
-        TextView sortType = view.findViewById(R.id.sortType);
+        saleCardsOriginal = new ArrayList<>(saleCards);
+
+        numSales = view.findViewById(R.id.numSales);
+        sortType = view.findViewById(R.id.sortType);
 
         numSales.setText(String.format(numSales.getText().toString(), saleCards.size()));
-        sortType.setText(String.format(sortType.getText().toString(), "Recently Bought"));
+        sortType.setText(String.format(sortType.getText().toString(), getString(R.string.sort_newest)));
 
         SearchView searchView = requireView().findViewById(R.id.search_view);
         BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
@@ -135,7 +158,17 @@ public class SalesFragment extends Fragment implements OnMenuItemClickListener, 
         saleCardList.setAdapter(salesCardAdapter);
         salesCardAdapter.setOnClickCardListener(this::showInfoSaleDialog);
 
-        /** filter setup */
+
+        /** filter and order setup */
+        //set HashMap with the name of each order type
+        nameOrder = new HashMap<>();
+        nameOrder.put(Sale.SALE_DATE_DESCENDING_COMPARATOR, getString(R.string.sort_newest));
+        nameOrder.put(Sale.SALE_DATE_ASCENDING_COMPARATOR, getString(R.string.sort_oldest));
+        nameOrder.put(Sale.SALE_PRICE_LOW_HIGH_COMPARATOR, getString(R.string.sort_price_low_high));
+        nameOrder.put(Sale.SALE_PRICE_HIGH_LOW_COMPARATOR, getString(R.string.sort_price_high_low));
+
+        currentOrder = Sale.SALE_DATE_DESCENDING_COMPARATOR;
+        orderAdapter(currentOrder); //default order is newest sales
 
         //setup filter button of SearchBar
         SearchBar searchBar = view.findViewById(R.id.search_bar);
@@ -146,15 +179,24 @@ public class SalesFragment extends Fragment implements OnMenuItemClickListener, 
         //setup HorizontalScrowView for the chip group
         scrollViewFilterChip = view.findViewById(R.id.scrollViewFilterChip);
 
+        //setup sort button
+        sortButton = view.findViewById(R.id.sortButton);
+
         //setup all chip filters
+        filterChipGroup = view.findViewById(R.id.filterChipGroup);
         filterChipSaleType = view.findViewById(R.id.filterChipSaleType);
         filterChipDate = view.findViewById(R.id.filterChipDate);
         filterChipPrice = view.findViewById(R.id.filterChipPrice);
         filterChipHighlightType = view.findViewById(R.id.filterChipHighlightType);
 
-        //setup Popup Menus of all the chip filters
+        //setup Popup Menus style
         wrapper = new ContextThemeWrapper(getContext(), R.style.FilterPopupMenu);
 
+        //setup Popup Menus of order options
+        popupMenuOrderOptions = new PopupMenu(wrapper, sortButton);
+        popupMenuOrderOptions.getMenuInflater().inflate(R.menu.order_options_menu, popupMenuOrderOptions.getMenu());
+
+        //setup Popup Menus of all the chip filters
         popupMenuFilterSaleType = new PopupMenu(wrapper, filterChipSaleType);
         popupMenuFilterDate = new PopupMenu(wrapper, filterChipDate);
         popupMenuFilterPrice = new PopupMenu(wrapper, filterChipPrice);
@@ -165,17 +207,36 @@ public class SalesFragment extends Fragment implements OnMenuItemClickListener, 
         popupMenuFilterPrice.getMenuInflater().inflate(R.menu.filter_price_menu, popupMenuFilterPrice.getMenu());
         popupMenuFilterHighlightType.getMenuInflater().inflate(R.menu.filter_highlight_type_menu, popupMenuFilterHighlightType.getMenu());
 
-        //setup chip listeners
+        //setup chips and sort button listeners
         filterChipSaleType.setOnClickListener(this);
         filterChipDate.setOnClickListener(this);
         filterChipPrice.setOnClickListener(this);
         filterChipHighlightType.setOnClickListener(this);
+        sortButton.setOnClickListener(this);
 
         //setup popup menu listeners
+        popupMenuOrderOptions.setOnMenuItemClickListener(this);
         popupMenuFilterSaleType.setOnMenuItemClickListener(this);
         popupMenuFilterDate.setOnMenuItemClickListener(this);
         popupMenuFilterPrice.setOnMenuItemClickListener(this);
         popupMenuFilterHighlightType.setOnMenuItemClickListener(this);
+
+        popupMenuFilterSaleType.setOnDismissListener(this);
+        popupMenuFilterDate.setOnDismissListener(this);
+        popupMenuFilterPrice.setOnDismissListener(this);
+        popupMenuFilterHighlightType.setOnDismissListener(this);
+
+        //setup used filter lists
+        lastUsedFilterOptions = new ArrayList<>();
+        filterSaleTypeIDs = new ArrayList<>();
+        filterDateIDs = new ArrayList<>();
+        filterPriceIDs = new ArrayList<>();
+        filterHighlightTypeIDs = new ArrayList<>();
+        Menu menu1 = popupMenuFilterSaleType.getMenu(), menu2 = popupMenuFilterDate.getMenu(), menu3 = popupMenuFilterPrice.getMenu(), menu4 = popupMenuFilterHighlightType.getMenu();
+        Collections.addAll(filterSaleTypeIDs, menu1.findItem(R.id.automatic), menu1.findItem(R.id.manual));
+        Collections.addAll(filterDateIDs, menu2.findItem(R.id.today), menu2.findItem(R.id.days7), menu2.findItem(R.id.days30), menu2.findItem(R.id.thisYear), menu2.findItem(R.id.lastYear), menu2.findItem(R.id.period));
+        Collections.addAll(filterPriceIDs, menu3.findItem(R.id.less10), menu3.findItem(R.id.less25), menu3.findItem(R.id.less50), menu3.findItem(R.id.less100), menu3.findItem(R.id.range));
+        Collections.addAll(filterHighlightTypeIDs, menu4.findItem(R.id.favourite), menu4.findItem(R.id.noFavourite));
     }
     private void showInfoSaleDialog(int position){
         new SaleDialogFragment(saleCards.get(position), total).show(getChildFragmentManager(), SaleDialogFragment.TAG);
@@ -195,56 +256,93 @@ public class SalesFragment extends Fragment implements OnMenuItemClickListener, 
     }
     @Override
     public void onClick(View v) {
+        Drawable arrowDropUpIcon = getResources().getDrawable(R.drawable.ic_arrow_drop_up_24);
+
         switch (v.getId()) {
+            case R.id.sortButton:
+                popupMenuOrderOptions.show();
+                break;
+
             case R.id.filterChipSaleType:
                 filterChipSaleType.setChecked(false);
                 filterChipSaleType.setCheckable(false);
                 filterChipSaleType.setOnCloseIconClickListener(null);
                 filterChipSaleType.setChipText(getString(R.string.text_filter_sale_type));
+                lastUsedFilterOptions.removeAll(filterSaleTypeIDs);
 
                 popupMenuFilterSaleType.show();
-                filterChipSaleType.setCloseIcon(getResources().getDrawable(R.drawable.ic_arrow_drop_up_24));
+                filterChipSaleType.setCloseIcon(arrowDropUpIcon);
                 break;
             case R.id.filterChipDate:
                 filterChipDate.setChecked(false);
                 filterChipDate.setCheckable(false);
                 filterChipDate.setOnCloseIconClickListener(null);
                 filterChipDate.setChipText(getString(R.string.text_filter_date));
+                lastUsedFilterOptions.removeAll(filterDateIDs);
 
                 popupMenuFilterDate.show();
-                filterChipDate.setCloseIcon(getResources().getDrawable(R.drawable.ic_arrow_drop_up_24));
+                filterChipDate.setCloseIcon(arrowDropUpIcon);
                 break;
             case R.id.filterChipPrice:
                 filterChipPrice.setChecked(false);
                 filterChipPrice.setCheckable(false);
                 filterChipPrice.setOnCloseIconClickListener(null);
                 filterChipPrice.setChipText(getString(R.string.text_filter_price));
+                lastUsedFilterOptions.removeAll(filterPriceIDs);
 
                 popupMenuFilterPrice.show();
-                filterChipPrice.setCloseIcon(getResources().getDrawable(R.drawable.ic_arrow_drop_up_24));
+                filterChipPrice.setCloseIcon(arrowDropUpIcon);
                 break;
             case R.id.filterChipHighlightType:
                 filterChipHighlightType.setChecked(false);
                 filterChipHighlightType.setCheckable(false);
                 filterChipHighlightType.setOnCloseIconClickListener(null);
                 filterChipHighlightType.setChipText(getString(R.string.text_filter_highlight_type));
+                lastUsedFilterOptions.removeAll(filterHighlightTypeIDs);
 
                 popupMenuFilterHighlightType.show();
-                filterChipHighlightType.setCloseIcon(getResources().getDrawable(R.drawable.ic_arrow_drop_up_24));
+                filterChipHighlightType.setCloseIcon(arrowDropUpIcon);
                 break;
             default:
                 break;
         }
     }
 
-    @SuppressLint("RestrictedApi")
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         Drawable checkIcon = getResources().getDrawable(R.drawable.ic_check_24);
         Drawable cancelIcon = getResources().getDrawable(R.drawable.ic_cancel_24);
         Drawable arrowDropDownIcon = getResources().getDrawable(R.drawable.ic_arrow_drop_down_24);
 
+        if (item.getItemId() != R.id.newestOrder && item.getItemId() != R.id.oldestOrder && item.getItemId() != R.id.priceLowToHighOrder && item.getItemId() != R.id.priceHighToLowOrder){
+            if (!lastUsedFilterOptions.contains(item)) {
+                checkChipsForResetCorrectlySaleList();
+                lastUsedFilterOptions.add(item);
+            }
+        }
+
+
         switch (item.getItemId()) {
+            case R.id.newestOrder:
+                currentOrder = Sale.SALE_DATE_DESCENDING_COMPARATOR;
+                orderAdapter(currentOrder);
+                return true;
+
+            case R.id.oldestOrder:
+                currentOrder = Sale.SALE_DATE_ASCENDING_COMPARATOR;
+                orderAdapter(currentOrder);
+                return true;
+
+            case R.id.priceLowToHighOrder:
+                currentOrder = Sale.SALE_PRICE_LOW_HIGH_COMPARATOR;
+                orderAdapter(currentOrder);
+                return true;
+
+            case R.id.priceHighToLowOrder:
+                currentOrder = Sale.SALE_PRICE_HIGH_LOW_COMPARATOR;
+                orderAdapter(currentOrder);
+                return true;
+
             case R.id.allSaleTypes:
                 clickChipSetup(filterChipSaleType, getString(R.string.text_filter_sale_type),false, arrowDropDownIcon);
                 return true;
@@ -256,6 +354,60 @@ public class SalesFragment extends Fragment implements OnMenuItemClickListener, 
             case R.id.manual:
                 clickChipSetup(filterChipSaleType, item.getTitle().toString(), true, cancelIcon);
                 filterChipSaleType.setOnCloseIconClickListener(v -> resetFilterOption(v));
+                return true;
+
+            case R.id.less10:
+                clickChipSetup(filterChipPrice, item.getTitle().toString(), true, cancelIcon);
+                filterChipPrice.setOnCloseIconClickListener(v -> resetFilterOption(v));
+                filterPriceAdapter(10.00);
+                return true;
+
+            case R.id.less25:
+                clickChipSetup(filterChipPrice, item.getTitle().toString(), true, cancelIcon);
+                filterChipPrice.setOnCloseIconClickListener(v -> resetFilterOption(v));
+                filterPriceAdapter(25.00);
+                return true;
+
+            case R.id.less50:
+                clickChipSetup(filterChipPrice, item.getTitle().toString(), true, cancelIcon);
+                filterChipPrice.setOnCloseIconClickListener(v -> resetFilterOption(v));
+                filterPriceAdapter(50.00);
+                return true;
+
+            case R.id.less100:
+                clickChipSetup(filterChipPrice, item.getTitle().toString(), true, cancelIcon);
+                filterChipPrice.setOnCloseIconClickListener(v -> resetFilterOption(v));
+                filterPriceAdapter(100.00);
+                return true;
+
+            case R.id.today:
+                clickChipSetup(filterChipDate, item.getTitle().toString(), true, cancelIcon);
+                filterChipDate.setOnCloseIconClickListener(v -> resetFilterOption(v));
+                filterDateAdapter(new Date(), 0);
+                return true;
+
+            case R.id.days7:
+                clickChipSetup(filterChipDate, item.getTitle().toString(), true, cancelIcon);
+                filterChipDate.setOnCloseIconClickListener(v -> resetFilterOption(v));
+                filterDateAdapter(new Date(), 7);
+                return true;
+
+            case R.id.days30:
+                clickChipSetup(filterChipDate, item.getTitle().toString(), true, cancelIcon);
+                filterChipDate.setOnCloseIconClickListener(v -> resetFilterOption(v));
+                filterDateAdapter(new Date(), 30);
+                return true;
+
+            case R.id.thisYear:
+                clickChipSetup(filterChipDate, item.getTitle().toString(), true, cancelIcon);
+                filterChipDate.setOnCloseIconClickListener(v -> resetFilterOption(v));
+                filterDateAdapter(new Date(), 365);
+                return true;
+
+            case R.id.lastYear:
+                clickChipSetup(filterChipDate, item.getTitle().toString(), true, cancelIcon);
+                filterChipDate.setOnCloseIconClickListener(v -> resetFilterOption(v));
+                filterDateAdapter(new Date(), 365*2);
                 return true;
 
             case R.id.allSaleHighlights:
@@ -271,10 +423,82 @@ public class SalesFragment extends Fragment implements OnMenuItemClickListener, 
                 clickChipSetup(filterChipHighlightType, item.getTitle().toString(), true, cancelIcon);
                 filterChipSaleType.setOnCloseIconClickListener(v -> resetFilterOption(v));
                 return true;
-
             default:
                 return false;
         }
+    }
+    @Override
+    public void onDismiss(PopupMenu popupMenu) {
+        Drawable arrowDropDownIcon = getResources().getDrawable(R.drawable.ic_arrow_drop_down_24);
+
+        if (popupMenuFilterSaleType.equals(popupMenu) && !filterChipSaleType.isChecked()) {
+            filterChipSaleType.setCloseIcon(arrowDropDownIcon);
+            checkChipsForResetCorrectlySaleList();
+        }
+        else if (popupMenuFilterDate.equals(popupMenu) && !filterChipDate.isChecked()) {
+            filterChipDate.setCloseIcon(arrowDropDownIcon);
+            checkChipsForResetCorrectlySaleList();
+        }
+        else if (popupMenuFilterPrice.equals(popupMenu) && !filterChipPrice.isChecked()) {
+            filterChipPrice.setCloseIcon(arrowDropDownIcon);
+            checkChipsForResetCorrectlySaleList();
+        }
+        else if (filterChipHighlightType.equals(popupMenu) && !filterChipHighlightType.isChecked()) {
+            filterChipHighlightType.setCloseIcon(arrowDropDownIcon);
+            checkChipsForResetCorrectlySaleList();
+        }
+    }
+
+    private void orderAdapter(Comparator<Sale> order) {
+        Collections.sort(saleCards, order);
+        salesCardAdapter.notifyDataSetChanged();
+        sortType.setText(nameOrder.get(order));
+    }
+
+    private void filterDateAdapter(Date date, int subtractDays) {
+        Calendar calendar = Calendar.getInstance();
+
+        List<Sale> filterSales;
+        if (subtractDays >= 365){
+            int currentYear = calendar.get(Calendar.YEAR);
+
+            filterSales = saleCards.stream()
+                    .filter(sale -> {
+                        calendar.setTime(sale.getDate());
+                        int saleYear = calendar.get(Calendar.YEAR);
+
+                        // last year check
+                        return saleYear == ((subtractDays >= 365*2) ? currentYear - 1 : currentYear);
+                    })
+                    .collect(Collectors.toList());
+        }
+        else if (subtractDays == 0) {
+            int currentDay = calendar.get(Calendar.DAY_OF_YEAR);
+
+            filterSales = saleCards.stream()
+                    .filter(sale -> {
+                        calendar.setTime(sale.getDate());
+                        int saleDay = calendar.get(Calendar.DAY_OF_YEAR);
+                        return saleDay == currentDay;
+                    })
+                    .collect(Collectors.toList());
+        }
+        else {
+            calendar.setTime(date);
+            calendar.add(Calendar.DAY_OF_YEAR, -subtractDays);
+
+            filterSales = saleCards.stream()
+                    .filter(sale -> sale.getDate().after(calendar.getTime()))
+                    .collect(Collectors.toList());
+        }
+        saleCards.clear();
+        saleCards.addAll(filterSales);
+        orderAdapter(currentOrder);
+    }
+
+    private void filterPriceAdapter(double price) {
+        saleCards.removeIf(sale -> sale.getTotal() > price);
+        orderAdapter(currentOrder);
     }
 
     private void clickChipSetup(Chip chip, String filterNameOption, boolean isChecked, Drawable icon) {
@@ -289,29 +513,53 @@ public class SalesFragment extends Fragment implements OnMenuItemClickListener, 
         chip.setCloseIcon(icon);
         chip.setChipText(filterNameOption);
     }
+    private void resetSalesList(){
+        saleCards.clear();
+        saleCards.addAll(saleCardsOriginal);
+        orderAdapter(currentOrder);
+    }
 
     private void resetFilterOption(View v){
         Drawable arrowDropDownIcon = getResources().getDrawable(R.drawable.ic_arrow_drop_down_24);
 
         switch (v.getId()) {
             case R.id.filterChipSaleType:
-                clickChipSetup(filterChipSaleType, getString(R.string.text_filter_sale_type), false, arrowDropDownIcon);
+                clickChipSetup(filterChipSaleType, getString(R.string.text_filter_sale_type),false, arrowDropDownIcon);
                 filterChipSaleType.setOnCloseIconClickListener(null);
+                lastUsedFilterOptions.removeAll(filterSaleTypeIDs);
                 break;
             case R.id.filterChipDate:
-                clickChipSetup(filterChipDate, getString(R.string.text_filter_date), false, arrowDropDownIcon);
+                clickChipSetup(filterChipDate, getString(R.string.text_filter_date),false, arrowDropDownIcon);
                 filterChipDate.setOnCloseIconClickListener(null);
+                lastUsedFilterOptions.removeAll(filterDateIDs);
                 break;
             case R.id.filterChipPrice:
-                clickChipSetup(filterChipPrice, getString(R.string.text_filter_price), false, arrowDropDownIcon);
+                clickChipSetup(filterChipPrice, getString(R.string.text_filter_price),false, arrowDropDownIcon);
                 filterChipPrice.setOnCloseIconClickListener(null);
+                lastUsedFilterOptions.removeAll(filterPriceIDs);
                 break;
             case R.id.filterChipHighlightType:
-                clickChipSetup(filterChipHighlightType, getString(R.string.text_filter_highlight_type), false, arrowDropDownIcon);
+                clickChipSetup(filterChipHighlightType, getString(R.string.text_filter_highlight_type),false, arrowDropDownIcon);
                 filterChipHighlightType.setOnCloseIconClickListener(null);
+                lastUsedFilterOptions.removeAll(filterHighlightTypeIDs);
                 break;
             default:
                 break;
+        }
+
+        checkChipsForResetCorrectlySaleList();
+    }
+
+    private void checkChipsForResetCorrectlySaleList(){
+        List<Integer> checkedChips = filterChipGroup.getCheckedChipIds();
+        if (!checkedChips.isEmpty()) {
+            resetSalesList();
+            for (MenuItem filterMenuItem : lastUsedFilterOptions){
+                onMenuItemClick(filterMenuItem);
+            }
+        }
+        else {
+            resetSalesList(); // Reset sales list
         }
     }
 

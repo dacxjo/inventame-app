@@ -31,6 +31,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
+import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
+
 public class SaleCardAdapter extends RecyclerView.Adapter<SaleCardAdapter.ViewHolder> {
     private final ArrayList<CartItem> itemsList;
     
@@ -40,14 +42,14 @@ public class SaleCardAdapter extends RecyclerView.Adapter<SaleCardAdapter.ViewHo
     
     @NonNull
     @Override
-    public SaleCardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
         View view = layoutInflater.inflate(R.layout.sale_row_item, parent, false);
-        return new SaleCardAdapter.ViewHolder(view);
+        return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SaleCardAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(itemsList.get(position));
     }
 
@@ -71,7 +73,8 @@ public class SaleCardAdapter extends RecyclerView.Adapter<SaleCardAdapter.ViewHo
         }
 
         public void bind(final CartItem cartItem){
-            Picasso.get().load(cartItem.getImage()).into(itemImage);
+            Picasso.get().load(cartItem.getImage()).transform(new RoundedCornersTransformation(16, 0)).fit()
+                    .centerCrop().into(itemImage);
             itemName.setText(cartItem.getNameProduct());
             quantityNumber.setText(String.format(quantityNumber.getText().toString(), cartItem.getQuantityNum()));
             itemPrice.setText(String.format("%.2f", (cartItem.getTotalPrice()*cartItem.getQuantityNum())).replace(".",",")+"€");

@@ -7,17 +7,13 @@
         android:title="Hoy" />
 
     <item
-        android:id="@+id/Days7"
+        android:id="@+id/days7"
         android:icon="@drawable/ic_check_24"
         android:title="Últimos 7 días" />
 
     <item
-        android:id="@+id/Days30"
+        android:id="@+id/days30"
         android:title="Últimos 30 días" />
-
-    <item
-        android:id="@+id/Days90"
-        android:title="Últimos 90 días" />
 
     <item
         android:id="@+id/thisYear"
