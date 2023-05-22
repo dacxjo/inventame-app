@@ -50,6 +50,9 @@ public class SaleDialogFragment extends DialogFragment {
         this.itemsList = sale.getList();
     }
     public SaleDialogFragment() {
+        this.sale = new Sale(100);
+        this.total = 0;
+        this.itemsList = new ArrayList<CartItem>();
     }
 
     @Override
@@ -100,18 +103,21 @@ public class SaleDialogFragment extends DialogFragment {
         saleCardAdapter = new SaleCardAdapter(itemsList);
         saleCartList.setAdapter(saleCardAdapter);
 
-        //set ID sale
-        toolbar.setTitle(String.format(toolbar.getTitle().toString(), sale.getUuid().substring(0,8)));
 
-        //set information sale
-        Date dateSale = sale.getDate();
-        Instant instant = dateSale.toInstant();
-        ZoneId zoneId = ZoneId.systemDefault();
-        LocalDateTime localDateTime = instant.atZone(zoneId).toLocalDateTime();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
-        String formattedDate = localDateTime.format(formatter);
+        if(sale != null){
+            //set ID sale
+            toolbar.setTitle(String.format(toolbar.getTitle().toString(), sale.getUuid().substring(0,8)));
 
-        infoSale.setText(String.format(infoSale.getText().toString(), "Nombre", formattedDate));
+            //set information sale
+            Date dateSale = sale.getDate();
+            Instant instant = dateSale.toInstant();
+            ZoneId zoneId = ZoneId.systemDefault();
+            LocalDateTime localDateTime = instant.atZone(zoneId).toLocalDateTime();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+            String formattedDate = localDateTime.format(formatter);
+
+            infoSale.setText(String.format(infoSale.getText().toString(), "Nombre", formattedDate));
+        }
 
         //set all prices
         totalPrice.setText(String.format("%.2f", total) + "€");
