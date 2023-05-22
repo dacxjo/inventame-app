@@ -47,8 +47,8 @@ public class CartFragment extends Fragment {
         itemCardAdapter = new ItemCardAdapter(cartItems);
         itemCartList.setAdapter(itemCardAdapter);
         TextView textView = view.findViewById(R.id.totalItems);
+        textView.setText(String.format(textView.getText().toString(), cartItems.size()));
         if (cartItems.size() > 1){
-            textView.setText(textView.getText().toString().replace("1", Integer.toString(cartItems.size())));
             textView.setText(textView.getText().toString().replace("item", "items"));
         }
     }
