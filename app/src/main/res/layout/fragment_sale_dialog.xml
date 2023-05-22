@@ -5,14 +5,13 @@
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#EFF1F2"
     tools:context=".view.fragment.SaleDialogFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#EFF1F2" >
+         >
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"

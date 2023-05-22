@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.ubpis.inventame.data.model.Employee;
+import com.ubpis.inventame.data.repository.EmployeeRepository;
 
 import java.util.ArrayList;
 
@@ -12,31 +13,53 @@ import java.util.ArrayList;
 public class EmployeeViewModel extends ViewModel {
 
     private final MutableLiveData<ArrayList<Employee>> employees;
+    private final EmployeeRepository employeeRepository;
+    private final MutableLiveData<Boolean> isLoading;
+    public final MutableLiveData<Employee> selected = new MutableLiveData<>();
 
     public EmployeeViewModel() {
-
         employees = new MutableLiveData<>(new ArrayList<>());
-
-        // TODO: Remove this, is just for testing purposes
-        // TODO: Use Firebase to retrieve categories
-        ArrayList<Employee> testArrayList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            Employee e = new Employee();
-            e.setName(String.format("Name%s", i + 1));
-            e.setLastname(String.format("Surname%s", i + 1));
-            e.setEmail(String.format("Email%s", i + 1));
-            e.setImageUrl("https://source.unsplash.com/random/?People&" + i);
-            testArrayList.add(e);
-        }
-        this.setUsers(testArrayList);
+        employeeRepository = EmployeeRepository.getInstance();
+        isLoading = new MutableLiveData<>(false);
+        employeeRepository.addOnLoadEmployeesListener((employees, isFromCache) -> setEmployees(employees));
+        employeeRepository.addOnLoadEmployeesListener((employees, isFromCache) -> isLoading.setValue(false));
     }
 
-    public LiveData<ArrayList<Employee>> getUsers() {
+    public LiveData<ArrayList<Employee>> getEmployees() {
         return employees;
     }
 
-    public void setUsers(ArrayList<Employee> cats) {
-        employees.setValue(cats);
+    public LiveData<Boolean> getIsLoading() {
+        return isLoading;
+    }
+
+    public LiveData<Employee> getSelected() {
+        return selected;
+    }
+
+    public void setSelected(Employee employee) {
+        selected.setValue(employee);
+    }
+
+    public void setEmployees(ArrayList<Employee> emps) {
+        employees.setValue(emps);
+    }
+
+    public void loadEmployeesFromRepository(String businessId) {
+        isLoading.setValue(true);
+        employeeRepository.getEmployees(employees.getValue(), businessId);
+    }
+
+    public void addEmployee(Employee employee) {
+        employeeRepository.addEmployee(employee);
+    }
+
+    public void updateEmployee(Employee employee) {
+        employeeRepository.updateEmployee(employee);
+    }
+
+    public void deleteEmployee(String employeeId) {
+        employeeRepository.deleteEmployee(employeeId);
     }
 
 }

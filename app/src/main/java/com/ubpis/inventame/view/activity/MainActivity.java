@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDestination;
 import androidx.navigation.NavDirections;
@@ -23,6 +24,7 @@ import com.ubpis.inventame.data.model.UserType;
 import com.ubpis.inventame.view.fragment.EmployeeDialogFragment;
 import com.ubpis.inventame.view.fragment.ProductDialogFragment;
 import com.ubpis.inventame.view.fragment.SaleDialogFragment;
+import com.ubpis.inventame.viewmodel.EmployeeViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,10 +34,13 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth auth;
     SharedPreferences sharedPref;
 
+    private EmployeeViewModel viewModel;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        viewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
         auth = FirebaseAuth.getInstance();
         fab = findViewById(R.id.extended_fab);
         fab.setExtended(false);
@@ -53,7 +58,6 @@ public class MainActivity extends AppCompatActivity {
         });
         sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         String userType = sharedPref.getString("userType", UserType.BUSINESS.toString());
-        new Toast(this).makeText(this, userType, Toast.LENGTH_SHORT).show();
         if (userType.equals(UserType.EMPLOYEE.toString())) {
             bottomNav.getMenu().removeItem(R.id.employeesFragment);
         }
@@ -78,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
                 fab.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_add_20));
             }, 200);
             fab.setOnClickListener(view -> new EmployeeDialogFragment().show(
-                    navHostFragment.getParentFragmentManager(), EmployeeDialogFragment.TAG));
+                    navHostFragment.getChildFragmentManager(), EmployeeDialogFragment.TAG));
         } else if (destination.getId() == R.id.salesFragment) {
             showFabNicely();
             fab.postDelayed(() -> {
