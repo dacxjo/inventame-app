@@ -3,6 +3,7 @@ package com.ubpis.inventame.view.fragment;
 import android.Manifest;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -14,10 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
-import androidx.appcompat.widget.Toolbar;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.PickVisualMediaRequest;
@@ -26,16 +24,22 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.DataBindingUtil;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.google.android.material.card.MaterialCardView;
 import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import com.google.android.material.divider.MaterialDivider;
+import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.squareup.picasso.Picasso;
 import com.ubpis.inventame.R;
+import com.ubpis.inventame.data.model.Employee;
+import com.ubpis.inventame.data.model.Product;
+import com.ubpis.inventame.data.model.UserType;
 import com.ubpis.inventame.databinding.FragmentProductFormBinding;
-
+import com.ubpis.inventame.viewmodel.EmployeeViewModel;
+import com.ubpis.inventame.viewmodel.InventoryViewModel;
 
 import java.util.Date;
 
@@ -48,14 +52,19 @@ public class ProductDialogFragment extends DialogFragment {
     public static String TAG = "AddProductDialog";
     private boolean isEdit;
     private FragmentProductFormBinding binding;
+    private InventoryViewModel viewModel;
+    private FirebaseAuth auth;
+    private Product product;
 
 
     public ProductDialogFragment() {
         this.isEdit = false;
+        this.product = null;
     }
 
-    public ProductDialogFragment(boolean isEdit) {
+    public ProductDialogFragment(boolean isEdit, Product product) {
         this.isEdit = isEdit;
+        this.product = product;
     }
 
 
@@ -74,16 +83,24 @@ public class ProductDialogFragment extends DialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        auth = FirebaseAuth.getInstance();
         setStyle(DialogFragment.STYLE_NORMAL, R.style.AppTheme_FullScreenDialog);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        if(isEdit){
+            viewModel = new ViewModelProvider(this.requireParentFragment()).get(InventoryViewModel.class);
+        }else{
+            viewModel = new ViewModelProvider(this.requireActivity()).get(InventoryViewModel.class);
+        }
+        binding.setViewModel(viewModel);
+        viewModel.setSelected(product);
         binding.productPicker.setOnClickListener(v -> showProductPickerChoices());
         binding.scannerButton.setOnClickListener(v -> launchScanner());
         binding.productExpirationTextfield.setOnClickListener(v -> showDatePicker());
-        binding.toolbar.setNavigationOnClickListener(v -> dismiss());
+        setupToolbar();
         handleEdit();
     }
 
@@ -91,7 +108,7 @@ public class ProductDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
-        binding = FragmentProductFormBinding.inflate(inflater, container, false);
+        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_product_form, container, false);
         requestPermissionLauncher =
                 registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                     if (isGranted) {
@@ -122,7 +139,7 @@ public class ProductDialogFragment extends DialogFragment {
                     }
                 }
         );
-
+        binding.setLifecycleOwner(getViewLifecycleOwner());
         return binding.getRoot();
     }
 
@@ -131,7 +148,7 @@ public class ProductDialogFragment extends DialogFragment {
         System.out.println("Escanner activated!!!");
     }
 
-    private void showDatePicker(){
+    private void showDatePicker() {
         MaterialDatePicker<Long> datePicker =
                 MaterialDatePicker.Builder.datePicker()
                         .setTitleText("Select date")
@@ -186,13 +203,66 @@ public class ProductDialogFragment extends DialogFragment {
         takePictureLauncher.launch(takePictureIntent);
     }
 
-    private void handleEdit(){
-        if(this.isEdit){
+    private void handleEdit() {
+        if (this.isEdit) {
             binding.deleteButton.setVisibility(View.VISIBLE);
             binding.divider.setVisibility(View.GONE);
             binding.scannerButton.setVisibility(View.GONE);
             binding.toolbar.setTitle(R.string.inventory_edit_title);
         }
     }
+
+    private void addProduct() {
+        String businessId = auth.getCurrentUser().getUid();
+        Product product = new Product();
+        product.setId(binding.productIdTextfield.getText().toString());
+        product.setPrice(Float.parseFloat(binding.productPriceTextfield.getText().toString()));
+        product.setDescription(binding.productDescriptionTextarea.getText().toString());
+        product.setStock(Integer.parseInt(binding.productStockTextfield.getText().toString()));
+        product.setName(binding.productNameTextfield.getText().toString());
+        product.setImageUrl("");
+        product.setBatch(binding.productBatchTextfield.getText().toString());
+        product.setBusinessId(businessId);
+        product.setExpired(false);
+        product.setExpirationDate(binding.productExpirationTextfield.getText().toString());
+        product.setCreatedAt(Timestamp.now());
+        viewModel.addProduct(product);
+        dismiss();
+    }
+
+    private void updateProduct(){
+
+    }
+
+    private void setupToolbar(){
+        binding.toolbar.setNavigationOnClickListener(value -> dismiss());
+        binding.toolbar.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_save:
+                    if(this.isEdit){
+                        updateProduct();
+                    }else{
+                        addProduct();
+                    }
+                    return true;
+                default:
+                    return false;
+            }
+        });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        binding = null;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        viewModel.setSelected(null);
+        viewModel.loadProductsFromRepository(FirebaseAuth.getInstance().getCurrentUser().getUid());
+    }
+
 
 }

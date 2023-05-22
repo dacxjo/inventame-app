@@ -1,5 +1,6 @@
 package com.ubpis.inventame.view.adapter;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +24,7 @@ import jp.wasabeef.picasso.transformations.RoundedCornersTransformation;
 public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.ViewHolder> {
 
     public interface OnClickCardListener {
-        void OnClickCard(int position);
+        void OnClickCard(Product product);
     }
 
     private ArrayList<Product> mProducts;
@@ -54,7 +55,7 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
     public ProductCardAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.product_card_layout, parent, false);
-        return new ProductCardAdapter.ViewHolder(view);
+        return new ProductCardAdapter.ViewHolder(view, parent.getContext());
     }
 
     /* Method called for every ViewHolder in RecyclerView */
@@ -91,20 +92,26 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
         private final TextView mCardStock;
         private final ImageView mWarningButton;
         private MaterialCardView card;
+        private Context context;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, Context context){
             super(itemView);
             mCardPictureUrl = itemView.findViewById(R.id.product_image);
             mCardProductName = itemView.findViewById(R.id.product_name);
             mCardStock = itemView.findViewById(R.id.product_stock);
             mWarningButton = itemView.findViewById(R.id.warning_icon);
             card = itemView.findViewById(R.id.card);
+            this.context = context;
         }
 
         public void bind(final Product product, OnClickCardListener listener, boolean enableListener,boolean hideStock){
             mCardProductName.setText(product.getName());
-            mCardStock.setText(product.getmStock());
-            Picasso.get().load(product.getURL()).transform(new RoundedCornersTransformation(50, 0)).fit()
+            mCardStock.setText(this.context.getString(R.string.product_stock_text, product.getStock()));
+            String imageUrl = product.getImageUrl();
+            if (imageUrl == null || imageUrl.isEmpty()) {
+                imageUrl = "https://firebasestorage.googleapis.com/v0/b/inventame-2c44f.appspot.com/o/placeholders%2F3369023662.jpg?alt=media&token=350dff3b-2799-400d-af14-80c3a92e21e7";
+            }
+            Picasso.get().load(imageUrl).transform(new RoundedCornersTransformation(50, 0)).fit()
                     .centerCrop().into(mCardPictureUrl);
             if (product.isExpired()) {
                 mWarningButton.setVisibility(View.VISIBLE);
@@ -116,7 +123,7 @@ public class ProductCardAdapter extends RecyclerView.Adapter<ProductCardAdapter.
             }
             if(enableListener){
                 card.setOnClickListener(view -> {
-                    listener.OnClickCard(getAdapterPosition());
+                    listener.OnClickCard(product);
                 });
             }
         }

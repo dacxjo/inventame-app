@@ -53,7 +53,7 @@
 
     <!-- Strings: product_card -->
     <string name="product_name_text">Producto</string>
-    <string name="product_stock_text">Stock: X</string>
+    <string name="product_stock_text">Stock: %1$d</string>
 
     <!-- Strings: inventory -->
     <string name="inventory_search_hint">Buscar producto</string>
@@ -125,5 +125,6 @@
 
     <!-- Strings: Empty State -->
     <string name="empty_state_employees">No tienes empleados registrados</string>
+    <string name="empty_state_products">No tienes productos registrados</string>
 
 </resources>
