@@ -135,4 +135,7 @@
     <string name="text_filter_price">Precio</string>
     <string name="text_filter_highlight_type">Tipo de destacado</string>
 
+    <!-- Strings: Empty State -->
+    <string name="empty_state_employees">No tienes empleados registrados</string>
+
 </resources>
