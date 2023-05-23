@@ -3,6 +3,8 @@ package com.ubpis.inventame.view.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +38,7 @@ import java.util.ArrayList;
 public class EmployeeFragment extends Fragment {
 
     private EmployeeViewModel viewModel;
-    private EmployeeCardAdapter employeeCardAdapter;
+    private EmployeeCardAdapter employeeCardAdapter, resultsCardAdapter;
     private FragmentEmployeeBinding binding;
     private Skeleton skeleton;
 
@@ -55,6 +57,8 @@ public class EmployeeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(EmployeeViewModel.class);
+
+        // Product List RecyclerView elements
         LinearLayoutManager manager = new LinearLayoutManager(
                 this.getContext(), LinearLayoutManager.VERTICAL, false
         );
@@ -68,15 +72,6 @@ public class EmployeeFragment extends Fragment {
         );
         employeeCardAdapter.setOnClickCardListener(this::showEditEmployeeDialog);
         binding.employeeList.setAdapter(employeeCardAdapter);
-        /*viewModel.getIsLoading().observe(this.getViewLifecycleOwner(), isLoading -> {
-            if (isLoading) {
-                skeleton.showSkeleton();
-            } else {
-                skeleton.showOriginal();
-            }
-        });
-        skeleton = SkeletonLayoutUtils.applySkeleton(binding.employeeList, R.layout.user_card_layout);
-        skeleton.setMaskCornerRadius(40f);*/
         final Observer<ArrayList<Employee>> observerEmployees = employees -> {
             if (viewModel.getEmployees().getValue().isEmpty()) {
                 binding.emptyState.setVisibility(View.VISIBLE);
@@ -89,6 +84,33 @@ public class EmployeeFragment extends Fragment {
         };
         viewModel.getEmployees().observe(this.getViewLifecycleOwner(), observerEmployees);
         viewModel.loadEmployeesFromRepository(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        // SearchView elements
+        LinearLayoutManager managerResults = new LinearLayoutManager(
+                this.getContext(), LinearLayoutManager.VERTICAL, false
+        );
+        DividerItemDecoration dividerItemDecorationResults = new DividerItemDecoration(binding.employeeSearchResults.getContext(),
+                managerResults.getOrientation());
+        binding.employeeSearchResults.addItemDecoration(dividerItemDecorationResults);
+        binding.employeeSearchResults.setLayoutManager(managerResults);
+        resultsCardAdapter = new EmployeeCardAdapter(viewModel.getResults().getValue());
+        resultsCardAdapter.setOnClickCardListener(this::showEditEmployeeDialog);
+        binding.employeeSearchResults.setAdapter(resultsCardAdapter);
+        binding.searchView.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                resultsCardAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                viewModel.searchEmployees(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                resultsCardAdapter.notifyDataSetChanged();
+            }
+        });
         this.setupBottomNavigationTransition();
     }
 

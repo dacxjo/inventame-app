@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class InventoryViewModel extends ViewModel {
 
-    private final MutableLiveData<ArrayList<Product>> products;
+    private final MutableLiveData<ArrayList<Product>> products, results;
     private final ProductRepository productRepository;
     private final MutableLiveData<Boolean> isLoading;
     public final MutableLiveData<Product> selected = new MutableLiveData<>();
@@ -20,11 +20,12 @@ public class InventoryViewModel extends ViewModel {
     public InventoryViewModel() {
 
         products = new MutableLiveData<>(new ArrayList<>());
+        results = new MutableLiveData<>(new ArrayList<>());
         productRepository = ProductRepository.getInstance();
         isLoading = new MutableLiveData<>(false);
         productRepository.addOnLoadProductsListener((products, isFromCache) -> setProducts(products));
         productRepository.addOnAddProductListener((product) -> {
-           loadProductsFromRepository(product.getBusinessId());
+            loadProductsFromRepository(product.getBusinessId());
         });
     }
 
@@ -70,5 +71,22 @@ public class InventoryViewModel extends ViewModel {
         products.setValue(prods);
     }
 
+    public void searchProducts(String query) {
+        results.getValue().clear();
+        if(query.isEmpty()){
+            return;
+        }
+        ArrayList<Product> prods = new ArrayList<>(products.getValue());
+        for (Product product : prods) {
+            if (product.getName().toLowerCase().contains(query.toLowerCase())) {
+                results.getValue().add(product);
+            }
+        }
+    }
+
+
+    public LiveData<ArrayList<Product>> getResults() {
+        return results;
+    }
 
 }

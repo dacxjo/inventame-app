@@ -3,6 +3,8 @@ package com.ubpis.inventame.view.fragment;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +32,7 @@ import java.util.ArrayList;
 public class InventoryFragment extends Fragment {
 
     private InventoryViewModel viewModel;
-    private ProductCardAdapter productCardAdapter;
+    private ProductCardAdapter productCardAdapter, resultsCardAdapter;
     private FragmentInventoryBinding binding;
 
     public static InventoryFragment newInstance() {
@@ -48,14 +50,16 @@ public class InventoryFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         viewModel = new ViewModelProvider(this).get(InventoryViewModel.class);
+
+        // Product List RecyclerView elements
         LinearLayoutManager manager = new LinearLayoutManager(
                 this.getContext(), LinearLayoutManager.VERTICAL, false
         );
-
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.productList.getContext(),
                 manager.getOrientation());
         binding.productList.addItemDecoration(dividerItemDecoration);
         binding.productList.setLayoutManager(manager);
+
         productCardAdapter = new ProductCardAdapter(
                 viewModel.getProducts().getValue()
         );
@@ -79,10 +83,41 @@ public class InventoryFragment extends Fragment {
         //TODO: Load from business or businessId
         viewModel.loadProductsFromRepository(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        SearchView searchView = requireView().findViewById(R.id.search_view);
+        // Product Search Results RecyclerView elements
+        LinearLayoutManager managerResults = new LinearLayoutManager(
+                this.getContext(), LinearLayoutManager.VERTICAL, false
+        );
+        DividerItemDecoration dividerItemDecorationResults = new DividerItemDecoration(binding.productSearchResults.getContext(),
+                managerResults.getOrientation());
+        binding.productSearchResults.addItemDecoration(dividerItemDecorationResults);
+        binding.productSearchResults.setLayoutManager(managerResults);
+
+        resultsCardAdapter = new ProductCardAdapter(
+                viewModel.getResults().getValue()
+        );
+        resultsCardAdapter.setOnClickCardListener(this::showEditProductDialog);
+        binding.productSearchResults.setAdapter(resultsCardAdapter);
+
+        binding.searchView.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                resultsCardAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                viewModel.searchProducts(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                resultsCardAdapter.notifyDataSetChanged();
+            }
+        });
+
         BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
         ExtendedFloatingActionButton fab = getActivity().findViewById(R.id.extended_fab);
-        searchView.addTransitionListener((searchView1, previousState, newState) -> {
+        binding.searchView.addTransitionListener((searchView1, previousState, newState) -> {
             if (newState == SearchView.TransitionState.SHOWING) {
                 bottomNav.animate().translationY(bottomNav.getHeight()).setDuration(300).setListener(new AnimatorListenerAdapter() {
                     @Override
