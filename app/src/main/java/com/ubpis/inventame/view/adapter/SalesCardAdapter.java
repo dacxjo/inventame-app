@@ -69,6 +69,7 @@ public class SalesCardAdapter extends RecyclerView.Adapter<SalesCardAdapter.View
 
         coordinatorParams.setBehavior(swipeDismissBehavior);
 
+
         return new SalesCardAdapter.ViewHolder(view);
     }
 

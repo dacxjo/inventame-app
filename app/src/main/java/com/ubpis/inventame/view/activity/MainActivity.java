@@ -21,6 +21,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.ubpis.inventame.R;
 import com.ubpis.inventame.data.model.UserType;
+import com.ubpis.inventame.view.fragment.CartFragment;
 import com.ubpis.inventame.view.fragment.EmployeeDialogFragment;
 import com.ubpis.inventame.view.fragment.ProductDialogFragment;
 import com.ubpis.inventame.view.fragment.SaleDialogFragment;
@@ -89,8 +90,8 @@ public class MainActivity extends AppCompatActivity {
                 fab.extend();
                 fab.setIcon(ContextCompat.getDrawable(this, R.drawable.ic_shopping_cart_24));
             }, 200);
-            fab.setOnClickListener(view -> new SaleDialogFragment().show(
-                    navHostFragment.getParentFragmentManager(), SaleDialogFragment.TAG));
+            fab.setOnClickListener(view -> new CartFragment().show(
+                    navHostFragment.getParentFragmentManager(), CartFragment.TAG));
         } else {
             fab.postDelayed(() -> fab.shrink(), 200);
             showFabNicely();
