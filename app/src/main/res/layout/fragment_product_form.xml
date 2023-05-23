@@ -1,247 +1,264 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".view.fragment.ProductDialogFragment">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/md_theme_light_background"
-        app:elevation="0dp"
-        app:liftOnScroll="true">
+    <data>
+        <variable
+            name="viewModel"
+            type="com.ubpis.inventame.viewmodel.InventoryViewModel" />
+    </data>
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:paddingStart="6dp"
-            android:paddingEnd="16dp"
-            app:contentInsetStartWithNavigation="0dp"
-            app:menu="@menu/dialog_menu"
-            app:navigationIcon="@drawable/baseline_close_24"
-            app:title="@string/inventory_add_title" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:layout_marginTop="?attr/actionBarSize">
+        tools:context=".view.fragment.ProductDialogFragment">
 
-        <LinearLayout
+        <com.google.android.material.appbar.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="20dp"
-            android:paddingBottom="50dp"
-            android:gravity="center">
+            android:background="@color/md_theme_light_background"
+            app:elevation="0dp"
+            app:liftOnScroll="true">
 
-            <!-- Scanner Button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/scanner_button"
-                style="@style/Widget.Material3.Button.Icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:icon="@drawable/ic_barcode_scanner_24"
-                app:iconGravity="textStart"
-                android:gravity="center"
-                android:text="@string/scanner_button"
-                android:backgroundTint="@color/seed"
-                android:textColor="@color/md_theme_light_background" />
-
-            <com.google.android.material.divider.MaterialDivider
-                android:id="@+id/divider"
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:dividerInsetStart="16dp"
-                app:dividerInsetEnd="16dp"/>
+                android:layout_height="?attr/actionBarSize"
+                android:paddingStart="6dp"
+                android:paddingEnd="16dp"
+                app:contentInsetStartWithNavigation="0dp"
+                app:menu="@menu/dialog_menu"
+                app:navigationIcon="@drawable/baseline_close_24"
+                app:title="@string/inventory_add_title" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:layout_marginTop="?attr/actionBarSize">
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:orientation="vertical"
-                android:paddingTop="16dp">
+                android:paddingHorizontal="20dp"
+                android:paddingBottom="50dp"
+                android:gravity="center">
 
-                <com.google.android.material.card.MaterialCardView
-                    android:id="@+id/productPicker"
-                    style="?attr/materialCardViewFilledStyle"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:clickable="true"
-                    android:focusable="true">
+                <!-- Scanner Button -->
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/scanner_button"
+                    style="@style/Widget.Material3.Button.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:icon="@drawable/ic_barcode_scanner_24"
+                    app:iconGravity="textStart"
+                    android:gravity="center"
+                    android:text="@string/scanner_button"
+                    android:backgroundTint="@color/seed"
+                    android:textColor="@color/md_theme_light_background" />
 
-                    <ImageView
-                        android:id="@+id/product"
-                        android:src="@drawable/baseline_image_24"
-                        app:tint="@color/seed"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:scaleType="centerCrop"></ImageView>
-                </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/divider"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    app:dividerInsetStart="16dp"
+                    app:dividerInsetEnd="16dp"/>
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="@string/product_image_textfield"
-                    android:textAlignment="center"
-                    android:textSize="12sp"
-                    android:layout_marginTop="5dp"/>
-            </LinearLayout>
+                    android:orientation="vertical"
+                    android:paddingTop="16dp">
 
-            <!-- Product ID textfield -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/product_id_textfield"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                android:layout_marginTop="16dp">
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/productPicker"
+                        style="?attr/materialCardViewFilledStyle"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:clickable="true"
+                        android:focusable="true">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/product_id_textfield"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:maxLines="1"/>
+                        <ImageView
+                            android:id="@+id/product"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:scaleType="centerCrop"></ImageView>
+                    </com.google.android.material.card.MaterialCardView>
 
-            </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Product name textfield -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/product_name_textfield"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                android:layout_marginTop="16dp">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:text="@string/product_image_textfield"
+                        android:textAlignment="center"
+                        android:textSize="12sp"
+                        android:layout_marginTop="5dp"/>
+                </LinearLayout>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/product_name_textfield"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:maxLines="1"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Product description textarea -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/product_desc_textfield"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                android:layout_marginTop="16dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/product_description_textarea"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="textMultiLine"
-                    android:maxLines="5"/>
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
-
-                <!-- Product price textfield -->
+                <!-- Product Code textfield -->
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/product_price_textfield"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                    android:hint="@string/product_code_textfield"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_marginTop="16dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/product_price_textfield"
+                        android:id="@+id/product_code_textfield"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="numberDecimal"
+                        android:inputType="text"
+                        android:text="@={viewModel.selected.barcode}"
                         android:maxLines="1"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <!-- Product stock textfield -->
+                <!-- Product name textfield -->
                 <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/product_stock_textfield"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+                    android:hint="@string/product_name_textfield"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_marginTop="16dp">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/product_stock_textfield"
+                        android:id="@+id/product_name_textfield"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="number"
-                        android:maxLines="1"
-                        android:layout_marginStart="16dp"/>
+                        android:inputType="text"
+                        android:text="@={viewModel.selected.name}"
+                        android:maxLines="1"/>
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <!-- Product description textarea -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/product_desc_textfield"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_marginTop="16dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/product_description_textarea"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textMultiLine"
+                        android:text="@={viewModel.selected.description}"
+                        android:maxLines="5"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="16dp">
+
+                    <!-- Product price textfield -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/product_price_textfield"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/product_price_textfield"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="numberDecimal|numberSigned"
+                            android:maxLines="1"
+                            android:layout_marginEnd="16dp"
+                            android:text="@={viewModel.selected.priceString}"/>
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <!-- Product stock textfield -->
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="@string/product_stock_textfield"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/product_stock_textfield"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="number"
+                            android:maxLines="1"
+                            android:text="@={viewModel.selected.stockString}" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                </LinearLayout>
+
+                <!-- Product Batch textfield -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/product_batch_textfield"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_marginTop="16dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/product_batch_textfield"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="text"
+                        android:text="@={viewModel.selected.batch}"
+                        android:maxLines="1"/>
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <!-- Product Expiration textfield -->
+                <com.google.android.material.textfield.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/product_expiration_textfield"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    android:layout_marginTop="16dp">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/product_expiration_textfield"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:clickable="true"
+                        android:focusable="false"
+                        android:text="@={viewModel.selected.expirationDate}"
+                        android:inputType="none"  />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Space
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+
+                <Button
+                    android:id="@+id/delete_button"
+                    android:visibility="gone"
+                    android:layout_width="300dp"
+                    android:layout_alignParentBottom="true"
+                    style="?attr/materialButtonOutlinedStyle"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/holo_red_dark"
+                    android:text="@string/delete_product" />
+
             </LinearLayout>
 
-            <!-- Product Batch textfield -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/product_batch_textfield"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                android:layout_marginTop="16dp">
+        </ScrollView>
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/product_batch_textfield"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:maxLines="1"/>
+    </RelativeLayout>
 
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <!-- Product Expiration textfield -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/product_expiration_textfield"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                android:layout_marginTop="16dp">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/product_expiration_textfield"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:maxLines="1"
-                    android:clickable="true"
-                    android:focusable="false"
-                    android:inputType="none"  />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="40dp" />
-
-            <Button
-                android:id="@+id/delete_button"
-                android:visibility="gone"
-                android:layout_width="300dp"
-                android:layout_alignParentBottom="true"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_height="wrap_content"
-                android:textColor="@android:color/holo_red_dark"
-                android:text="@string/delete_product" />
-
-        </LinearLayout>
-
-    </ScrollView>
-
-</RelativeLayout>
+</layout>

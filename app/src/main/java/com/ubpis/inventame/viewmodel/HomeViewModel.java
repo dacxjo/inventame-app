@@ -15,7 +15,12 @@ public class HomeViewModel extends ViewModel {
         topThreeProducts = new MutableLiveData<>(new ArrayList<>());
         ArrayList<Product> testArrayList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
-            Product p = new Product(Integer.toString(i + 1), String.format("Prod%s", i + 1), String.format("Desc %s", i + 1), Integer.toString(i + 1), "https://source.unsplash.com/random/?Product&" + i, false);
+            Product p = new Product();  p.setName("Test");
+            p.setId("code");
+            p.setImageUrl("https://firebasestorage.googleapis.com/v0/b/inventame-8f7f9.appspot.com/o/Products%2Ftest.jpg?alt=media&token=3b3b5b1a-4b9a-4b9e-8b0a-4b9b6b0b0b0b");
+            p.setStock(120);
+            p.setDescription("Description");
+            p.setPrice(120);
             testArrayList.add(p);
         }
         this.setTopThreeProducts(testArrayList);

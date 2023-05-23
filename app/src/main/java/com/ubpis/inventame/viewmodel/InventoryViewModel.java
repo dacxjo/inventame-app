@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.ubpis.inventame.data.model.Product;
-import com.ubpis.inventame.view.adapter.ProductCardAdapter;
+import com.ubpis.inventame.data.repository.ProductRepository;
 
 import java.util.ArrayList;
 
@@ -13,19 +13,53 @@ import java.util.ArrayList;
 public class InventoryViewModel extends ViewModel {
 
     private final MutableLiveData<ArrayList<Product>> products;
+    private final ProductRepository productRepository;
+    private final MutableLiveData<Boolean> isLoading;
+    public final MutableLiveData<Product> selected = new MutableLiveData<>();
 
     public InventoryViewModel() {
 
         products = new MutableLiveData<>(new ArrayList<>());
+        productRepository = ProductRepository.getInstance();
+        isLoading = new MutableLiveData<>(false);
+        productRepository.addOnLoadProductsListener((products, isFromCache) -> setProducts(products));
+        productRepository.addOnAddProductListener((product) -> {
+           loadProductsFromRepository(product.getBusinessId());
+        });
+    }
 
-        // TODO: Remove this, is just for testing purposes
-        // TODO: Use Firebase to retrieve categories
-        ArrayList<Product> testArrayList = new ArrayList<>();
-        for (int i = 0; i < 4; i++) {
-            Product p = new Product(Integer.toString(i + 1), String.format("Prod%s", i + 1), String.format("Desc %s", i + 1), Integer.toString(i + 1), "https://source.unsplash.com/random/?Product&" + i, false);
-            testArrayList.add(p);
-        }
-        this.setProducts(testArrayList);
+    public LiveData<Boolean> getIsLoading() {
+        return isLoading;
+    }
+
+    public LiveData<Product> getSelected() {
+        return this.selected;
+    }
+
+    public void setSelected(Product product) {
+        this.selected.setValue(product);
+    }
+
+    public void loadProductsFromRepository(String businessId) {
+        isLoading.setValue(true);
+        productRepository.getProducts(products.getValue(), businessId);
+    }
+
+    public void addOnAddProductListener(ProductRepository.OnAddProductListener listener) {
+        productRepository.addOnAddProductListener(listener);
+    }
+
+    public void addProduct(Product product) {
+        productRepository.addProduct(product);
+    }
+
+
+    public void updateProduct(Product product) {
+        productRepository.updateProduct(product);
+    }
+
+    public void deleteProduct(String id) {
+        productRepository.deleteProduct(id);
     }
 
     public LiveData<ArrayList<Product>> getProducts() {
@@ -35,5 +69,6 @@ public class InventoryViewModel extends ViewModel {
     public void setProducts(ArrayList<Product> prods) {
         products.setValue(prods);
     }
+
 
 }

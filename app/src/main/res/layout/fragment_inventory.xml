@@ -39,12 +39,24 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/productCardRv"
+            android:id="@+id/productList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/app_bar"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"/>
+
+
+        <TextView
+            android:id="@+id/emptyState"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/app_bar"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/empty_state_products"
+            android:textAlignment="center"
+            android:visibility="gone" />
 
     </RelativeLayout>
 

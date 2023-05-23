@@ -1,34 +1,37 @@
 package com.ubpis.inventame.view.fragment;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.search.SearchView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.ubpis.inventame.R;
+import com.ubpis.inventame.data.model.Product;
+import com.ubpis.inventame.databinding.FragmentInventoryBinding;
 import com.ubpis.inventame.view.adapter.ProductCardAdapter;
 import com.ubpis.inventame.viewmodel.InventoryViewModel;
 
+import java.util.ArrayList;
+
 public class InventoryFragment extends Fragment {
 
-    private InventoryViewModel ViewModel;
-    private RecyclerView productList;
+    private InventoryViewModel viewModel;
     private ProductCardAdapter productCardAdapter;
+    private FragmentInventoryBinding binding;
 
     public static InventoryFragment newInstance() {
         return new InventoryFragment();
@@ -37,30 +40,44 @@ public class InventoryFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_inventory, container, false);
+        binding = FragmentInventoryBinding.inflate(inflater, container, false);
+        return binding.getRoot();
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ViewModel = new ViewModelProvider(this).get(InventoryViewModel.class);
-        productList = view.findViewById(R.id.productCardRv);
+        viewModel = new ViewModelProvider(this).get(InventoryViewModel.class);
         LinearLayoutManager manager = new LinearLayoutManager(
                 this.getContext(), LinearLayoutManager.VERTICAL, false
         );
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(productList.getContext(),
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(binding.productList.getContext(),
                 manager.getOrientation());
-        productList.addItemDecoration(dividerItemDecoration);
-
-        productList.setLayoutManager(manager);
+        binding.productList.addItemDecoration(dividerItemDecoration);
+        binding.productList.setLayoutManager(manager);
         productCardAdapter = new ProductCardAdapter(
-                ViewModel.getProducts().getValue()
+                viewModel.getProducts().getValue()
         );
 
         productCardAdapter.setOnClickCardListener(this::showEditProductDialog);
 
-        productList.setAdapter(productCardAdapter);
+        binding.productList.setAdapter(productCardAdapter);
+
+        final Observer<ArrayList<Product>> observerProducts= products -> {
+            if (viewModel.getProducts().getValue().isEmpty()) {
+                binding.emptyState.setVisibility(View.VISIBLE);
+                binding.productList.setVisibility(View.GONE);
+            } else {
+                binding.emptyState.setVisibility(View.GONE);
+                binding.productList.setVisibility(View.VISIBLE);
+            }
+            productCardAdapter.notifyDataSetChanged();
+        };
+        viewModel.getProducts().observe(this.getViewLifecycleOwner(),observerProducts);
+
+        //TODO: Load from business or businessId
+        viewModel.loadProductsFromRepository(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         SearchView searchView = requireView().findViewById(R.id.search_view);
         BottomNavigationView bottomNav = getActivity().findViewById(R.id.bottom_navigation);
@@ -84,8 +101,8 @@ public class InventoryFragment extends Fragment {
 
     }
 
-    private void showEditProductDialog(int position){
-        new ProductDialogFragment(true).show(
+    private void showEditProductDialog(Product product){
+        new ProductDialogFragment(true,product).show(
                 getChildFragmentManager(), ProductDialogFragment.TAG);
     }
 }

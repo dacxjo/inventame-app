@@ -1,211 +1,139 @@
 package com.ubpis.inventame.data.repository;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.ubpis.inventame.data.model.Employee;
 import com.ubpis.inventame.data.model.Product;
 
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 public class ProductRepository {
+    private static final String TAG = "ProductRepository";
 
-    private static final String TAG = "Repository";
+    private static final ProductRepository instance = new ProductRepository();
 
-    /**
-     * Autoinstància, pel patró singleton
-     */
-    private static final ProductRepository mInstance = new ProductRepository();
+    private final CollectionReference productsCollection;
+    public ArrayList<ProductRepository.OnLoadProductsListener> onLoadProductsListeners = new ArrayList<>();
 
-    /**
-     * Referència a la Base de Dades
-     */
-    private FirebaseFirestore mDb;
-
-    /**
-     * Definició de listener (interficie),
-     * per escoltar quan s'hagin acabat de llegir els usuaris de la BBDD
-     */
-    public interface OnLoadProductsListener {
-        void onLoadProducts(ArrayList<Product> products);
-    }
-
-    public ArrayList<OnLoadProductsListener> mOnLoadProductsListeners = new ArrayList<>();
-
-    /**
-     * Definició de listener (interficie)
-     * per poder escoltar quan s'hagi acabat de llegir la Url de la foto de perfil
-     * d'un usuari concret
-     */
-    public interface OnLoadProductPictureUrlListener {
-        void OnLoadProductPictureUrl(String pictureUrl);
-    }
-
-    public OnLoadProductPictureUrlListener mOnLoadProductPictureUrlListener;
-
-    /**
-     * Constructor privat per a forçar la instanciació amb getInstance(),
-     * com marca el patró de disseny Singleton class
-     */
+    public ArrayList<ProductRepository.OnAddProductListener> onAddProductListeners = new ArrayList<>();
     private ProductRepository() {
-        mDb = FirebaseFirestore.getInstance();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.setFirestoreSettings(new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build());
+        this.productsCollection = db.collection("products");
     }
 
-    /**
-     * Retorna aqusta instancia singleton
-     *
-     * @return
-     */
     public static ProductRepository getInstance() {
-        return mInstance;
+        return instance;
     }
 
-    /**
-     * Afegir un listener de la operació OnLoadUsersListener.
-     * Pot haver-n'hi només un. Fem llista, com a exemple, per demostrar la flexibilitat
-     * d'aquest disseny.
-     *
-     * @param listener
-     */
-    public void addOnLoadProductsListener(OnLoadProductsListener listener) {
-        mOnLoadProductsListeners.add(listener);
+    public void addOnLoadProductsListener(ProductRepository.OnLoadProductsListener listener) {
+        onLoadProductsListeners.add(listener);
     }
 
-    /**
-     * Setejem un listener de la operació OnLoadUserPictureUrlListener.
-     * En aquest cas, no és una llista de listeners. Només deixem haver-n'hi un,
-     * també a tall d'exemple.
-     *
-     * @param listener
-     */
-    public void setOnLoadProductPictureListener(OnLoadProductPictureUrlListener listener) {
-        mOnLoadProductPictureUrlListener = listener;
+    public void addOnAddProductListener(ProductRepository.OnAddProductListener listener) {
+        onAddProductListeners.add(listener);
     }
 
-    /**
-     * Mètode que llegeix els usuaris. Vindrà cridat des de fora i quan acabi,
-     * avisarà sempre als listeners, invocant el seu OnLoadUsers.
-     */
-    public void loadProducts(ArrayList<Product> products) {
-        products.clear();
-        mDb.collection("products")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
+    public void getProducts(ArrayList<Product> products, String businessId) {
+        Query query = productsCollection.whereEqualTo("businessId", businessId).orderBy("createdAt", Query.Direction.DESCENDING);
+        query.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (querySnapshot != null || !querySnapshot.isEmpty()) {
+                            products.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                                Product product = new Product(
-                                        document.toString(), // ID = Email
-                                        document.getString("name"),
-                                        document.getString("price"),
-                                        document.getString("stock"),
-                                        document.getString("picture_url"),
-                                        document.getBoolean("isExpired")
-                                );
+                                Product product = new Product();
+                                product.setId(document.getId());
+                                product.setBarcode(document.getString("barcode"));
+                                product.setName(document.getString("name"));
+                                product.setDescription(document.getString("description"));
+                                product.setBusinessId(document.getString("businessId"));
+                                product.setBatch(document.getString("batch"));
+                                product.setExpirationDate(document.getString("expirationDate"));
+                                product.setPrice(document.getDouble("price").floatValue());
+                                product.setExpired(false);
+                                product.setStock(document.getLong("stock").intValue());
+                                product.setImageUrl(document.getString("imageUrl"));
+                                product.setCreatedAt(document.getTimestamp("createdAt"));
                                 products.add(product);
                             }
-                            /* Callback listeners */
-                            for (OnLoadProductsListener l : mOnLoadProductsListeners) {
-                                l.onLoadProducts(products);
+                            for (ProductRepository.OnLoadProductsListener l : onLoadProductsListeners) {
+                                l.onLoadProducts(products, querySnapshot.getMetadata().isFromCache());
                             }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
+
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 });
     }
 
-    /**
-     * Mètode que llegeix la Url d'una foto de perfil d'un usuari indicat pel seu
-     * email. Vindrà cridat des de fora i quan acabi, avisarà sempre al listener,
-     * invocant el seu OnLoadUserPictureUrl.
-     */
-    public void loadPictureOfProduct(String id) {
-        mDb.collection("products")
-                .document(id)
-                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            DocumentSnapshot document = task.getResult();
-                            if (document != null) {
-                                mOnLoadProductPictureUrlListener.OnLoadProductPictureUrl(document.getString("picture_url"));
-                            } else {
-                                Log.d("LOGGER", "No such document");
-                            }
-                        } else {
-                            Log.d("LOGGER", "get failed with ", task.getException());
-                        }
-                    }
-                });
+    public void addProduct(Product product) {
+        productsCollection.add(product).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, "DocumentSnapshot added with ID: " + task.getResult().getId());
+                product.setId(task.getResult().getId());
+                updateProduct(product);
+                for (ProductRepository.OnAddProductListener l : onAddProductListeners) {
+                    l.onAddProduct(product);
+                }
+            } else {
+                Log.w(TAG, "Error adding document", task.getException());
+            }
+        });
     }
 
-    /**
-     * Mètode que afegeix un nou usuari a la base de dades. Utilitzat per la funció
-     * de Sign-Up (registre) de la SignUpActivity.
-     *
-     * @param id
-     * @param name
-     * @param price
-     * @param stock
-     */
-    public void addProduct(
-            String id,
-            String name,
-            String price,
-            String stock
-    ) {
-        // Obtenir informació personal de l'usuari
-        Map<String, Object> registeredProduct = new HashMap<>();
-        registeredProduct.put("name", name);
-        registeredProduct.put("price", price);
-        registeredProduct.put("stock", stock);
-        registeredProduct.put("picture_url", null);
-
-        // Afegir-la a la base de dades
-        mDb.collection("products").document(id).set(registeredProduct)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Log.d(TAG, "Sign up completion succeeded");
-                        } else {
-                            Log.d(TAG, "Sign up completion failed");
-                        }
-                    }
-                });
+    public void updateProduct(Product product) {
+        Map<String, Object> map = product.toMap();
+        productsCollection.document(product.getId()).update(map).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, "DocumentSnapshot added with ID: " + task.getResult());
+            } else {
+                Log.w(TAG, "Error adding document", task.getException());
+            }
+        });
     }
 
-    /**
-     * Mètode que guarda la Url d'una foto de perfil que un usuari hagi pujat
-     * des de la HomeActivity a la BBDD. Concretament, es cridat pel HomeActivityViewModel.
-     *
-     * @param productId
-     * @param pictureUrl
-     */
-    public void setPictureUrlOfProduct(String productId, String pictureUrl) {
-        Map<String, Object> userEntry = new HashMap<>();
-        userEntry.put("picture_url", pictureUrl);
+    public void deleteProduct(String id) {
+        productsCollection.document(id).delete().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Log.d(TAG, "DocumentSnapshot added with ID: " + task.getResult());
+            } else {
+                Log.w(TAG, "Error adding document", task.getException());
+            }
+        });
+    }
 
-        mDb.collection("products")
-                .document(productId)
-                .set(userEntry, SetOptions.merge())
-                .addOnSuccessListener(documentReference -> {
-                    Log.d(TAG, "Photo upload succeeded: " + pictureUrl);
-                })
-                .addOnFailureListener(exception -> {
-                    Log.d(TAG, "Photo upload failed: " + pictureUrl);
-                });
+    public void uploadPicture(String uid, Bitmap logoBitmap, OnSuccessListener onSuccessListener) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        logoBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] logoData = baos.toByteArray();
+        StorageReference productRef = FirebaseStorage.getInstance().getReference().child("products/" + uid + ".png");
+        UploadTask uploadTask = productRef.putBytes(logoData);
+        uploadTask.addOnSuccessListener(taskSnapshot -> productRef.getDownloadUrl().addOnSuccessListener(onSuccessListener));
+    }
+
+    public interface OnLoadProductsListener {
+        void onLoadProducts(ArrayList<Product> products, boolean isFromCache);
+    }
+
+    public interface OnAddProductListener {
+        void onAddProduct(Product product);
     }
 }
