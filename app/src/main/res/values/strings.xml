@@ -14,6 +14,9 @@
 
     <!-- Strings: common -->
     <string name="common_cancel">Cancelar</string>
+    <string name="common_cancelled">Cancelado</string>
+    <string name="common_delete">Borrar</string>
+    <string name="common_delete_disclaimer">Esta acción no se puede deshacer</string>
 
     <!-- Strings: login -->
     <string name="title_login">Iniciar sesión</string>
@@ -71,6 +74,12 @@
     <string name="product_batch_textfield">Lote</string>
     <string name="product_expiration_textfield">Expiracion</string>
     <string name="delete_product">Borrar producto</string>
+    <string name="delete_product_confirm">¿Borrar producto?</string>
+    <string name="added_product">Producto agregado</string>
+    <string name="updated_product">Producto actualizado</string>
+    <string name="deleted_product">Producto borrado</string>
+    <string name="select_date">Seleccionar fecha</string>
+
 
     <!-- Strings: employees -->
     <string name="employee_search_hint">Buscar empleado</string>
@@ -126,5 +135,9 @@
     <!-- Strings: Empty State -->
     <string name="empty_state_employees">No tienes empleados registrados</string>
     <string name="empty_state_products">No tienes productos registrados</string>
+
+    <!-- Strings: Scanner -->
+    <string name="scanned">Escaneado: %s</string>
+    <string name="scan_label">Coloca un código de barras en el marco para escanearlo</string>
 
 </resources>

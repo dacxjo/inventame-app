@@ -34,15 +34,13 @@ import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.journeyapps.barcodescanner.ScanContract;
+import com.journeyapps.barcodescanner.ScanOptions;
 import com.squareup.picasso.Picasso;
 import com.ubpis.inventame.R;
-import com.ubpis.inventame.data.model.Employee;
 import com.ubpis.inventame.data.model.Product;
-import com.ubpis.inventame.data.model.UserType;
-import com.ubpis.inventame.data.repository.BusinessRepository;
 import com.ubpis.inventame.data.repository.ProductRepository;
 import com.ubpis.inventame.databinding.FragmentProductFormBinding;
-import com.ubpis.inventame.viewmodel.EmployeeViewModel;
 import com.ubpis.inventame.viewmodel.InventoryViewModel;
 
 import java.util.Date;
@@ -52,6 +50,8 @@ public class ProductDialogFragment extends DialogFragment {
     private ActivityResultLauncher<PickVisualMediaRequest> pickMedia;
     private ActivityResultLauncher<Intent> takePictureLauncher;
     private ActivityResultLauncher<String> requestPermissionLauncher;
+
+    private ActivityResultLauncher<ScanOptions> barcodeLauncher;
     private AlertDialog dialog;
     public static String TAG = "AddProductDialog";
     private boolean isEdit;
@@ -114,6 +114,16 @@ public class ProductDialogFragment extends DialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
+        barcodeLauncher = registerForActivityResult(new ScanContract(),
+                result -> {
+                    if(result.getContents() == null) {
+                        Toast.makeText(getActivity(), R.string.common_cancelled, Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(getActivity(), getString(R.string.scanned, result.getContents()), Toast.LENGTH_LONG).show();
+                        binding.productCodeTextfield.setText(result.getContents());
+                    }
+                });
+
         requestPermissionLauncher =
                 registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                     if (isGranted) {
@@ -151,22 +161,22 @@ public class ProductDialogFragment extends DialogFragment {
     }
 
     private void launchScanner() {
-        // TODO: Scanner button
-        System.out.println("Escanner activated!!!");
+        ScanOptions options = new ScanOptions();
+        options.setPrompt(getString(R.string.scan_label));
+        barcodeLauncher.launch(options);
     }
 
     private void showDatePicker() {
         MaterialDatePicker<Long> datePicker =
                 MaterialDatePicker.Builder.datePicker()
-                        .setTitleText("Select date")
+                        .setTitleText(R.string.select_date)
+                        .setNegativeButtonText(R.string.common_cancel)
                         .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                         .build();
 
         datePicker.addOnPositiveButtonClickListener(selectedDate -> {
-            // Convert the selected date to a formatted string
             SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
             String dateString = sdf.format(new Date(selectedDate));
-            // Set the selected date string to the textfield
             binding.productExpirationTextfield.setText(dateString);
         });
 
@@ -271,16 +281,13 @@ public class ProductDialogFragment extends DialogFragment {
     private void deleteProduct(){
 
         MaterialAlertDialogBuilder builder = new MaterialAlertDialogBuilder(getContext())
-                .setTitle("¿Borrar producto?")
-                .setMessage("Esta acción no se puede deshacer")
-                .setPositiveButton("Borrar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        viewModel.deleteProduct(viewModel.selected.getValue().getId());
-                        dismiss();
-                    }
+                .setTitle(R.string.delete_product_confirm)
+                .setMessage(R.string.common_delete_disclaimer)
+                .setPositiveButton(R.string.common_delete, (dialog, which) -> {
+                    viewModel.deleteProduct(viewModel.selected.getValue().getId());
+                    dismiss();
                 })
-                .setNegativeButton("Cancelar", null);
+                .setNegativeButton(R.string.common_cancel, null);
         builder.create().show();
 
 
@@ -313,7 +320,7 @@ public class ProductDialogFragment extends DialogFragment {
     public void onDismiss(@NonNull DialogInterface dialog) {
         super.onDismiss(dialog);
         viewModel.setSelected(null);
-        viewModel.loadProductsFromRepository(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        viewModel.loadProductsFromRepository(auth.getCurrentUser().getUid());
     }
 
 
