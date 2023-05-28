@@ -15,7 +15,14 @@
         android:hint="@string/inventory_search_hint"
         app:layout_anchor="@id/search_bar"
         tools:context=".view.fragment.InventoryFragment">
-        <!-- Search suggestions/results go here (ScrollView, RecyclerView, etc.). -->
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/productSearchResults"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/search_view"
+         />
+
     </com.google.android.material.search.SearchView>
 
     <RelativeLayout

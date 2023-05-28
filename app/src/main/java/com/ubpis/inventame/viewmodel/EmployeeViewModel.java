@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.ubpis.inventame.data.model.Employee;
+import com.ubpis.inventame.data.model.Product;
 import com.ubpis.inventame.data.repository.EmployeeRepository;
 
 import java.util.ArrayList;
@@ -12,13 +13,14 @@ import java.util.ArrayList;
 
 public class EmployeeViewModel extends ViewModel {
 
-    private final MutableLiveData<ArrayList<Employee>> employees;
+    private final MutableLiveData<ArrayList<Employee>> employees, results;
     private final EmployeeRepository employeeRepository;
     private final MutableLiveData<Boolean> isLoading;
     public final MutableLiveData<Employee> selected = new MutableLiveData<>();
 
     public EmployeeViewModel() {
         employees = new MutableLiveData<>(new ArrayList<>());
+        results = new MutableLiveData<>(new ArrayList<>());
         employeeRepository = EmployeeRepository.getInstance();
         isLoading = new MutableLiveData<>(false);
         employeeRepository.addOnLoadEmployeesListener((employees, isFromCache) -> setEmployees(employees));
@@ -60,6 +62,24 @@ public class EmployeeViewModel extends ViewModel {
 
     public void deleteEmployee(String employeeId) {
         employeeRepository.deleteEmployee(employeeId);
+    }
+
+    public void searchEmployees(String query) {
+        results.getValue().clear();
+        if(query.isEmpty()){
+            return;
+        }
+        ArrayList<Employee> emps = new ArrayList<>(employees.getValue());
+        for (Employee emp : emps) {
+            if (emp.getName().toLowerCase().contains(query.toLowerCase())) {
+                results.getValue().add(emp);
+            }
+        }
+    }
+
+
+    public LiveData<ArrayList<Employee>> getResults() {
+        return results;
     }
 
 }
