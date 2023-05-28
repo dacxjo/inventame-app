@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.ubpis.inventame.data.model.Product;
 import com.ubpis.inventame.data.repository.EmployeeRepository;
+import com.ubpis.inventame.data.repository.ProductRepository;
 
 import java.util.ArrayList;
 
@@ -12,13 +13,16 @@ public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<ArrayList<Product>> topThreeProducts;
     private final EmployeeRepository employeeRepository;
-
+    private final ProductRepository productsRepository;
     private final MutableLiveData<Integer> employeesCount;
+    private final MutableLiveData<Integer> productsCount;
 
     public HomeViewModel() {
         topThreeProducts = new MutableLiveData<>(new ArrayList<>());
         employeeRepository = EmployeeRepository.getInstance();
+        productsRepository = ProductRepository.getInstance();
         employeesCount = new MutableLiveData<>(0);
+        productsCount = new MutableLiveData<>(0);
         ArrayList<Product> testArrayList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             Product p = new Product();  p.setName("Test");
@@ -31,6 +35,7 @@ public class HomeViewModel extends ViewModel {
         }
         this.setTopThreeProducts(testArrayList);
         employeeRepository.addOnGetEmployeesCountListener((count) -> setEmployeesCount(count));
+        productsRepository.addOnGetProductsCountListener((count) -> setProductsCount(count));
     }
 
     public MutableLiveData<ArrayList<Product>> getTopThreeProducts() {
@@ -51,6 +56,18 @@ public class HomeViewModel extends ViewModel {
 
     public void loadEmployeesCountFromRepository(String businessId) {
         employeeRepository.getEmployeesCount(businessId);
+    }
+
+    public void loadProductsCountFromRepository(String businessId) {
+        productsRepository.getProductsCount(businessId);
+    }
+
+    public void setProductsCount(int count) {
+        productsCount.setValue(count);
+    }
+
+    public MutableLiveData<Integer> getProductsCount() {
+        return productsCount;
     }
 
 }
