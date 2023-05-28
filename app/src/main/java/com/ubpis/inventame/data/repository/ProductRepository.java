@@ -15,6 +15,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.ubpis.inventame.data.model.Employee;
 import com.ubpis.inventame.data.model.Product;
+import com.ubpis.inventame.data.model.UserType;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ public class ProductRepository {
     public ArrayList<ProductRepository.OnLoadProductsListener> onLoadProductsListeners = new ArrayList<>();
 
     public ArrayList<ProductRepository.OnAddProductListener> onAddProductListeners = new ArrayList<>();
+    public ArrayList<ProductRepository.OnGetProductsCountListener> onGetProductsCountListeners = new ArrayList<>();
     private ProductRepository() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.setFirestoreSettings(new FirebaseFirestoreSettings.Builder()
@@ -47,6 +49,10 @@ public class ProductRepository {
 
     public void addOnAddProductListener(ProductRepository.OnAddProductListener listener) {
         onAddProductListeners.add(listener);
+    }
+
+    public void addOnGetProductsCountListener(ProductRepository.OnGetProductsCountListener listener) {
+        onGetProductsCountListeners.add(listener);
     }
 
     public void getProducts(ArrayList<Product> products, String businessId) {
@@ -75,6 +81,24 @@ public class ProductRepository {
                             }
                             for (ProductRepository.OnLoadProductsListener l : onLoadProductsListeners) {
                                 l.onLoadProducts(products, querySnapshot.getMetadata().isFromCache());
+                            }
+                        }
+
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                });
+    }
+
+    public void getProductsCount(String businessId) {
+        Query query = productsCollection.whereEqualTo("businessId", businessId);
+        query.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (querySnapshot != null || !querySnapshot.isEmpty()) {
+                            for (ProductRepository.OnGetProductsCountListener l : onGetProductsCountListeners) {
+                                l.onGetProductsCount(querySnapshot.size());
                             }
                         }
 
@@ -135,5 +159,9 @@ public class ProductRepository {
 
     public interface OnAddProductListener {
         void onAddProduct(Product product);
+    }
+
+    public interface OnGetProductsCountListener {
+        void onGetProductsCount(int count);
     }
 }

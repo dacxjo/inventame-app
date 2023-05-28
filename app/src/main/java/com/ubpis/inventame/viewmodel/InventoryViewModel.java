@@ -16,6 +16,7 @@ public class InventoryViewModel extends ViewModel {
     private final ProductRepository productRepository;
     private final MutableLiveData<Boolean> isLoading;
     public final MutableLiveData<Product> selected = new MutableLiveData<>();
+    public final MutableLiveData<Integer> totalValue = new MutableLiveData<>();
 
     public InventoryViewModel() {
 
@@ -23,7 +24,10 @@ public class InventoryViewModel extends ViewModel {
         results = new MutableLiveData<>(new ArrayList<>());
         productRepository = ProductRepository.getInstance();
         isLoading = new MutableLiveData<>(false);
-        productRepository.addOnLoadProductsListener((products, isFromCache) -> setProducts(products));
+        productRepository.addOnLoadProductsListener((products, isFromCache) -> {
+            setProducts(products);
+            calculateTotalValue();
+        });
         productRepository.addOnAddProductListener((product) -> {
             loadProductsFromRepository(product.getBusinessId());
         });
@@ -88,5 +92,22 @@ public class InventoryViewModel extends ViewModel {
     public LiveData<ArrayList<Product>> getResults() {
         return results;
     }
+    public void setTotalValue(int total){
+        totalValue.setValue(total);
+    }
+
+    public LiveData<Integer> getTotalValue(){
+        return totalValue;
+    }
+
+    public void calculateTotalValue(){
+        int total = 0;
+        for(Product product : products.getValue()){
+            total += product.getPrice() * product.getStock();
+        }
+       setTotalValue(total);
+
+    }
+
 
 }

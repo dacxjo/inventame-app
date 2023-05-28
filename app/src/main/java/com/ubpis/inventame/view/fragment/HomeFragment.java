@@ -1,7 +1,6 @@
 package com.ubpis.inventame.view.fragment;
 
 import android.animation.ValueAnimator;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +31,7 @@ import com.ubpis.inventame.databinding.FragmentHomeBinding;
 import com.ubpis.inventame.view.activity.OnboardActivityDirections;
 import com.ubpis.inventame.view.adapter.ProductCardAdapter;
 import com.ubpis.inventame.viewmodel.HomeViewModel;
+import com.ubpis.inventame.viewmodel.InventoryViewModel;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -43,6 +43,7 @@ public class HomeFragment extends Fragment {
 
     private final int ANIMATION_DURATION = 1500;
     private HomeViewModel mViewModel;
+    private InventoryViewModel inventoryViewModel;
     private RecyclerView topThreeProductsList;
     private ProductCardAdapter productAdapter;
     private PieChart shareChart;
@@ -58,6 +59,8 @@ public class HomeFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        inventoryViewModel = new ViewModelProvider(this).get(InventoryViewModel.class);
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -66,7 +69,9 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         auth = FirebaseAuth.getInstance();
-        mViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        mViewModel.loadEmployeesCountFromRepository(auth.getCurrentUser().getUid());
+        mViewModel.loadProductsCountFromRepository(auth.getCurrentUser().getUid());
+        inventoryViewModel.loadProductsFromRepository(auth.getCurrentUser().getUid());
         topThreeProductsList = view.findViewById(R.id.top_three_products_list);
         toolbar = view.findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.baseline_logout_24);
@@ -95,21 +100,32 @@ public class HomeFragment extends Fragment {
         ValueAnimator employeesAnimator = new ValueAnimator();
         ValueAnimator valueAnimator = new ValueAnimator();
 
-        valueAnimator.setFloatValues(0, 1250.53f);
-        valueAnimator.addUpdateListener(animation -> totalValue.setText(currencyFormatter.format(animation.getAnimatedValue())));
-        valueAnimator.setDuration(this.ANIMATION_DURATION);
+        mViewModel.getEmployeesCount().observe(getViewLifecycleOwner(), integer -> {
+            if(integer == null) return;
+            employeesAnimator.setObjectValues(0,integer);
+            employeesAnimator.addUpdateListener(animation -> totalEmployees.setText(String.valueOf(animation.getAnimatedValue())));
+            employeesAnimator.setDuration(this.ANIMATION_DURATION);
+            employeesAnimator.start();
+        });
 
-        productsAnimator.setObjectValues(0, 100);
-        productsAnimator.addUpdateListener(animation -> totalProducts.setText(String.valueOf(animation.getAnimatedValue())));
-        productsAnimator.setDuration(this.ANIMATION_DURATION);
+        mViewModel.getProductsCount().observe(getViewLifecycleOwner(), integer -> {
+            if(integer == null) return;
+            productsAnimator.setObjectValues(0, integer);
+            productsAnimator.addUpdateListener(animation -> totalProducts.setText(String.valueOf(animation.getAnimatedValue())));
+            productsAnimator.setDuration(this.ANIMATION_DURATION);
+            productsAnimator.start();
+        });
 
-        employeesAnimator.setObjectValues(0, 10);
-        employeesAnimator.addUpdateListener(animation -> totalEmployees.setText(String.valueOf(animation.getAnimatedValue())));
-        employeesAnimator.setDuration(this.ANIMATION_DURATION);
+        inventoryViewModel.getTotalValue().observe(getViewLifecycleOwner(), aDouble -> {
+            if(aDouble == null) return;
+            valueAnimator.setFloatValues(0, aDouble);
+            valueAnimator.addUpdateListener(animation -> totalValue.setText(currencyFormatter.format(animation.getAnimatedValue())));
+            valueAnimator.setDuration(this.ANIMATION_DURATION);
+            valueAnimator.start();
+        });
 
-        productsAnimator.start();
-        employeesAnimator.start();
-        valueAnimator.start();
+
+
     }
 
     private void setupShareChart(View view) {

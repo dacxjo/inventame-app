@@ -24,6 +24,9 @@ public class EmployeeRepository {
     public ArrayList<OnLoadEmployeesListener> onLoadEmployeesListeners = new ArrayList<>();
 
     public ArrayList<OnAddEmployeeListener> onAddEmployeeListeners = new ArrayList<>();
+
+    public ArrayList<OnGetEmployeesCountListener> onGetEmployeesCountListeners = new ArrayList<>();
+
     private EmployeeRepository() {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.setFirestoreSettings(new FirebaseFirestoreSettings.Builder()
@@ -42,6 +45,10 @@ public class EmployeeRepository {
 
     public void addOnAddEmployeeListener(OnAddEmployeeListener listener) {
         onAddEmployeeListeners.add(listener);
+    }
+
+    public void addOnGetEmployeesCountListener(OnGetEmployeesCountListener listener) {
+        onGetEmployeesCountListeners.add(listener);
     }
 
     public void getEmployees(ArrayList<Employee> employees, String businessId) {
@@ -69,6 +76,25 @@ public class EmployeeRepository {
                             }
                             for (OnLoadEmployeesListener l : onLoadEmployeesListeners) {
                                 l.onLoadEmployees(employees, querySnapshot.getMetadata().isFromCache());
+                            }
+                        }
+
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                });
+    }
+
+    public void getEmployeesCount(String businessId) {
+        Query query = employeesCollection.whereEqualTo("type", UserType.EMPLOYEE.toString())
+                .whereEqualTo("businessId", businessId);
+        query.get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (querySnapshot != null || !querySnapshot.isEmpty()) {
+                            for (OnGetEmployeesCountListener l : onGetEmployeesCountListeners) {
+                                l.onGetEmployeesCount(querySnapshot.size());
                             }
                         }
 
@@ -118,6 +144,10 @@ public class EmployeeRepository {
 
     public interface OnAddEmployeeListener {
         void onAddEmployee(Employee employee);
+    }
+
+    public interface OnGetEmployeesCountListener {
+        void onGetEmployeesCount(int count);
     }
 
 }
