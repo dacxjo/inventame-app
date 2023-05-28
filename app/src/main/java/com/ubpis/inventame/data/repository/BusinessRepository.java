@@ -34,7 +34,6 @@ public class BusinessRepository {
         return docRef.set(newBusiness);
     }
 
-    // upload logo
     public void uploadLogo(String uid, Bitmap logoBitmap, OnSuccessListener onSuccessListener) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         logoBitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);

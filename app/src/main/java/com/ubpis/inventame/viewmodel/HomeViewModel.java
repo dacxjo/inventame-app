@@ -4,15 +4,21 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.ubpis.inventame.data.model.Product;
+import com.ubpis.inventame.data.repository.EmployeeRepository;
 
 import java.util.ArrayList;
 
 public class HomeViewModel extends ViewModel {
 
     private final MutableLiveData<ArrayList<Product>> topThreeProducts;
+    private final EmployeeRepository employeeRepository;
+
+    private final MutableLiveData<Integer> employeesCount;
 
     public HomeViewModel() {
         topThreeProducts = new MutableLiveData<>(new ArrayList<>());
+        employeeRepository = EmployeeRepository.getInstance();
+        employeesCount = new MutableLiveData<>(0);
         ArrayList<Product> testArrayList = new ArrayList<>();
         for (int i = 0; i < 3; i++) {
             Product p = new Product();  p.setName("Test");
@@ -24,6 +30,7 @@ public class HomeViewModel extends ViewModel {
             testArrayList.add(p);
         }
         this.setTopThreeProducts(testArrayList);
+        employeeRepository.addOnGetEmployeesCountListener((count) -> setEmployeesCount(count));
     }
 
     public MutableLiveData<ArrayList<Product>> getTopThreeProducts() {
@@ -33,4 +40,17 @@ public class HomeViewModel extends ViewModel {
     public void setTopThreeProducts(ArrayList<Product> products) {
         topThreeProducts.setValue(products);
     }
+
+    public void setEmployeesCount(int count) {
+        employeesCount.setValue(count);
+    }
+
+    public MutableLiveData<Integer> getEmployeesCount() {
+        return employeesCount;
+    }
+
+    public void loadEmployeesCountFromRepository(String businessId) {
+        employeeRepository.getEmployeesCount(businessId);
+    }
+
 }
