@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/less10"
+        android:title="Menos de 10€" />
+
+    <item
+        android:id="@+id/less25"
+        android:title="Menos de 25€" />
+
+    <item
+        android:id="@+id/less50"
+        android:title="Menos de 50€" />
+
+    <item
+        android:id="@+id/less100"
+        android:title="Menos de 100€" />
+
+    <item
+        android:id="@+id/range"
+        android:title="Rango personalizado" />
+
+</menu>

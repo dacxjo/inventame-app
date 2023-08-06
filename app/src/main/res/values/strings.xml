@@ -1,3 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">inventame</string>
+    <string name="home">Inicio</string>
+    <string name="basket">Cesta</string>
+    <string name="stock">Inventario</string>
+    <string name="employees">Empleados</string>
+    <string name="notifications">Notificaciones</string>
+    <string name="settings">Ajustes</string>
+    <string name="app_name">Inventame</string>
+    <string name="save">Guardar</string>
+
+    <!-- Strings: common -->
+    <string name="next">Siguiente</string>
+
+    <!-- Strings: common -->
+    <string name="common_cancel">Cancelar</string>
+    <string name="common_cancelled">Cancelado</string>
+    <string name="common_delete">Borrar</string>
+    <string name="common_delete_disclaimer">Esta acción no se puede deshacer</string>
+
+    <!-- Strings: login -->
+    <string name="title_login">Iniciar sesión</string>
+    <string name="password_placeholder">Contraseña</string>
+    <string name="email_placeholder">Correo electrónico</string>
+    <string name="forgot_password">¿Has olvidado tu contraseña?</string>
+    <string name="welcome_again">¡Bienvenido de nuevo!</string>
+
+    <!-- Strings: Register -->
+    <string name="register_pick_category">Elije una categoria para empezar</string>
+    <string name="register_tell_us_more">Dinos mas sobre ti</string>
+    <string name="register_title">Registro</string>
+    <string name="register_company_name">Nombre Empresa</string>
+    <string name="register_desc">Descripción</string>
+    <string name="register_cif">CIF</string>
+    <string name="register_email">Email</string>
+    <string name="register_password">Contraseña</string>
+    <string name="register_password_confirm">Repetir Contraseña</string>
+    <string name="register_logo">Logo</string>
+    <string name="register_take_photo">Tomar foto</string>
+    <string name="register_pick_photo">Elegir foto</string>
+    <string name="register_add_logo">Añadir Logo</string>
+
+    <!-- Strings: Notifications -->
+    <string name="notifications_title">Notificaciones</string>
+
+
+    <!-- Strings: forgot_password -->
+    <string name="recover_password">Recuperar contraseña</string>
+    <string name="text_recover">Escribe tu <b>correo electrónico</b> y pulsa en <b>Recuperar</b>.\nTe enviaremos un correo electrónico para poder restaurarla.</string>
+    <string name="recover">Recuperar</string>
+
+    <!-- Strings: startUp -->
+    <string name="title_inventame">INVÉNTAME</string>
+    <string name="register">Registrarse</string>
+    <string name="slogan">Inventar es cosa de todos</string>
+
+    <!-- Strings: product_card -->
+    <string name="product_name_text">Producto</string>
+    <string name="product_stock_text">Stock: %1$d</string>
+
+    <!-- Strings: inventory -->
+    <string name="inventory_search_hint">Buscar producto</string>
+
+    <!-- Strings: inventory_add -->
+    <string name="inventory_add_title">Añadir producto</string>
+    <string name="inventory_edit_title">Editar producto</string>
+    <string name="scanner_button">Escáner</string>
+    <string name="product_image_textfield">Imagen</string>
+    <string name="product_code_textfield">Código</string>
+    <string name="product_name_textfield">Nombre</string>
+    <string name="product_desc_textfield">Descripción</string>
+    <string name="product_price_textfield">Precio</string>
+    <string name="product_stock_textfield">Stock</string>
+    <string name="product_batch_textfield">Lote</string>
+    <string name="product_expiration_textfield">Expiracion</string>
+    <string name="delete_product">Borrar producto</string>
+    <string name="delete_product_confirm">¿Borrar producto?</string>
+    <string name="added_product">Producto agregado</string>
+    <string name="updated_product">Producto actualizado</string>
+    <string name="deleted_product">Producto borrado</string>
+    <string name="select_date">Seleccionar fecha</string>
+
+
+    <!-- Strings: employees -->
+    <string name="employee_search_hint">Buscar empleado</string>
+
+    <!-- Strings: employee_add -->
+    <string name="employee_add">Añadir Empleado</string>
+    <string name="employee_edit_title">Editar Empleado</string>
+    <string name="employee_name">Nombre</string>
+    <string name="employee_lastname">Apellidos</string>
+    <string name="employee_document">Documento Identidad</string>
+    <string name="employee_delete">Borrar empleado</string>
+
+    <!-- Strings: Home -->
+    <string name="welcome">Bienvenido</string>
+    <string name="total_value">Valor total</string>
+    <string name="total_products">Productos</string>
+    <string name="total_employees">Empleados</string>
+    <string name="top_three_products">Top 3 productos</string>
+    <string name="share">Share</string>
+
+    <!-- Strings: Form Validation -->
+    <string name="form_validation_required">*Requerido</string>
+    <string name="form_validation_email">Email no válido</string>
+    <string name="form_validation_password_confirm">La contraseña no coincide</string>
+    <string name="form_validation_min_length">La contraseña debe tener al menos 6 carácteres</string>
+    <string name="form_validation_invalid_document">Documento inválido</string>
+
+    <!-- Strings: Cart/Softpos -->
+    <string name="initial_quantity">0,00€</string>
+    <string name="present_card">Presenta la tarjeta o móvil</string>
+    <string name="new_manual_sale">Nueva venta manual</string>
+    <string name="charge">Cobrar</string>
+    <string name="import_csv">Importar en CSV</string>
+    <string name="export_csv">Exportar a CSV</string>
+    <string name="download">Descargar</string>
+    <string name="scanner">Escáner</string>
+    <string name="search_sale">Buscar venta</string>
+    <string name="decrement">Menos cantidad</string>
+    <string name="increment">Mas cantidad</string>
+    <string name="total">Total</string>
+    <string name="subtotal">Subtotal</string>
+    <string name="vat">IVA (%1$d%%)</string>
+    <string name="delete_sale">Eliminar venta</string>
+    <string name="item_count">%1$d item en tu cesta</string>
+    <string name="quantity">Cant.: %1$d</string>
+    <string description="a transient text that appears on screen when a card is dismissed [CHAR LIMIT=30]"
+        name="cat_card_dismissed">Card dismissed</string>
+    <string description="A label in a button to dismiss the last action [CHAR LIMIT=15]"
+        name="cat_card_undo">Undo</string>
+    <string description="a transient text that appears on screen when a notification card is dismissed [CHAR LIMIT=30]"
+        name="cat_notification_card_dismissed">Notificación descartada</string>
+    <string name="titleToolbarSaleDialog">Venta: #%1$s</string>
+    <string name="info_sale">Realizada por: %1$s\nFecha: %2$s</string>
+    <string name="info_num_sales">%1$d Ventas</string>
+    <string name="sort_type">%1$s</string>
+    <string name="sort_newest">Más recientes</string>
+    <string name="sort_oldest">Más antiguas</string>
+    <string name="sort_price_low_high">Precio (bajo a alto)</string>
+    <string name="sort_price_high_low">Precio (alto a bajo)</string>
+    <string name="text_filter_sale_type">Tipo de venta</string>
+    <string name="text_filter_date">Fecha</string>
+    <string name="text_filter_price">Precio</string>
+    <string name="text_filter_highlight_type">Tipo de destacado</string>
+
+    <!-- Strings: Empty State -->
+    <string name="empty_state_employees">No tienes empleados registrados</string>
+    <string name="empty_state_products">No tienes productos registrados</string>
+
+    <!-- Strings: Scanner -->
+    <string name="scanned">Escaneado: %s</string>
+    <string name="scan_label">Coloca un código de barras en el marco para escanearlo</string>
+
 </resources>

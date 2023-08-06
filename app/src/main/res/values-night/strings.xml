@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home">Inicio</string>
+    <string name="stock">Inventario</string>
+    <string name="employees">Empleados</string>
+    <string name="settings">Ajustes</string>
+    <string name="app_name">Inventame</string>
+</resources>
