@@ -1,4 +1,4 @@
-# inventame-app
+# Inventame 
 
 - [Download](#download)
 - [Description](#description)
